@@ -1,7 +1,28 @@
+import ArticleList from 'components/ArticleList';
+import SortMenu from 'components/SortMenu';
+import { useState } from 'react';
+import { articleList } from 'static/data';
+
 function Home() {
+  const [sortMethod, setSortMethod] = useState('latest');
+
+  let list;
+  switch (sortMethod) {
+    case 'popular':
+      list = articleList.sort((a, b) => b.like - a.like);
+      break;
+    default:
+      list = articleList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  }
+
+  const changeSort = (method) => {
+    setSortMethod(method);
+  };
+
   return (
     <>
-      <div>Home</div>
+      <SortMenu changeSort={changeSort} />
+      <ArticleList list={list} />
     </>
   );
 }
