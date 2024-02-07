@@ -1,7 +1,12 @@
 import './App.css';
+import GlobalStyle from './GlobalStyle';
 
 function App() {
-  return <div>내용</div>;
+  return (
+    <>
+      <GlobalStyle />
+    </>
+  );
 }
 
 export default App;
