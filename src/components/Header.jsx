@@ -5,7 +5,7 @@ function Header() {
   return (
     <Background>
       <LogoAndTitle>
-        <img src="https://cdn2.iconfinder.com/data/icons/seo-web/512/website-code-512.png" width="65" />
+        <img src="https://cdn2.iconfinder.com/data/icons/seo-web/512/website-code-512.png" alt="로고" width="65" />
         <p>
           <TitleText>E&I3</TitleText>
           <br />
@@ -16,6 +16,7 @@ function Header() {
       <MypageIcon>
         <img
           src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
+          alt="유저아이콘"
           width="50"
         />
       </MypageIcon>
@@ -31,7 +32,7 @@ const Background = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  position: fixed;
+  position: sticky;
   top: 0%;
   left: 0;
   right: 0;
@@ -39,7 +40,7 @@ const Background = styled.div`
 `;
 
 const LogoAndTitle = styled.div`
-  margin-left: 70px;
+  margin-left: 150px;
   display: flex;
   align-items: center;
   gap: 15px;
@@ -56,12 +57,15 @@ const SubmitCodeBtn = styled.button`
   color: white;
   font-weight: 600;
   font-size: 14pt;
-  margin-left: 550px;
+  margin-left: auto;
   width: 220px;
   height: 50px;
   border: none;
   border-radius: 15px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     background-color: #0b65ad;
@@ -70,6 +74,7 @@ const SubmitCodeBtn = styled.button`
 `;
 
 const MypageIcon = styled.div`
-  margin-left: 70px;
+  margin-left: 50px;
+  margin-right: 150px;
 `;
 export default Header;
