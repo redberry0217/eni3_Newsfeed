@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { userList } from 'static/user';
 import styled from 'styled-components';
+import { dateFormat } from 'util/data';
 
 function ArticleItem({ article }) {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ function ArticleItem({ article }) {
         <Title>{title}</Title>
         <Content>{content}</Content>
         <Bottom>
-          <time>{new Date(createdAt).toLocaleString('ko-KR', { timeZone: 'UTC' })}</time>
+          <time>{dateFormat(createdAt)}</time>
           <span>{like}</span>
         </Bottom>
       </ContentWrap>

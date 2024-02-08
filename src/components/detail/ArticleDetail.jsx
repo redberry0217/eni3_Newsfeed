@@ -1,5 +1,6 @@
 import { userList } from 'static/user';
 import styled from 'styled-components';
+import { dateFormat } from 'util/data';
 
 function ArticleDetail({ article }) {
   const { authorId, title, createdAt, content, code, like } = article;
@@ -8,19 +9,19 @@ function ArticleDetail({ article }) {
   return (
     <>
       <Article>
+        <Title>{title}</Title>
         <Author>
           <Avatar src={avatar} alt={nickname} />
           <NickName>{nickname}</NickName>
+          <time>{dateFormat(createdAt)}</time>
         </Author>
-        <Title>{title}</Title>
-        <time>{new Date(createdAt).toLocaleString('ko-KR', { timeZone: 'UTC' })}</time>
         <ContentWrap>
           <Content>{content}</Content>
-          <pre>
+          <Pre>
             <code className="language-javascript">{code}</code>
-          </pre>
+          </Pre>
         </ContentWrap>
-        <span>{like}</span>
+        <LikeButton type="button">❤️ {like}</LikeButton>
       </Article>
     </>
   );
@@ -33,9 +34,17 @@ const Article = styled.article`
   margin: 2rem 0;
 `;
 
-const Author = styled.div``;
+const Author = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
 
-const Avatar = styled.img``;
+const Avatar = styled.img`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+`;
 
 const NickName = styled.span``;
 
@@ -47,5 +56,17 @@ const Title = styled.h2`
 `;
 
 const Content = styled.p``;
+
+const Pre = styled.pre`
+  border-radius: 10px;
+`;
+
+const LikeButton = styled.button`
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0.5rem 1rem;
+  font-size: 100%;
+`;
 
 export default ArticleDetail;
