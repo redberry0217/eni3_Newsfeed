@@ -1,24 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 function CodeKataForm() {
+  // <----- 수정 예정 ----->
+  const [codeKata, setCodeKata] = useState([]);
+  // creatdAt, author_id, article_title, article_content, article_link, article_code, article_like
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    const article_title = e.target.article_title.value;
+    const article_content = e.target.article_content.value;
+    const article_link = e.target.article_link.value;
+    const article_difficulty = e.target.article_difficulty.value;
+    const article_code = e.target.article_code.value;
+    const creatdAt = new Date().toLocaleDateString('ko-KR', {
+      year: '2-digit',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    const nextCodeKata = {
+      // author_id
+      creatdAt,
+      article_title,
+      article_content,
+      article_link,
+      article_difficulty,
+      article_code
+    };
+
+    setCodeKata((prevCodeKata) => [nextCodeKata, ...prevCodeKata]);
+    console.log(codeKata);
+    e.target.reset();
+  };
+  // <----- 수정 예정 ----->
+
   return (
-    <FormArea>
+    <FormArea onSubmit={onSubmitHandler}>
       <InputArea>
         <label>제목</label>
-        <input type="text" name="title" placeholder="해결한 문제 제목을 입력해주세요." />
+        <input type="text" name="article_title" placeholder="해결한 문제 제목을 입력해주세요." />
       </InputArea>
       <InputArea>
         <label>한마디</label>
-        <input type="text" name="content" placeholder="해결한 문제에 대한 평을 입력해주세요." />
+        <input type="text" name="article_content" placeholder="해결한 문제에 대한 평을 입력해주세요." />
       </InputArea>
       <InputArea>
         <label>주소</label>
-        <input type="text" name="link" placeholder="해결한 문제 주소를 입력해주세요." />
+        <input type="text" name="article_link" placeholder="해결한 문제 주소를 입력해주세요." />
       </InputArea>
       <InputArea>
         <label>체감 난이도</label>
-        <select name="difficulty">
+        <select name="article_difficulty">
           <option value="">별점을 선택해주세요.</option>
           <option value="⭐">⭐</option>
           <option value="⭐⭐">⭐⭐</option>
@@ -29,7 +63,7 @@ function CodeKataForm() {
       </InputArea>
       <InputArea>
         <label>코드</label>
-        <textarea name="code" placeholder="해결한 문제 코드를 입력해주세요."></textarea>
+        <textarea name="article_code" placeholder="해결한 문제 코드를 입력해주세요."></textarea>
       </InputArea>
       <button>등록하기</button>
     </FormArea>
