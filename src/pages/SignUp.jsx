@@ -3,6 +3,8 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, setGithubLogin, setGooGleLogin } from '../firebase';
 import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
+import { LuCat } from 'react-icons/lu';
+import { LuDog } from 'react-icons/lu';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,6 +15,7 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [nickname, setNickname] = useState('');
+
   const [icon, setIcon] = useState('');
   const [status, setStatus] = useState('');
 
@@ -44,6 +47,19 @@ function SignUp() {
     } else {
       setCustomDomain(selectedOption);
     }
+  };
+
+  const iconOptions = [
+    { value: 'cat', label: '개발하는 고양이', icon: <IconLuCat /> },
+    { value: 'dog', label: '개발하는 강아지', icon: <IconLuDog /> },
+    { value: 'hamster', label: '개발하는 햄스터', icon: <IconLuCat /> },
+    { value: 'chick', label: '개발하는 병아리', icon: <IconLuCat /> }
+  ];
+
+  const [selectedIcon, setSelectedOption] = useState(iconOptions[0].value);
+
+  const ChangeIconHandler = (e) => {
+    setSelectedOption(e.target.value);
   };
 
   const signUp = async (event) => {
@@ -120,13 +136,15 @@ function SignUp() {
               </div>
               <div>
                 <IconTitle>아이콘*</IconTitle>
-                <StyledSelectIcon name="icon" value={icon} onChange={(e) => setIcon(e.target.value)} required>
-                  <option>개발하는 고양이</option>
-                  <option>개발하는 강아지</option>
-                  <option>개발하는 햄스터</option>
-                  <option>개발하는 병아리</option>
+                <StyledSelectIcon name="icon" value={selectedIcon} onChange={ChangeIconHandler} required>
+                  {iconOptions.map((iconOptions) => (
+                    <option key={iconOptions.value} value={iconOptions.value}>
+                      {iconOptions.label}
+                    </option>
+                  ))}
                 </StyledSelectIcon>
               </div>
+              <div>{iconOptions.find((option) => option.value === selectedIcon)?.icon}</div>
             </NickNameAndIconSection>
             <div>
               <MyStatusTitle>나의 현재 상태</MyStatusTitle>
@@ -324,6 +342,20 @@ const StyledSelectIcon = styled.select`
   border-radius: 20px;
   padding: 10px 20px;
   font-size: 15pt;
+`;
+
+const IconLuCat = styled(LuCat)`
+  width: 40px;
+  height: 40px;
+  margin-top: 30px;
+  background-color: transparent;
+`;
+
+const IconLuDog = styled(LuDog)`
+  width: 40px;
+  height: 40px;
+  margin-top: 30px;
+  background-color: transparent;
 `;
 
 const MyStatusTitle = styled.div`
