@@ -101,6 +101,7 @@ const ConfirmButton = styled.button`
   border-radius: 15px;
   width: 120px;
   height: 35px;
+  cursor: pointer;
 `;
 
 const CancelButton = styled.button`
@@ -111,4 +112,5 @@ const CancelButton = styled.button`
   border-radius: 15px;
   width: 120px;
   height: 35px;
+  cursor: pointer;
 `;
