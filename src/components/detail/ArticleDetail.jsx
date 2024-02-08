@@ -6,21 +6,23 @@ function ArticleDetail({ article }) {
   const { nickname, avatar } = userList.find((user) => user.id === authorId);
 
   return (
-    <Article>
-      <Author>
-        <Avatar src={avatar} alt={nickname} />
-        <NickName>{nickname}</NickName>
-      </Author>
-      <Title>{title}</Title>
-      <time>{new Date(createdAt).toLocaleString('ko-KR', { timeZone: 'UTC' })}</time>
-      <ContentWrap>
-        <Content>{content}</Content>
-        <pre>
-          <code className="language-javascript">{code}</code>
-        </pre>
-      </ContentWrap>
-      <span>{like}</span>
-    </Article>
+    <>
+      <Article>
+        <Author>
+          <Avatar src={avatar} alt={nickname} />
+          <NickName>{nickname}</NickName>
+        </Author>
+        <Title>{title}</Title>
+        <time>{new Date(createdAt).toLocaleString('ko-KR', { timeZone: 'UTC' })}</time>
+        <ContentWrap>
+          <Content>{content}</Content>
+          <pre>
+            <code className="language-javascript">{code}</code>
+          </pre>
+        </ContentWrap>
+        <span>{like}</span>
+      </Article>
+    </>
   );
 }
 

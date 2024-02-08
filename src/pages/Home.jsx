@@ -11,8 +11,11 @@ function Home() {
     case 'popular':
       list = articleList.sort((a, b) => b.like - a.like);
       break;
-    default:
+    case 'latest':
       list = articleList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      break;
+    default:
+      list = articleList;
   }
 
   const changeSort = (method) => {
