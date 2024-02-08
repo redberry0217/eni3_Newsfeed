@@ -33,8 +33,8 @@ function MyCode() {
           <tr>
             <td>2024-02-06</td>
             <td>
-              데이터에 따라 게시글이 많아지면 회색 테두리 영역이 아래로 길어집니다. 게시글이 많지 않으면 회색 테두리
-              영역은 왼쪽 사용자 정보 박스랑 높이가 똑같이 출력됩니다.
+              데이터에 따라 게시글이 많아지면 회색 테두리 영역이 아래로 길어집니다. 게시글이 별로 많지 않으면 이 오른쪽
+              회색 테두리 영역은 왼쪽 사용자 정보 영역이랑 같은 높이로 출력됩니다.
             </td>
             <td>⭐⭐⭐⭐</td>
           </tr>
@@ -71,6 +71,7 @@ const StyledTable = styled.table`
     border: 1px solid #dddddd;
     padding: 8px;
     text-align: center;
+    line-height: 1.5;
   }
 
   th {
@@ -82,18 +83,17 @@ const StyledTable = styled.table`
   }
 
   .date {
-    width: 25%;
+    width: 20%;
   }
 
   .title {
-    width: 45%;
+    width: 50%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .difficulty {
-    font-size: 20px;
     width: 30%;
   }
 `;
