@@ -22,10 +22,11 @@ const MainTopSection = styled.div`
 `;
 
 const Select = styled.select`
-  border: 1px solid #7f7f7f;
+  border: 2px solid #7f7f7f;
   border-radius: 10px;
   font-size: 100%;
-  padding: 0.3rem;
+  padding: 0.5rem;
+  min-width: 100px;
 `;
 
 export default SortMenu;
