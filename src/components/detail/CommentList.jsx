@@ -35,8 +35,8 @@ const CommentsWrap = styled.ul`
 `;
 
 const CommentWrap = styled.li`
-  background: #f2f2f2;
   padding: 1rem;
+  border: 1px solid #ddd;
   border-radius: 10px;
 `;
 

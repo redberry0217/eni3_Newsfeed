@@ -3,7 +3,7 @@ import styled from 'styled-components';
 function CommentForm() {
   return (
     <Form>
-      <TextArea />
+      <TextArea placeholder="질문&의견을 공유해주세요." title="comment" required />
       <Button type="submit">댓글 작성</Button>
     </Form>
   );
@@ -17,8 +17,7 @@ const Form = styled.form`
 `;
 
 const TextArea = styled.textarea`
-  border: none;
-  background: #f2f2f2;
+  border: 1px solid #ddd;
   border-radius: 10px;
   padding: 1rem;
   min-height: 100px;
