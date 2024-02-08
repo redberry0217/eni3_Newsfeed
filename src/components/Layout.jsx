@@ -5,9 +5,8 @@ import styled from 'styled-components';
 function Layout({ children }) {
   return (
     <div>
-      <Header>
-        <Main>{children}</Main>
-      </Header>
+      <Header />
+      <Main>{children}</Main>
     </div>
   );
 }
