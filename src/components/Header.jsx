@@ -1,12 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 
 function Header() {
-  const navigate = useNavigate();
   return (
     <Background>
-      <LogoAndTitle onClick={() => navigate(`/`)}>
+      <LogoAndTitle>
         <img src="https://cdn2.iconfinder.com/data/icons/seo-web/512/website-code-512.png" alt="로고" width="65" />
         <p>
           <TitleText>E&I3</TitleText>
@@ -14,7 +12,7 @@ function Header() {
           For Newbie Developers
         </p>
       </LogoAndTitle>
-      <SubmitCodeBtn onClick={() => navigate(`/submit`)}>오늘의 코드 제출하기</SubmitCodeBtn>
+      <SubmitCodeBtn>오늘의 코드 제출하기</SubmitCodeBtn>
       <MypageIcon>
         <img
           src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
