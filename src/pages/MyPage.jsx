@@ -19,6 +19,7 @@ const MyPageContainer = styled.div`
   width: 80%;
   margin: 0 auto;
   margin-top: 20px;
+  margin-bottom: 20px;
   gap: 50px;
 `;
 
