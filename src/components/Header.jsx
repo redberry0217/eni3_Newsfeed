@@ -1,10 +1,20 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { FaUserCircle } from 'react-icons/fa';
 
 function Header() {
+  const navigate = useNavigate();
+  const clickToHomePageHandler = () => {
+    navigate('/');
+  };
+  const clickToMyPageHandler = () => {
+    navigate('/auth');
+  };
+
   return (
     <Background>
-      <LogoAndTitle>
+      <LogoAndTitle onClick={clickToHomePageHandler}>
         <img src="https://cdn2.iconfinder.com/data/icons/seo-web/512/website-code-512.png" alt="로고" width="65" />
         <p>
           <TitleText>E&I3</TitleText>
@@ -13,12 +23,8 @@ function Header() {
         </p>
       </LogoAndTitle>
       <SubmitCodeBtn>오늘의 코드 제출하기</SubmitCodeBtn>
-      <MypageIcon>
-        <img
-          src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
-          alt="유저아이콘"
-          width="50"
-        />
+      <MypageIcon onClick={clickToMyPageHandler}>
+        <StyledFaUserCircle />
       </MypageIcon>
     </Background>
   );
@@ -44,6 +50,7 @@ const LogoAndTitle = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
+  cursor: pointer;
 `;
 
 const TitleText = styled.span`
@@ -74,7 +81,23 @@ const SubmitCodeBtn = styled.button`
 `;
 
 const MypageIcon = styled.div`
-  margin-left: 50px;
+  margin-left: 30px;
   margin-right: 150px;
 `;
+
+const StyledFaUserCircle = styled(FaUserCircle)`
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-sizing: border-box;
+
+  &:hover {
+    color: #0b65ad;
+    transition: color 0.4s ease;
+  }
+`;
+
 export default Header;

@@ -48,7 +48,11 @@ table {
 *{
     box-sizing: border-box;
 }
-    
+
+p {
+  word-break: break-all;
+  line-height: 1.6;
+}
 `;
 
 export default GlobalStyle;
