@@ -1,14 +1,18 @@
 import styled from 'styled-components';
 import UserInfo from 'components/UserInfo';
 import UserActivity from 'components/UserActivity';
+import { useNavigate } from 'react-router-dom';
 
 function MyPage() {
+  const navigate = useNavigate();
   return (
     <>
-      <GoBackBtn>피드로 돌아가기</GoBackBtn>
+      <GoBackBtn onClick={() => navigate(`/`)} title="코드카타 피드로 돌아갑니다">
+        피드로 돌아가기
+      </GoBackBtn>
       <MyPageContainer>
-        <UserInfo>dd</UserInfo>
-        <UserActivity>dd</UserActivity>
+        <UserInfo />
+        <UserActivity />
       </MyPageContainer>
     </>
   );

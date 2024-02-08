@@ -57,6 +57,7 @@ const TitleText = styled.span`
   color: #2f89d1;
   font-weight: 600;
   font-size: 30pt;
+  cursor: pointer;
 `;
 
 const SubmitCodeBtn = styled.button`
