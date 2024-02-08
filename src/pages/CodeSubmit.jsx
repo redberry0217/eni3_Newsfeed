@@ -1,7 +1,10 @@
 import CodeKataForm from 'components/CodeKataForm';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function CodeSubmit() {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <TitleArea>
@@ -9,7 +12,13 @@ function CodeSubmit() {
         <p>반복되는 연습이라는 뜻을 가진 'Kata'를 통해 매일 코딩을 훈련해봅시다.</p>
       </TitleArea>
       <CodeKataForm />
-      <CancelButton>취소하기</CancelButton>
+      <CancelButton
+        onClick={() => {
+          navigate('/');
+        }}
+      >
+        취소하기
+      </CancelButton>
     </Container>
   );
 }
