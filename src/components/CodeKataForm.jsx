@@ -39,7 +39,7 @@ function CodeKataForm() {
 export default CodeKataForm;
 
 const FormArea = styled.form`
-  background-color: #ececec;
+  background-color: #f2f2f2;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -51,15 +51,15 @@ const FormArea = styled.form`
     height: 40px;
     border: none;
     border-radius: 8px;
-    background-color: #2f89d1;
+    background-color: #202b3d;
     color: white;
-    margin-left: auto;
+    margin: 0 215px 0 auto;
     cursor: pointer;
     font-weight: 600;
     font-size: 14pt;
   }
   & button:active {
-    background-color: #0b65ad;
+    background-color: #2e3e57;
   }
 `;
 
@@ -74,7 +74,7 @@ const InputArea = styled.div`
   select,
   textarea {
     padding: 5px 8px;
-    border: 2px solid #c7c7c7;
+    border: 2px solid #7f7f7f;
     border-radius: 8px;
   }
   & select {
