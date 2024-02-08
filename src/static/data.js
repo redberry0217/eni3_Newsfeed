@@ -1,6 +1,6 @@
 export const articleList = [
   {
-    id: 1,
+    aritcle_id: 1,
     createdAt: '2023-11-03T02:07:09.423Z',
     authorId: 1,
     title: '제목',

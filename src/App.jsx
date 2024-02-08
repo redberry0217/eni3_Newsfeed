@@ -1,7 +1,6 @@
 import Router from 'shared/Router';
 import './App.css';
 import GlobalStyle from './GlobalStyle';
-import Auth from 'pages/Auth';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
@@ -16,7 +15,6 @@ function App() {
     <>
       <GlobalStyle />
       <Router />
-      <Auth />
     </>
   );
 }

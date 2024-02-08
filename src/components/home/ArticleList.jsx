@@ -1,12 +1,18 @@
+import { useNavigate } from 'react-router-dom';
 import { userList } from 'static/user';
 import styled from 'styled-components';
 
 function ArticleItem({ article }) {
-  const { authorId, title, createdAt, content, like } = article;
+  const navigate = useNavigate();
+  const { id, authorId, title, createdAt, content, like } = article;
   const { nickname, avatar } = userList.find((user) => user.id === authorId);
 
+  const onClickHandler = () => {
+    navigate(`/detail/${id}`);
+  };
+
   return (
-    <Article>
+    <Article onClick={onClickHandler}>
       <Author>
         <Avatar src={avatar} alt={nickname} />
         <NickName>{nickname}</NickName>
@@ -46,6 +52,7 @@ const Article = styled.article`
   padding: 2rem;
   background-color: #f2f2f2;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const Title = styled.h2`

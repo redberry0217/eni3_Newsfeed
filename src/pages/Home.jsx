@@ -1,5 +1,5 @@
-import ArticleList from 'components/ArticleList';
-import SortMenu from 'components/SortMenu';
+import ArticleList from 'components/home/ArticleList';
+import SortMenu from 'components/home/SortMenu';
 import { useState } from 'react';
 import { articleList } from 'static/data';
 
