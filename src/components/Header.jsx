@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+  const navigate = useNavigate();
   return (
     <Background>
-      <LogoAndTitle>
+      <LogoAndTitle onClick={() => navigate(`/`)}>
         <img src="https://cdn2.iconfinder.com/data/icons/seo-web/512/website-code-512.png" alt="로고" width="65" />
         <p>
           <TitleText>E&I3</TitleText>
@@ -12,7 +14,7 @@ function Header() {
           For Newbie Developers
         </p>
       </LogoAndTitle>
-      <SubmitCodeBtn>오늘의 코드 제출하기</SubmitCodeBtn>
+      <SubmitCodeBtn onClick={() => navigate(`/submit`)}>오늘의 코드 제출하기</SubmitCodeBtn>
       <MypageIcon>
         <img
           src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
@@ -44,12 +46,14 @@ const LogoAndTitle = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
+  cursor: pointer;
 `;
 
 const TitleText = styled.span`
   color: #2f89d1;
   font-weight: 600;
   font-size: 30pt;
+  cursor: pointer;
 `;
 
 const SubmitCodeBtn = styled.button`
