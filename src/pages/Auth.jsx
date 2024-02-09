@@ -6,6 +6,8 @@ import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
 import { BsBoxArrowInRight } from 'react-icons/bs';
 import styled from 'styled-components';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 function Auth() {
   const navigate = useNavigate();
@@ -28,20 +30,45 @@ function Auth() {
     }
   };
 
-  const signIn = async (event) => {
-    event.preventDefault();
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      console.error(error);
+  let nickname;
+
+  const getUserInfo = async (uid) => {
+    const userDocRef = doc(db, 'users', uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const userData = userDocSnap.data();
+      nickname = userData.nickname;
+    } else {
+      nickname = null;
     }
   };
 
-  // const logOut = async (event) => {
-  //   event.preventDefault();
+  const signIn = async (event) => {
+    event.preventDefault();
+    if (!email || !password) {
+      alert('이메일과 비밀번호를 입력해주세요.');
+      return;
+    }
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      await getUserInfo(userCredential.user.uid);
+      alert(`안녕하세요, ${nickname}님!`);
+      navigate('/');
+    } catch (error) {
+      if (error.code === 'auth/invalid-credential') {
+        alert('등록되지 않은 이메일이거나, 틀린 비밀번호입니다.');
+      } else {
+        console.error(error);
+      }
+    }
+  };
 
-  //   await signOut(auth);
-  // };
+  const logOut = async (event) => {
+    event.preventDefault();
+
+    await signOut(auth);
+  };
 
   return (
     <LoginPage>
@@ -70,7 +97,7 @@ function Auth() {
             ></InputPassword>
           </InputAreas>
           <LoginBtn onClick={signIn}>로그인</LoginBtn>
-          {/* <button onClick={logOut}>로그아웃</button> */}
+          <button onClick={logOut}>로그아웃</button>
         </form>
       </LoginBox>
       <BottomOfLoginPage>

@@ -1,31 +1,28 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaUserCircle } from 'react-icons/fa';
 
 function Header() {
-  const navigate = useNavigate();
-  const clickToHomePageHandler = () => {
-    navigate('/');
-  };
-  const clickToMyPageHandler = () => {
-    navigate('/auth');
-  };
-
   return (
     <Background>
-      <LogoAndTitle onClick={clickToHomePageHandler}>
-        <img src="https://cdn2.iconfinder.com/data/icons/seo-web/512/website-code-512.png" alt="로고" width="65" />
-        <p>
-          <TitleText>E&I3</TitleText>
-          <br />
-          For Newbie Developers
-        </p>
-      </LogoAndTitle>
+      <LogoAndTitleLink to="/">
+        <LogoAndTitle>
+          <img src="https://cdn2.iconfinder.com/data/icons/seo-web/512/website-code-512.png" alt="로고" width="65" />
+          <p>
+            <TitleText>E&I3</TitleText>
+            <br />
+            For Newbie Developers
+          </p>
+        </LogoAndTitle>
+      </LogoAndTitleLink>
       <SubmitCodeBtn>오늘의 코드 제출하기</SubmitCodeBtn>
-      <MypageIcon onClick={clickToMyPageHandler}>
-        <StyledFaUserCircle />
-      </MypageIcon>
+      <MypageIconLink to="/auth">
+        <MypageIcon>
+          <StyledFaUserCircle />
+        </MypageIcon>
+      </MypageIconLink>
     </Background>
   );
 }
@@ -51,6 +48,11 @@ const LogoAndTitle = styled.div`
   align-items: center;
   gap: 15px;
   cursor: pointer;
+`;
+
+const LogoAndTitleLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
 `;
 
 const TitleText = styled.span`
@@ -84,6 +86,11 @@ const SubmitCodeBtn = styled.button`
 const MypageIcon = styled.div`
   margin-left: 30px;
   margin-right: 150px;
+`;
+
+const MypageIconLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
 `;
 
 const StyledFaUserCircle = styled(FaUserCircle)`
