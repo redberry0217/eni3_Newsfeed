@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function CodeKataForm() {
   // <----- 수정 예정 ----->
   const [codeKata, setCodeKata] = useState([]);
+  const navigate = useNavigate();
+
   // creatdAt, author_id, article_title, article_content, article_link, article_code, article_like
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -65,7 +68,12 @@ function CodeKataForm() {
         <label>코드</label>
         <textarea name="article_code" placeholder="해결한 문제 코드를 입력해주세요."></textarea>
       </InputArea>
-      <button>등록하기</button>
+      <ButtonArea>
+        <button type="submit">등록하기</button>
+        <button type="button" onClick={() => navigate('/')}>
+          취소하기
+        </button>
+      </ButtonArea>
     </FormArea>
   );
 }
@@ -80,21 +88,6 @@ const FormArea = styled.form`
   gap: 2rem;
   padding: 2rem;
   border-radius: 8px;
-  & button {
-    width: 180px;
-    height: 40px;
-    border: none;
-    border-radius: 8px;
-    background-color: #202b3d;
-    color: white;
-    margin: 0 215px 0 auto;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14pt;
-  }
-  & button:active {
-    background-color: #2e3e57;
-  }
 `;
 
 const InputArea = styled.div`
@@ -117,5 +110,41 @@ const InputArea = styled.div`
   & textarea {
     resize: none;
     height: 100px;
+  }
+`;
+
+const ButtonArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+  & :nth-child(1) {
+    width: 180px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background-color: #202b3d;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14pt;
+    margin-left: auto;
+  }
+  & :nth-child(1):active {
+    background-color: #2e3e57;
+  }
+  & :nth-child(2) {
+    width: 180px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background-color: #7f7f7f;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14pt;
+  }
+  & :nth-child(2):active {
+    background-color: #929292;
   }
 `;
