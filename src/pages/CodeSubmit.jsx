@@ -26,13 +26,14 @@ function CodeSubmit() {
 export default CodeSubmit;
 
 const Container = styled.div`
+  width: 1000px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  margin-top: 45px;
+  margin: 80px auto 0;
 `;
 
 const TitleArea = styled.section`
