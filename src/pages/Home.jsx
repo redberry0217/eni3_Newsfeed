@@ -1,21 +1,23 @@
 import ArticleList from 'components/home/ArticleList';
 import SortMenu from 'components/home/SortMenu';
 import { useState } from 'react';
-import { articleList } from 'static/data';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 
 function Home() {
   const [sortMethod, setSortMethod] = useState('latest');
+  const articles = useSelector((state) => state.article);
 
-  let list;
+  let list = articles;
   switch (sortMethod) {
     case 'popular':
-      list = articleList.sort((a, b) => b.like - a.like);
+      list = articles.sort((a, b) => b.like - a.like);
       break;
     case 'latest':
-      list = articleList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      list = articles.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       break;
     default:
-      list = articleList;
+      list = articles;
   }
 
   const changeSort = (method) => {
@@ -23,11 +25,17 @@ function Home() {
   };
 
   return (
-    <>
+    <Container>
       <SortMenu changeSort={changeSort} />
       <ArticleList list={list} />
-    </>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+`;
 
 export default Home;

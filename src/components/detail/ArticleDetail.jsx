@@ -1,10 +1,17 @@
+import { useDispatch } from 'react-redux';
 import { userList } from 'static/user';
+import { likeArticle } from 'store/modules/article';
 import styled from 'styled-components';
-import { dateFormat } from 'util/data';
+import { dateFormat } from 'util/date';
 
 function ArticleDetail({ article }) {
-  const { authorId, title, createdAt, content, code, like } = article;
+  const dispatch = useDispatch();
+  const { id, authorId, title, createdAt, content, code, like } = article;
   const { nickname, avatar } = userList.find((user) => user.id === authorId);
+
+  const onClickHandler = () => {
+    dispatch(likeArticle(id));
+  };
 
   return (
     <>
@@ -21,7 +28,9 @@ function ArticleDetail({ article }) {
             <code className="language-javascript">{code}</code>
           </Pre>
         </ContentWrap>
-        <LikeButton type="button">❤️ {like}</LikeButton>
+        <LikeButton type="button" onClick={onClickHandler}>
+          ❤️ {like}
+        </LikeButton>
       </Article>
     </>
   );

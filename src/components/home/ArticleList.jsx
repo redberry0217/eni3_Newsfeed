@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { userList } from 'static/user';
 import styled from 'styled-components';
-import { dateFormat } from 'util/data';
+import { dateFormat } from 'util/date';
 
 function ArticleItem({ article }) {
   const navigate = useNavigate();

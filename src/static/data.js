@@ -16,7 +16,13 @@ export const articleList = [
     title: '제목',
     content:
       'abcdefghijkasdfasdfasfasabcdefghijkasdfasdfasfasabcdefghijkasdfasdfasfasabcdefghijkasdfasdfasfasabcdefghijkasdfasdfasfasabcdefghijkasdfasdfasfasabcdefghijkasdfasdfasfasabcdefghijkasdfasdfasfasabcdefghijkasdfasdfasfas',
-    code: 'console.log(123123)',
+    code: `
+    function solution(num1, num2) {
+      let answer = 0;
+      answer = num1 - num2;
+      return answer;
+    }
+    `,
     like: 20
   },
   {
@@ -26,7 +32,15 @@ export const articleList = [
     title: '제목',
     content:
       '한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디한마디',
-    code: 'console.log(123123)',
+    code: ` 
+    function solution(num1, num2) {
+        let answer = 0;
+        
+        answer = num1 * num2;
+        
+        return answer;
+    }
+    `,
     like: 30
   },
   {

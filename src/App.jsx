@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { Provider } from 'react-redux';
-import store from 'reduxFolder/config/configStore';
-import { login, logout } from 'reduxFolder/modules/loginAccess';
+import store from 'store/config/configStore';
+import { login, logout } from 'store/modules/loginAccess';
 
 function App() {
   useEffect(() => {
