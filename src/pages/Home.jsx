@@ -2,6 +2,7 @@ import ArticleList from 'components/home/ArticleList';
 import SortMenu from 'components/home/SortMenu';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 
 function Home() {
   const [sortMethod, setSortMethod] = useState('latest');
@@ -24,11 +25,17 @@ function Home() {
   };
 
   return (
-    <>
+    <Container>
       <SortMenu changeSort={changeSort} />
       <ArticleList list={list} />
-    </>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+`;
 
 export default Home;

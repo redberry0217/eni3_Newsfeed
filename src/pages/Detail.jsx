@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import 'prism.css';
 import CommentForm from 'components/detail/CommentForm';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 
 function Detail() {
   const { id } = useParams();
@@ -20,12 +21,18 @@ function Detail() {
   }, []);
 
   return (
-    <>
+    <Container>
       <ArticleDetail article={article} />
       <CommentForm articleId={id} />
       <CommentList comments={comments} />
-    </>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+`;
 
 export default Detail;

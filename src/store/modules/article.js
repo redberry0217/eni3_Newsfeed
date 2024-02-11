@@ -4,6 +4,7 @@ const SET_ARTICLE = 'articles/SET_ARTICLE';
 const ADD_ARTICLE = 'articles/ADD_ARTICLE';
 const DEL_ARTICLE = 'articles/DEL_ARTICLE';
 const MOD_ARTICLE = 'articles/MOD_ARTICLE';
+const LIKE_ARTICLE = 'articles/LIKE_ARTICLE';
 
 export const setArticle = (payload) => {
   return { type: SET_ARTICLE, payload };
@@ -21,6 +22,10 @@ export const delArticle = (payload) => {
   return { type: DEL_ARTICLE, payload };
 };
 
+export const likeArticle = (payload) => {
+  return { type: LIKE_ARTICLE, payload };
+};
+
 const initialState = articleList;
 
 const article = (state = initialState, action) => {
@@ -33,6 +38,8 @@ const article = (state = initialState, action) => {
       return state.filter((article) => article.id !== action.payload);
     case MOD_ARTICLE:
       return state.map((article) => (article.id === action.payload.id ? action.payload : article));
+    case LIKE_ARTICLE:
+      return state.map((article) => (article.id === action.payload ? { ...article, like: article.like + 1 } : article));
     default:
       return state;
   }
