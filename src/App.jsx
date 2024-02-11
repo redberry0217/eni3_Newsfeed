@@ -4,6 +4,8 @@ import GlobalStyle from './GlobalStyle';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
+import { Provider } from 'react-redux';
+import store from 'store/config/configStore';
 
 function App() {
   useEffect(() => {
@@ -12,10 +14,10 @@ function App() {
     });
   }, []);
   return (
-    <>
+    <Provider store={store}>
       <GlobalStyle />
       <Router />
-    </>
+    </Provider>
   );
 }
 
