@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, updateProfile, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, setGithubLogin, setGooGleLogin } from '../firebase';
+import React, { useEffect, useState } from 'react';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { setGithubLogin, setGooGleLogin } from '../firebase';
 import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
 import styled from 'styled-components';
@@ -9,9 +9,8 @@ import catIcon from 'assets/OptionImg1_cat.png';
 import dogIcon from 'assets/OptionImg2_dog.png';
 import foxIcon from 'assets/OptionImg3_fox.png';
 import parrotIcon from 'assets/OptionImg4_fox.png';
-import { doc, setDoc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { doc, setDoc, collection, getDocs, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
-import { Link } from 'react-router-dom';
 import { query, where } from 'firebase/firestore';
 
 function SignUp() {
@@ -40,12 +39,15 @@ function SignUp() {
 
     if (name === 'emailId') {
       setEmailId(value);
-      setFullEmail(`${value}@${customDomain || selectedDomain}`);
     } else if (name === 'customDomain') {
       setCustomDomain(value);
-      setFullEmail(`${emailId}@${value}`);
     }
   };
+
+  useEffect(() => {
+    setFullEmail(`${emailId}@${customDomain || selectedDomain}`);
+    // console.log(`${emailId}@${customDomain || selectedDomain}`);
+  }, [emailId, customDomain, selectedDomain]);
 
   const onSelectChange = (event) => {
     const selectedOption = event.target.value;
@@ -79,7 +81,7 @@ function SignUp() {
 
   const auth = getAuth();
 
-  const ClickConfirmEmail = async (event) => {
+  const ClickConfirmEmail = async () => {
     try {
       if (!emailId || !selectedDomain) {
         alert('이메일을 입력하세요.');
@@ -118,14 +120,38 @@ function SignUp() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, fullEmail, password);
       const userDocRef = doc(db, 'users', userCredential.user.uid);
+      const signUpDate = serverTimestamp();
       await setDoc(userDocRef, {
         fullEmail,
         password,
         nickname,
         status,
-        selectedIcon
+        selectedIcon,
+        signUpDate
       });
       alert('회원가입이 완료되었습니다.');
+      navigate('/');
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        alert('이미 가입된 이메일입니다.');
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
+  const googleLoginHandler = async () => {
+    try {
+      await setGooGleLogin();
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const githubLoginHandler = async () => {
+    try {
+      await setGithubLogin();
       navigate('/');
     } catch (error) {
       console.error(error);
@@ -136,7 +162,6 @@ function SignUp() {
     <SignUpPage>
       <SignUpBox>
         <SignUpInputBox>
-          <Link to="/MyPage">test</Link>
           <SignUpInputsTitle>회원가입</SignUpInputsTitle>
           <SignUpInputs>
             <div>
@@ -151,7 +176,7 @@ function SignUp() {
                   disabled={selectedDomain !== '직접 쓰기'}
                   onChange={onChange}
                 ></InputEmailDomain>
-                <StyledSelectDomain onChange={onSelectChange} defaultValue="">
+                <StyledSelectDomain onChange={onSelectChange} value={selectedDomain}>
                   <option value="" disabled hidden>
                     선택해주세요
                   </option>
@@ -226,9 +251,9 @@ function SignUp() {
         </SignUpInputBox>
         <SignUpBtns>
           <SocialSignUpBtns>
-            <p>소셜 계정으로 가입</p>
-            <StyledFcGoogle onClick={setGooGleLogin}></StyledFcGoogle>
-            <StyledImGithub onClick={setGithubLogin}></StyledImGithub>
+            <p>소셜 계정으로 간편 회원 가입</p>
+            <StyledFcGoogle onClick={googleLoginHandler}></StyledFcGoogle>
+            <StyledImGithub onClick={githubLoginHandler}></StyledImGithub>
           </SocialSignUpBtns>
           <SignUpOptionBtns>
             <ConfirmSignUpBtn onClick={signUp}>가입하기</ConfirmSignUpBtn>

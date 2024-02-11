@@ -1,10 +1,52 @@
-import React from 'react';
-// import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaUserCircle } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 
 function Header() {
+  const user = useSelector((state) => state.loginAccess.user);
+  const [dropdown, setDropdown] = useState(false);
+  const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+
+  const logOut = async (event) => {
+    event.preventDefault();
+
+    await signOut(auth);
+    alert('로그아웃 되었습니다.');
+    setDropdown(false);
+    navigate('/');
+  };
+
+  const clickUserIconHandler = () => {
+    if (user) {
+      toggleDropdown();
+    } else {
+      navigate('/auth');
+    }
+  };
+
+  const toggleDropdown = () => {
+    setDropdown((prevDropdown) => !prevDropdown);
+  };
+
+  useEffect(() => {
+    const handleOutsideClose = (e) => {
+      if (dropdown && dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdown(false);
+      }
+    };
+
+    document.addEventListener('click', handleOutsideClose);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClose);
+    };
+  }, [dropdown]);
+
   return (
     <Background>
       <LogoAndTitleLink to="/">
@@ -18,11 +60,22 @@ function Header() {
         </LogoAndTitle>
       </LogoAndTitleLink>
       <SubmitCodeBtn>오늘의 코드 제출하기</SubmitCodeBtn>
-      <MypageIconLink to="/auth">
-        <MypageIcon>
+      <>
+        <MypageIcon onClick={clickUserIconHandler} ref={dropdownRef}>
           <StyledFaUserCircle />
         </MypageIcon>
-      </MypageIconLink>
+        <DropdownContent visible={dropdown ? 1 : 0}>
+          <DropdownItem
+            onClick={() => {
+              navigate('/mypage');
+              toggleDropdown();
+            }}
+          >
+            마이페이지
+          </DropdownItem>
+          <DropdownItem onClick={logOut}>로그아웃</DropdownItem>
+        </DropdownContent>
+      </>
     </Background>
   );
 }
@@ -88,11 +141,6 @@ const MypageIcon = styled.div`
   margin-right: 150px;
 `;
 
-const MypageIconLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
-`;
-
 const StyledFaUserCircle = styled(FaUserCircle)`
   width: 50px;
   height: 50px;
@@ -105,6 +153,29 @@ const StyledFaUserCircle = styled(FaUserCircle)`
   &:hover {
     color: #0b65ad;
     transition: color 0.4s ease;
+  }
+`;
+
+const DropdownContent = styled.div`
+  top: 80px;
+  right: 105px;
+  display: ${(props) => (props.visible ? 'block' : 'none')};
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+`;
+
+const DropdownItem = styled.div`
+  padding: 12px 16px;
+  text-align: center;
+  justify-content: center;
+  text-decoration: none;
+  display: block;
+  color: #333;
+  cursor: pointer;
+  &:hover {
+    background-color: #f1f1f1;
   }
 `;
 

@@ -2,9 +2,10 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, serverTimestamp } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { signInWithPopup, GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
@@ -14,6 +15,20 @@ const firebaseConfig = {
   storageBucket: 'test-32d7a.appspot.com',
   messagingSenderId: '740492037203',
   appId: '1:740492037203:web:91f941dd0fc271aee80aa6'
+};
+
+let nickname;
+
+const getUserInfo = async (uid) => {
+  const userDocRef = doc(db, 'users', uid);
+  const userDocSnap = await getDoc(userDocRef);
+
+  if (userDocSnap.exists()) {
+    const userData = userDocSnap.data();
+    nickname = userData.nickname;
+  } else {
+    nickname = null;
+  }
 };
 
 // const firebaseConfig = {
@@ -37,25 +52,41 @@ export const setGithubLogin = async () => {
   try {
     const result = await signInWithPopup(auth, githubProvider);
     const user = result.user;
-    console.log(user);
+
+    const userDocRef = doc(db, 'users', user.uid);
+    const signUpDate = serverTimestamp();
+    await setDoc(userDocRef, {
+      fullEmail: user.email,
+      nickname: user.displayName,
+      status: '',
+      selectedIcon: 'cat',
+      signUpDate
+    });
+    await getUserInfo(user.uid);
+    alert(`안녕하세요, ${nickname}님!`);
   } catch (error) {
     console.error(error);
   }
 };
 
-export function setGooGleLogin() {
+export const setGooGleLogin = async () => {
   const googleProvider = new GoogleAuthProvider();
-  const auth = getAuth();
-  signInWithPopup(auth, googleProvider)
-    .then((result) => {
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      const user = result.user;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.customData.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+
+    const userDocRef = doc(db, 'users', user.uid);
+    const signUpDate = serverTimestamp();
+    await setDoc(userDocRef, {
+      fullEmail: user.email,
+      nickname: user.displayName,
+      status: '',
+      selectedIcon: 'cat',
+      signUpDate
     });
-}
+    await getUserInfo(user.uid);
+    alert(`안녕하세요, ${nickname}님!`);
+  } catch (error) {
+    console.error(error);
+  }
+};

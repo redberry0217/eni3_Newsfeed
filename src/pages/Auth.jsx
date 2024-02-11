@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, setGithubLogin, setGooGleLogin } from '../firebase';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
 import { BsBoxArrowInRight } from 'react-icons/bs';
@@ -64,10 +64,22 @@ function Auth() {
     }
   };
 
-  const logOut = async (event) => {
-    event.preventDefault();
+  const googleLoginHandler = async () => {
+    try {
+      await setGooGleLogin();
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    await signOut(auth);
+  const githubLoginHandler = async () => {
+    try {
+      await setGithubLogin();
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -97,14 +109,13 @@ function Auth() {
             ></InputPassword>
           </InputAreas>
           <LoginBtn onClick={signIn}>로그인</LoginBtn>
-          <button onClick={logOut}>로그아웃</button>
         </form>
       </LoginBox>
       <BottomOfLoginPage>
         <SocialLoginBtns>
-          <p>소셜 계정으로 로그인</p>
-          <StyledFcGoogle onClick={setGooGleLogin}></StyledFcGoogle>
-          <StyledImGithub onClick={setGithubLogin}></StyledImGithub>
+          <p>소셜 계정으로 간편 로그인</p>
+          <StyledFcGoogle onClick={googleLoginHandler}></StyledFcGoogle>
+          <StyledImGithub onClick={githubLoginHandler}></StyledImGithub>
         </SocialLoginBtns>
         <SignUpIcon onClick={ClickToSignUpPageHandler}>
           <StyledBsBoxArrowInRight />
