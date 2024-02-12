@@ -9,7 +9,7 @@ import catIcon from 'assets/OptionImg1_cat.png';
 import dogIcon from 'assets/OptionImg2_dog.png';
 import foxIcon from 'assets/OptionImg3_fox.png';
 import parrotIcon from 'assets/OptionImg4_parrot.png';
-import { doc, setDoc, collection, getDocs, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../shared/firebase';
 import { query, where } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
