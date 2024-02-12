@@ -1,7 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { delArticle } from 'store/modules/article';
+import { useDispatch } from 'react-redux';
 
-function MyCode() {
+function MyCode({ articles }) {
+  const dispatch = useDispatch();
+  const deleteHandler = (articleId) => {
+    const checkIf = window.confirm('해당 게시글을 삭제하시겠습니까?');
+    if (checkIf) {
+      dispatch(delArticle(articleId));
+    } else {
+      return;
+    }
+  };
   return (
     <>
       <TitleTextStyle>✏️ 나의 코드</TitleTextStyle>
@@ -12,24 +24,22 @@ function MyCode() {
             <th className="date">날짜</th>
             <th className="title">게시글 제목</th>
             <th className="difficulty">체감난이도</th>
+            <th className="delete">관리</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>2024-02-06</td>
-            <td>두 수의 합</td>
-            <td>⭐⭐⭐⭐⭐</td>
-          </tr>
-          <tr>
-            <td>2024-02-06</td>
-            <td>두 수의 곱</td>
-            <td>⭐⭐⭐</td>
-          </tr>
-          <tr>
-            <td>2024-02-06</td>
-            <td>제목이 길어지면 이런 느낌입니다 Hidden, Ellipsis 왜 적용이 안될까요?</td>
-            <td>⭐⭐⭐⭐⭐</td>
-          </tr>
+          {articles.map((article) => (
+            <tr key={article.id}>
+              <td>{article.createdAt.toDate().toLocaleDateString()}</td>
+              <td>
+                <Link to={`/detail/${article.id}`}>{article.title}</Link>
+              </td>
+              <td>{article.difficulty}</td>
+              <td>
+                <Deletebutton onClick={() => deleteHandler(article.id)}>❌</Deletebutton>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </StyledTable>
     </>
@@ -74,11 +84,21 @@ const StyledTable = styled.table`
   }
 
   .title {
-    width: 50%;
+    width: 40%;
   }
 
   .difficulty {
     width: 30%;
   }
+
+  .control {
+    width: 10%;
+  }
+`;
+
+const Deletebutton = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 `;
 export default MyCode;

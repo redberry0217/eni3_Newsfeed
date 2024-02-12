@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function MyActivity() {
+function MyActivity({ articles }) {
   return (
     <>
       <TitleTextStyle>🔥 나의 활동</TitleTextStyle>
@@ -14,7 +14,7 @@ function MyActivity() {
           </p>
         </MyLevel>
         <MyActivityInfo>
-          지금까지 <DigitStyle>5</DigitStyle> 문제 해결했습니다.
+          지금까지 <DigitStyle>{articles.length}</DigitStyle> 문제 해결했습니다.
           <br />
           나의 코드에 좋아요 총 <DigitStyle>52</DigitStyle>개,
           <br />
