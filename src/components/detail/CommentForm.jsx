@@ -1,9 +1,26 @@
+import { useDispatch } from 'react-redux';
+import { addComment } from 'store/modules/comment';
 import styled from 'styled-components';
 
-function CommentForm() {
+function CommentForm({ articleId }) {
+  const dispatch = useDispatch();
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    const newComment = {
+      id: crypto.randomUUID(),
+      userId: 1,
+      articleId: parseInt(articleId),
+      createdAt: new Date().toISOString(),
+      content: e.target.content.value
+    };
+    dispatch(addComment(newComment));
+    e.target.reset();
+  };
+
   return (
-    <Form>
-      <TextArea placeholder="질문&의견을 공유해주세요." title="comment" required />
+    <Form onSubmit={onSubmitHandler}>
+      <TextArea placeholder="질문&의견을 공유해주세요." title="comment" name="content" required />
       <Button type="submit">댓글 작성</Button>
     </Form>
   );

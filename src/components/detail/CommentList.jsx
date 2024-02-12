@@ -1,17 +1,44 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { userList } from 'static/user';
+import { delComment, modComment } from 'store/modules/comment';
 import styled from 'styled-components';
+import { dateFormat } from 'util/date';
 
 function Comment({ comment }) {
+  const dispatch = useDispatch();
   const { userId, content, createdAt } = comment;
+
+  const [editMode, setEditMode] = useState({ content: content, mode: false });
   const { nickname, avatar } = userList.find((user) => user.id === userId);
+
+  const onChangeHandler = (e) => {
+    setEditMode({ content: e.target.value, mode: true });
+  };
+
+  const modBtnHandler = () => {
+    setEditMode({ content, mode: !editMode.mode });
+    dispatch(modComment({ ...comment, content: editMode.content }));
+  };
+
+  const delBtnHandler = () => {
+    dispatch(delComment(comment.id));
+  };
+
   return (
     <CommentWrap>
       <CommentHead>
         <Avatar src={avatar} alt={nickname} />
         <span>{nickname}</span>
-        <time>{createdAt}</time>
+        <time>{dateFormat(createdAt)}</time>
       </CommentHead>
-      <p>{content}</p>
+      {editMode.mode ? <textarea value={editMode.content} onChange={onChangeHandler} /> : <p>{content}</p>}
+      <button type="button" onClick={modBtnHandler}>
+        {editMode.mode ? '수정 완료' : '수정'}
+      </button>
+      <button type="button" onClick={delBtnHandler}>
+        삭제
+      </button>
     </CommentWrap>
   );
 }

@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, setGithubLogin, setGooGleLogin } from '../firebase';
+import React, { useEffect, useState } from 'react';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { setGithubLogin, setGooGleLogin } from '../firebase';
 import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
-import { LuCat } from 'react-icons/lu';
-import { LuDog } from 'react-icons/lu';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import catIcon from 'assets/OptionImg1_cat.png';
+import dogIcon from 'assets/OptionImg2_dog.png';
+import foxIcon from 'assets/OptionImg3_fox.png';
+import parrotIcon from 'assets/OptionImg4_fox.png';
+import { doc, setDoc, collection, getDocs, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
+import { query, where } from 'firebase/firestore';
 
 function SignUp() {
-  const [email, setEmail] = useState('');
+  const [emailId, setEmailId] = useState('');
   const [customDomain, setCustomDomain] = useState('');
   const [selectedDomain, setSelectedDomain] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [nickname, setNickname] = useState('');
-
-  const [icon, setIcon] = useState('');
   const [status, setStatus] = useState('');
+  const [fullEmail, setFullEmail] = useState('');
 
   const navigate = useNavigate();
 
@@ -32,12 +36,18 @@ function SignUp() {
 
   const onChange = (event) => {
     const { name, value } = event.target;
-    if (name === 'email') {
-      setEmail(value);
+
+    if (name === 'emailId') {
+      setEmailId(value);
     } else if (name === 'customDomain') {
       setCustomDomain(value);
     }
   };
+
+  useEffect(() => {
+    setFullEmail(`${emailId}@${customDomain || selectedDomain}`);
+    // console.log(`${emailId}@${customDomain || selectedDomain}`);
+  }, [emailId, customDomain, selectedDomain]);
 
   const onSelectChange = (event) => {
     const selectedOption = event.target.value;
@@ -49,11 +59,18 @@ function SignUp() {
     }
   };
 
+  const maxNickNameLength = 10;
+
+  const nickNameChangeHandler = (event) => {
+    const value = event.target.value.slice(0, maxNickNameLength);
+    setNickname(value);
+  };
+
   const iconOptions = [
-    { value: 'cat', label: '개발하는 고양이', icon: <IconLuCat /> },
-    { value: 'dog', label: '개발하는 강아지', icon: <IconLuDog /> },
-    { value: 'hamster', label: '개발하는 햄스터', icon: <IconLuCat /> },
-    { value: 'chick', label: '개발하는 병아리', icon: <IconLuCat /> }
+    { value: 'cat', label: '개발하는 고양이', icon: <IconAnimal src={catIcon} /> },
+    { value: 'dog', label: '개발하는 강아지', icon: <IconAnimal src={dogIcon} /> },
+    { value: 'fox', label: '개발하는 여우', icon: <IconAnimal src={foxIcon} /> },
+    { value: 'parrot', label: '개발하는 앵무새', icon: <IconAnimal src={parrotIcon} /> }
   ];
 
   const [selectedIcon, setSelectedOption] = useState(iconOptions[0].value);
@@ -62,10 +79,80 @@ function SignUp() {
     setSelectedOption(e.target.value);
   };
 
+  const auth = getAuth();
+
+  const ClickConfirmEmail = async () => {
+    try {
+      if (!emailId || !selectedDomain) {
+        alert('이메일을 입력하세요.');
+        return;
+      }
+
+      const emailQuery = query(collection(db, 'users'), where('fullEmail', '==', fullEmail));
+      const querySnapShot = await getDocs(emailQuery);
+
+      if (querySnapShot.docs.length > 0) {
+        const confirmRedirect = window.confirm('이미 가입된 이메일입니다. 로그인 페이지로 이동하시겠습니까?');
+        if (confirmRedirect) {
+          navigate('/auth');
+        }
+      } else {
+        alert('사용 가능한 이메일입니다.');
+      }
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
   const signUp = async (event) => {
     event.preventDefault();
+
+    if (!emailId || !password || !confirmPassword || !nickname) {
+      alert('필수 입력칸을 작성해주세요.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, fullEmail, password);
+      const userDocRef = doc(db, 'users', userCredential.user.uid);
+      const signUpDate = serverTimestamp();
+      await setDoc(userDocRef, {
+        fullEmail,
+        password,
+        nickname,
+        status,
+        selectedIcon,
+        signUpDate
+      });
+      alert('회원가입이 완료되었습니다.');
+      navigate('/');
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        alert('이미 가입된 이메일입니다.');
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
+  const googleLoginHandler = async () => {
+    try {
+      await setGooGleLogin();
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const githubLoginHandler = async () => {
+    try {
+      await setGithubLogin();
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
@@ -80,7 +167,7 @@ function SignUp() {
             <div>
               <InputEmailTitle>이메일(아이디)*</InputEmailTitle>
               <InputEmailBox>
-                <InputEmail type="email" name="email" value={email} onChange={onChange} required></InputEmail>
+                <InputEmailId type="emailId" name="emailId" value={emailId} onChange={onChange} required></InputEmailId>
                 <StyledAtSymbol>@</StyledAtSymbol>
                 <InputEmailDomain
                   name="customDomain"
@@ -89,17 +176,17 @@ function SignUp() {
                   disabled={selectedDomain !== '직접 쓰기'}
                   onChange={onChange}
                 ></InputEmailDomain>
-                <StyledSelectDomain onChange={onSelectChange}>
-                  <option value="" disabled selected hidden>
+                <StyledSelectDomain onChange={onSelectChange} value={selectedDomain}>
+                  <option value="" disabled hidden>
                     선택해주세요
                   </option>
-                  <option>naver.com</option>
-                  <option>gmail.com</option>
-                  <option>hanmail.com</option>
-                  <option>nate.com</option>
+                  <option value="naver.com">naver.com</option>
+                  <option value="gmail.com">gmail.com</option>
+                  <option value="hanmail.com">hanmail.com</option>
+                  <option value="nate.com">nate.com</option>
                   <option>직접 쓰기</option>
                 </StyledSelectDomain>
-                <CheckDuplicateEmailBtn>중복 확인</CheckDuplicateEmailBtn>
+                <CheckDuplicateEmailBtn onClick={ClickConfirmEmail}>중복 확인</CheckDuplicateEmailBtn>
               </InputEmailBox>
             </div>
             <InputPasswordBox>
@@ -130,7 +217,8 @@ function SignUp() {
                   type="text"
                   name="nickname"
                   value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
+                  onChange={nickNameChangeHandler}
+                  placeholder="10자 이내로 작성할 수 있습니다."
                   required
                 ></InputNickName>
               </div>
@@ -149,22 +237,23 @@ function SignUp() {
             <div>
               <MyStatusTitle>나의 현재 상태</MyStatusTitle>
               <StyledSelectMyStatus name="status" value={status} onChange={(e) => setStatus(e.target.value)} required>
-                <option value="" disabled selected hidden>
+                <option value="" hidden>
                   선택해주세요
                 </option>
-                <option>주니어 개발자</option>
-                <option>시니어 개발자</option>
-                <option>프리랜서</option>
-                <option>학생</option>
+                <option value="개발자 취준생">개발자 취준생</option>
+                <option value="현업 개발자/튜터">현업 개발자/튜터</option>
+                <option value="학생(전공/비전공)">학생(전공/비전공)</option>
+                <option value="취미로 개발하는 사람">취미로 개발하는 사람</option>
+                <option value="재야의 무림고수">재야의 무림고수</option>
               </StyledSelectMyStatus>
             </div>
           </SignUpInputs>
         </SignUpInputBox>
         <SignUpBtns>
           <SocialSignUpBtns>
-            <p>소셜 계정으로 가입</p>
-            <StyledFcGoogle onClick={setGooGleLogin}></StyledFcGoogle>
-            <StyledImGithub onClick={setGithubLogin}></StyledImGithub>
+            <p>소셜 계정으로 간편 회원 가입</p>
+            <StyledFcGoogle onClick={googleLoginHandler}></StyledFcGoogle>
+            <StyledImGithub onClick={githubLoginHandler}></StyledImGithub>
           </SocialSignUpBtns>
           <SignUpOptionBtns>
             <ConfirmSignUpBtn onClick={signUp}>가입하기</ConfirmSignUpBtn>
@@ -227,7 +316,7 @@ const InputEmailTitle = styled.div`
   margin-bottom: 8px;
 `;
 
-const InputEmail = styled.input`
+const InputEmailId = styled.input`
   width: 300px;
   height: 45px;
   border: 2px solid #5f5f5f;
@@ -326,7 +415,7 @@ const InputNickName = styled.input`
   border: 2px solid #5f5f5f;
   border-radius: 20px;
   padding: 10px 20px;
-  font-size: 15pt;
+  font-size: 13pt;
 `;
 
 const IconTitle = styled.div`
@@ -344,18 +433,13 @@ const StyledSelectIcon = styled.select`
   font-size: 15pt;
 `;
 
-const IconLuCat = styled(LuCat)`
-  width: 40px;
-  height: 40px;
+const IconAnimal = styled.img.attrs((props) => ({
+  src: props.src,
+  alt: 'Animal Icon'
+}))`
+  width: 70px;
+  height: 70px;
   margin-top: 30px;
-  background-color: transparent;
-`;
-
-const IconLuDog = styled(LuDog)`
-  width: 40px;
-  height: 40px;
-  margin-top: 30px;
-  background-color: transparent;
 `;
 
 const MyStatusTitle = styled.div`
