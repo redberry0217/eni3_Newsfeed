@@ -8,15 +8,6 @@ import { signInWithPopup, GithubAuthProvider, GoogleAuthProvider } from 'firebas
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyCD953jEEZ4_nTYXeIrlWvUiKa9bDR_gmU',
-  authDomain: 'test-32d7a.firebaseapp.com',
-  projectId: 'test-32d7a',
-  storageBucket: 'test-32d7a.appspot.com',
-  messagingSenderId: '740492037203',
-  appId: '1:740492037203:web:91f941dd0fc271aee80aa6'
-};
-
 let nickname;
 
 const getUserInfo = async (uid) => {
@@ -31,14 +22,14 @@ const getUserInfo = async (uid) => {
   }
 };
 
-// const firebaseConfig = {
-//   apiKey: process.env.REACT_APP_FB_API_KEY,
-//   authDomain: process.env.REACT_APP_FB_AUTH_DOMAIN,
-//   projectId: process.env.REACT_APP_PROJECT_ID,
-//   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-//   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-//   appId: process.env.REACT_APP_APP_ID
-// };
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FB_API_KEY,
+  authDomain: process.env.REACT_APP_FB_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

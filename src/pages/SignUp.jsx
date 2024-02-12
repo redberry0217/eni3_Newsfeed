@@ -69,8 +69,8 @@ function SignUp() {
   const iconOptions = [
     { value: 'cat', label: '개발하는 고양이', icon: <IconAnimal src={catIcon} /> },
     { value: 'dog', label: '개발하는 강아지', icon: <IconAnimal src={dogIcon} /> },
-    { value: 'hamster', label: '개발하는 여우', icon: <IconAnimal src={foxIcon} /> },
-    { value: 'chick', label: '개발하는 앵무새', icon: <IconAnimal src={parrotIcon} /> }
+    { value: 'fox', label: '개발하는 여우', icon: <IconAnimal src={foxIcon} /> },
+    { value: 'parrot', label: '개발하는 앵무새', icon: <IconAnimal src={parrotIcon} /> }
   ];
 
   const [selectedIcon, setSelectedOption] = useState(iconOptions[0].value);
