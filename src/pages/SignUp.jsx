@@ -12,6 +12,7 @@ import parrotIcon from 'assets/OptionImg_parrot.png';
 import { doc, setDoc, collection, getDocs, serverTimestamp } from 'firebase/firestore';
 import { db } from '../shared/firebase';
 import { query, where } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 
 function SignUp() {
   const [emailId, setEmailId] = useState('');
@@ -91,6 +92,8 @@ function SignUp() {
       icon: <IconAnimal src={parrotIcon} />
     }
   ];
+
+  const stateOptions = useSelector((state) => state.stateOptions.options);
 
   const [selectedIcon, setSelectedOption] = useState(iconOptions[0].value);
   const [token, setToken] = useState(iconOptions[0].token);
@@ -261,11 +264,11 @@ function SignUp() {
                 <option value="" hidden>
                   선택해주세요
                 </option>
-                <option value="개발자 취준생">개발자 취준생</option>
-                <option value="현업 개발자/튜터">현업 개발자/튜터</option>
-                <option value="학생(전공/비전공)">학생(전공/비전공)</option>
-                <option value="취미로 개발하는 사람">취미로 개발하는 사람</option>
-                <option value="재야의 무림고수">재야의 무림고수</option>
+                {stateOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </StyledSelectMyStatus>
             </div>
           </SignUpInputs>

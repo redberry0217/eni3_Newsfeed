@@ -1,12 +1,13 @@
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { userList } from 'static/user';
 import styled from 'styled-components';
 import { dateFormat } from 'util/date';
 
 function ArticleItem({ article }) {
   const navigate = useNavigate();
-  const { id, authorId, title, createdAt, content, like } = article;
-  const { nickname, avatar } = userList.find((user) => user.id === authorId);
+  const { id, userId, title, createdAt, content, like } = article;
+  const userList = useSelector((state) => state.users);
+  const { nickname } = userList.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     navigate(`/detail/${id}`);
@@ -15,7 +16,7 @@ function ArticleItem({ article }) {
   return (
     <Article onClick={onClickHandler}>
       <Author>
-        <Avatar src={avatar} alt={nickname} />
+        {/* <Avatar src={avatar} alt={nickname} /> */}
         <NickName>{nickname}</NickName>
       </Author>
       <ContentWrap>
@@ -68,11 +69,11 @@ const Author = styled.div`
   gap: 0.5rem;
 `;
 
-const Avatar = styled.img`
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-`;
+// const Avatar = styled.img`
+//   width: 4rem;
+//   height: 4rem;
+//   border-radius: 50%;
+// `;
 
 const NickName = styled.span`
   font-weight: bold;

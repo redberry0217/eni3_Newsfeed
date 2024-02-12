@@ -1,5 +1,3 @@
-import { articleList } from 'static/data';
-
 const SET_ARTICLE = 'articles/SET_ARTICLE';
 const ADD_ARTICLE = 'articles/ADD_ARTICLE';
 const DEL_ARTICLE = 'articles/DEL_ARTICLE';
@@ -26,7 +24,7 @@ export const likeArticle = (payload) => {
   return { type: LIKE_ARTICLE, payload };
 };
 
-const initialState = articleList;
+const initialState = [];
 
 const article = (state = initialState, action) => {
   switch (action.type) {

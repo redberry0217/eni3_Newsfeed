@@ -30,19 +30,6 @@ function MyCode() {
             <td>제목이 길어지면 이런 느낌입니다 Hidden, Ellipsis 왜 적용이 안될까요?</td>
             <td>⭐⭐⭐⭐⭐</td>
           </tr>
-          <tr>
-            <td>2024-02-06</td>
-            <td>
-              데이터에 따라 게시글이 많아지면 회색 테두리 영역이 아래로 길어집니다. 게시글이 별로 많지 않으면 이 오른쪽
-              회색 테두리 영역은 왼쪽 사용자 정보 영역이랑 같은 높이로 출력됩니다.
-            </td>
-            <td>⭐⭐⭐⭐</td>
-          </tr>
-          <tr>
-            <td>2024-02-06</td>
-            <td>차후 제목에 Link 태그 넣으려고요 어떻게 생각하시나요</td>
-            <td>⭐</td>
-          </tr>
         </tbody>
       </StyledTable>
     </>
@@ -66,16 +53,16 @@ const StyledTable = styled.table`
     border: 1px solid #dddddd;
     font-weight: 600;
     padding: 8px;
+    background-color: #f2f2f2;
   }
   td {
     border: 1px solid #dddddd;
     padding: 8px;
     text-align: center;
     line-height: 1.5;
-  }
-
-  th {
-    background-color: #f2f2f2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   tr:hover {
@@ -88,9 +75,6 @@ const StyledTable = styled.table`
 
   .title {
     width: 50%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .difficulty {

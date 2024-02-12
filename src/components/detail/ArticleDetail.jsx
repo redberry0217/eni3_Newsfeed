@@ -1,26 +1,33 @@
-import { useDispatch } from 'react-redux';
-import { userList } from 'static/user';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { likeArticle } from 'store/modules/article';
 import styled from 'styled-components';
 import { dateFormat } from 'util/date';
+import Prism from 'prismjs';
+import 'prism.css';
 
 function ArticleDetail({ article }) {
   const dispatch = useDispatch();
-  const { id, authorId, title, createdAt, content, code, like } = article;
-  const { nickname, avatar } = userList.find((user) => user.id === authorId);
+  const userList = useSelector((state) => state.users);
+  const { id, userId, title, createdAt, content, code, like } = article;
+  const { nickname } = userList.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     dispatch(likeArticle(id));
   };
+
+  useEffect(() => {
+    Prism.highlightAll();
+  }, []);
 
   return (
     <>
       <Article>
         <Title>{title}</Title>
         <Author>
-          <Avatar src={avatar} alt={nickname} />
+          {/* <Avatar src={avatar} alt={nickname} /> */}
           <NickName>{nickname}</NickName>
-          <time>{dateFormat(createdAt)}</time>
+          <time>{dateFormat(createdAt.toDate())}</time>
         </Author>
         <ContentWrap>
           <Content>{content}</Content>
@@ -49,11 +56,11 @@ const Author = styled.div`
   gap: 0.5rem;
 `;
 
-const Avatar = styled.img`
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-`;
+// const Avatar = styled.img`
+//   width: 2rem;
+//   height: 2rem;
+//   border-radius: 50%;
+// `;
 
 const NickName = styled.span``;
 
