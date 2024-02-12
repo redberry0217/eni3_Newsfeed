@@ -4,12 +4,11 @@ import { useState } from 'react';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from 'shared/firebase';
 import { useSelector } from 'react-redux';
-// import { dateFormat } from 'util/date.js';
+import { dateFormat } from 'util/date';
 
 function UserCurrentInfo({ setEditMode }) {
   const [currUserData, setCurrUserData] = useState(null);
   const user = useSelector((state) => state.loginAccess.user);
-  // const formattedDate = dateFormat(currUserData.signUpDate.toDate());
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +47,7 @@ function UserCurrentInfo({ setEditMode }) {
       <UserInfoContent>
         <UserInfoStyle>
           <ItemBox>가입일</ItemBox>
-          {/* {formattedDate} */}
+          {dateFormat(currUserData.signUpDate.toDate())}
           <br />
           <ItemBox>이메일(아이디)</ItemBox>
           {currUserData.fullEmail} <br />
