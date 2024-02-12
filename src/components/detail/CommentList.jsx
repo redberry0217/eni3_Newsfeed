@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { userList } from 'static/user';
+import { useDispatch, useSelector } from 'react-redux';
 import { delComment, modComment } from 'store/modules/comment';
 import styled from 'styled-components';
 import { dateFormat } from 'util/date';
@@ -10,7 +9,8 @@ function Comment({ comment }) {
   const { userId, content, createdAt } = comment;
 
   const [editMode, setEditMode] = useState({ content: content, mode: false });
-  const { nickname, avatar } = userList.find((user) => user.id === userId);
+  const userList = useSelector((state) => state.users);
+  const { nickname } = userList.find((user) => user.id === userId);
 
   const onChangeHandler = (e) => {
     setEditMode({ content: e.target.value, mode: true });
@@ -28,9 +28,9 @@ function Comment({ comment }) {
   return (
     <CommentWrap>
       <CommentHead>
-        <Avatar src={avatar} alt={nickname} />
+        {/* <Avatar src={avatar} alt={nickname} /> */}
         <span>{nickname}</span>
-        <time>{dateFormat(createdAt)}</time>
+        <time>{dateFormat(createdAt.toDate())}</time>
       </CommentHead>
       {editMode.mode ? <textarea value={editMode.content} onChange={onChangeHandler} /> : <p>{content}</p>}
       <button type="button" onClick={modBtnHandler}>
