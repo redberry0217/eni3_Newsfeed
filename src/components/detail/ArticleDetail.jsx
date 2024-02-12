@@ -27,7 +27,7 @@ function ArticleDetail({ article }) {
         <Author>
           {/* <Avatar src={avatar} alt={nickname} /> */}
           <NickName>{nickname}</NickName>
-          <time>{dateFormat(createdAt.toDate())}</time>
+          <time>{dateFormat(createdAt)}</time>
         </Author>
         <ContentWrap>
           <Content>{content}</Content>

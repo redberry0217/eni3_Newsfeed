@@ -1,17 +1,18 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addComment } from 'store/modules/comment';
 import styled from 'styled-components';
 
 function CommentForm({ articleId }) {
   const dispatch = useDispatch();
+  const uid = useSelector((state) => state.loginAccess.user.uid);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     const newComment = {
       id: crypto.randomUUID(),
-      userId: 1,
-      articleId: parseInt(articleId),
-      createdAt: new Date().toISOString(),
+      userId: uid,
+      articleId,
+      createdAt: new Date(),
       content: e.target.content.value
     };
     dispatch(addComment(newComment));

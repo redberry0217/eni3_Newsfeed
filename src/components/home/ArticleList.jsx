@@ -23,7 +23,7 @@ function ArticleItem({ article }) {
         <Title>{title}</Title>
         <Content>{content}</Content>
         <Bottom>
-          <time>{dateFormat(createdAt.toDate())}</time>
+          <time>{dateFormat(createdAt)}</time>
           <span>{like}</span>
         </Bottom>
       </ContentWrap>
