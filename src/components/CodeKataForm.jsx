@@ -22,6 +22,10 @@ function CodeKataForm() {
     const difficulty = e.target.difficulty.value;
     const code = e.target.code.value;
 
+    if (!title || !content || !link || !difficulty || !code) {
+      return alert('모든 항목을 작성해주세요.');
+    }
+
     const nextCodeKata = {
       userId: auth.currentUser.uid,
       createdAt: dateFormat(new Date()),
