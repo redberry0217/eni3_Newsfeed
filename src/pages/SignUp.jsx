@@ -123,7 +123,7 @@ function SignUp() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, fullEmail, password);
       const userDocRef = doc(db, 'users', userCredential.user.uid);
-      const signUpDate = serverTimestamp();
+      const signUpDate = new Date().toISOString();
       await setDoc(userDocRef, {
         fullEmail,
         nickname,
@@ -138,6 +138,8 @@ function SignUp() {
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
         alert('이미 가입된 이메일입니다.');
+      } else if (error.code === 'auth/weak-password') {
+        alert('비밀번호는 최소 6글자가 필요합니다.');
       } else {
         console.error(error);
       }
