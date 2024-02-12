@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from 'shared/firebase';
 import { query } from 'firebase/firestore';
 

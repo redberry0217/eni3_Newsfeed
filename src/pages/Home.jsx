@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setArticle } from 'store/modules/article';
 import { setUsers } from 'store/modules/users';
 import styled from 'styled-components';
-import { fetchArticle, fetchUsers } from 'util/fetch';
+import { getArticles, getUsers } from 'util/getDocs';
 
 function Home() {
   const [sortMethod, setSortMethod] = useState('latest');
@@ -14,8 +14,8 @@ function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchUsers().then((data) => dispatch(setUsers(data)));
-    fetchArticle().then((data) => dispatch(setArticle(data)));
+    getUsers().then((data) => dispatch(setUsers(data)));
+    getArticles().then((data) => dispatch(setArticle(data)));
   }, [dispatch]);
 
   let list = articles;

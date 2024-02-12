@@ -5,9 +5,10 @@ import { useParams } from 'react-router-dom';
 import CommentForm from 'components/detail/CommentForm';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { fetchArticle, fetchUsers } from 'util/fetch';
 import { setUsers } from 'store/modules/users';
 import { setArticle } from 'store/modules/article';
+import { getArticles, getComments, getUsers } from 'util/getDocs';
+import { setComment } from 'store/modules/comment';
 
 function Detail() {
   const { id } = useParams();
@@ -17,8 +18,9 @@ function Detail() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchUsers().then((data) => dispatch(setUsers(data)));
-    fetchArticle().then((data) => dispatch(setArticle(data)));
+    getUsers().then((data) => dispatch(setUsers(data)));
+    getArticles().then((data) => dispatch(setArticle(data)));
+    getComments().then((data) => dispatch(setComment(data)));
   }, [dispatch]);
 
   const article = articles.find((article) => article.id === id);
