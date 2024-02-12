@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from 'shared/firebase';
 
-function EditUserInfoForm({ setEditMode, currUserData, setCurrUserData }) {
+function EditUserInfoForm({ setEditMode }) {
   const [selectedAvatar, setselectedAvatar] = useState('개발하는 고양이');
   const stateOptions = useSelector((state) => state.stateOptions.options);
   const iconOptions = useSelector((state) => state.iconOptions.options);
@@ -13,6 +13,34 @@ function EditUserInfoForm({ setEditMode, currUserData, setCurrUserData }) {
   const selectAvatarHandler = (event) => {
     setselectedAvatar(event.target.value);
   };
+
+  const [currUserData, setCurrUserData] = useState([
+    {
+      fullEmail: '이메일@gmail.com',
+      nickname: '닉네임',
+      selectedIcon: 'cat',
+      signUpDate: '2024년 2월 11일 오후 4시 44분 16초 UTC+9',
+      status: '재야의 무림고수'
+    }
+  ]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = query(collection(db, 'users'));
+      const querySnapshot = await getDocs(q);
+      const initialUserData = [];
+
+      querySnapshot.forEach((doc) => {
+        const data = {
+          id: doc.id,
+          ...doc.data()
+        };
+        initialUserData.push(data);
+      });
+
+      setCurrUserData(initialUserData);
+    };
+    fetchData();
+  }, []);
 
   return (
     <EditUserInfoFormBox>

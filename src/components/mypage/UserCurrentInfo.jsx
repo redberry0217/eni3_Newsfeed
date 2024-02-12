@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from 'shared/firebase';
 import { useSelector } from 'react-redux';
-import { dateFormat } from 'util/date.js';
+// import { dateFormat } from 'util/date.js';
 
 function UserCurrentInfo({ setEditMode }) {
   const [currUserData, setCurrUserData] = useState(null);
@@ -39,7 +39,11 @@ function UserCurrentInfo({ setEditMode }) {
         오늘도 즐거운 코딩하세요!
       </WelcomeMsg>
       <UserIcon>
-        <img src="https://cdn-icons-png.flaticon.com/512/3209/3209928.png" width="60%" alt="유저 아이콘 이미지" />
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/test-32d7a.appspot.com/o/AnimalIcons%2FOptionImg_cat.png?alt=media&token=470bf4b0-975d-4d2b-a924-a78554a2b97c"
+          width="60%"
+          alt="유저 아이콘 이미지"
+        />
       </UserIcon>
       <UserInfoContent>
         <UserInfoStyle>
@@ -75,10 +79,12 @@ const UserIcon = styled.div`
   width: 70%;
   text-align: center;
   margin-top: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 `;
 
-const UserInfoContent = styled.div``;
+const UserInfoContent = styled.div`
+  width: 80%;
+`;
 
 const ItemBox = styled.span`
   color: #2f89d1;
