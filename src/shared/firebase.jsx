@@ -51,6 +51,7 @@ export const setGithubLogin = async () => {
       nickname: user.displayName,
       status: '',
       selectedIcon: 'cat',
+      token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
       signUpDate
     });
     await getUserInfo(user.uid);
@@ -73,6 +74,7 @@ export const setGooGleLogin = async () => {
       nickname: user.displayName,
       status: '',
       selectedIcon: 'cat',
+      token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
       signUpDate
     });
     await getUserInfo(user.uid);
