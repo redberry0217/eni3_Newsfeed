@@ -36,7 +36,9 @@ function MyCode({ articles }) {
               </td>
               <td>{article.difficulty}</td>
               <td>
-                <Deletebutton onClick={() => deleteHandler(article.id)}>❌</Deletebutton>
+                <Deletebutton onClick={() => deleteHandler(article.id)} title="게시글을 삭제합니다.">
+                  ❌
+                </Deletebutton>
               </td>
             </tr>
           ))}
