@@ -1,12 +1,22 @@
 import ArticleList from 'components/home/ArticleList';
 import SortMenu from 'components/home/SortMenu';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setArticle } from 'store/modules/article';
+import { setUsers } from 'store/modules/users';
 import styled from 'styled-components';
+import { getArticles, getUsers } from 'util/getDocs';
 
 function Home() {
   const [sortMethod, setSortMethod] = useState('latest');
   const articles = useSelector((state) => state.article);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getUsers().then((data) => dispatch(setUsers(data)));
+    getArticles().then((data) => dispatch(setArticle(data)));
+  }, [dispatch]);
 
   let list = articles;
   switch (sortMethod) {

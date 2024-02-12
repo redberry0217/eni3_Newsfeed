@@ -1,9 +1,7 @@
-import { commentList } from 'static/comment';
-
-const SET_COMMENT = 'articles/SET_COMMENT';
-const ADD_COMMENT = 'articles/ADD_COMMENT';
-const DEL_COMMENT = 'articles/DEL_COMMENT';
-const MOD_COMMENT = 'articles/MOD_COMMENT';
+const SET_COMMENT = 'comment/SET_COMMENT';
+const ADD_COMMENT = 'comment/ADD_COMMENT';
+const DEL_COMMENT = 'comment/DEL_COMMENT';
+const MOD_COMMENT = 'comment/MOD_COMMENT';
 
 export const setComment = (payload) => {
   return { type: SET_COMMENT, payload };
@@ -22,7 +20,7 @@ export const delComment = (payload) => {
   return { type: DEL_COMMENT, payload };
 };
 
-const initialState = commentList;
+const initialState = [];
 
 const comment = (state = initialState, action) => {
   switch (action.type) {
