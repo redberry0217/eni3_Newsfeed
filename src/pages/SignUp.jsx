@@ -5,10 +5,10 @@ import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import catIcon from 'assets/OptionImg_cat.png';
-import dogIcon from 'assets/OptionImg_dog.png';
-import foxIcon from 'assets/OptionImg_fox.png';
-import parrotIcon from 'assets/OptionImg_parrot.png';
+import catIcon from 'assets/OptionImg1_cat.png';
+import dogIcon from 'assets/OptionImg2_dog.png';
+import foxIcon from 'assets/OptionImg3_fox.png';
+import parrotIcon from 'assets/OptionImg4_parrot.png';
 import { doc, setDoc, collection, getDocs, serverTimestamp } from 'firebase/firestore';
 import { db } from '../shared/firebase';
 import { query, where } from 'firebase/firestore';
@@ -69,7 +69,7 @@ function SignUp() {
   const iconOptions = [
     {
       value: 'cat',
-      token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
+      token: '470bf4b0-975d-4d2b-a햐924-a78554a2b97c',
       label: '개발하는 고양이',
       icon: <IconAnimal src={catIcon} />
     },
@@ -150,7 +150,6 @@ function SignUp() {
         nickname,
         status,
         selectedIcon,
-        token,
         signUpDate
       });
       alert('회원가입이 완료되었습니다.');
