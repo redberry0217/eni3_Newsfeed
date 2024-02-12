@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MyActivity from './MyActivity';
 import MyCode from './MyCode';
+import { useSelector } from 'react-redux';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from 'shared/firebase';
 
 function UserActivity() {
+  const user = useSelector((state) => state.loginAccess.user);
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user) {
+        const q = query(collection(db, 'articles'), where('userId', '==', user.uid));
+        const querySnapshot = await getDocs(q);
+        const articleData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setArticles(articleData);
+        console.log(articleData);
+      }
+    };
+    fetchData();
+  }, [user]);
+
   return (
     <UserActivityBox>
-      <MyActivity />
-      <MyCode />
+      <MyActivity articles={articles} />
+      <MyCode articles={articles} />
     </UserActivityBox>
   );
 }
