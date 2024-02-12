@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { FaUserCircle } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { signOut } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth } from '../shared/firebase';
 
 function Header() {
   const user = useSelector((state) => state.loginAccess.user);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { setGithubLogin, setGooGleLogin } from '../firebase';
+import { setGithubLogin, setGooGleLogin } from '../shared/firebase';
 import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
 import styled from 'styled-components';
@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import catIcon from 'assets/OptionImg1_cat.png';
 import dogIcon from 'assets/OptionImg2_dog.png';
 import foxIcon from 'assets/OptionImg3_fox.png';
-import parrotIcon from 'assets/OptionImg4_fox.png';
+import parrotIcon from 'assets/OptionImg4_parrot.png';
 import { doc, setDoc, collection, getDocs, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db } from '../shared/firebase';
 import { query, where } from 'firebase/firestore';
 
 function SignUp() {

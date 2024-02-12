@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, setGithubLogin, setGooGleLogin } from '../firebase';
+import { auth, setGithubLogin, setGooGleLogin } from '../shared/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
 import { BsBoxArrowInRight } from 'react-icons/bs';
 import styled from 'styled-components';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db } from '../shared/firebase';
 
 function Auth() {
   const navigate = useNavigate();
