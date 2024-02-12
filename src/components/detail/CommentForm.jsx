@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { addComment } from 'store/modules/comment';
 import styled from 'styled-components';
+import { createComment } from 'util/getDocs';
 
 function CommentForm({ articleId }) {
   const dispatch = useDispatch();
@@ -12,10 +13,11 @@ function CommentForm({ articleId }) {
       id: crypto.randomUUID(),
       userId: uid,
       articleId,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
       content: e.target.content.value
     };
     dispatch(addComment(newComment));
+    createComment(newComment);
     e.target.reset();
   };
 

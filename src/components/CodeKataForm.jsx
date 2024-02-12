@@ -28,7 +28,7 @@ function CodeKataForm() {
 
     const nextCodeKata = {
       userId: auth.currentUser.uid,
-      createdAt: dateFormat(new Date()),
+      createdAt: new Date().toISOString(),
       like: 0,
       title,
       content,
