@@ -242,7 +242,7 @@ function SignUp() {
                 </option>
                 <option value="개발자 취준생">개발자 취준생</option>
                 <option value="현업 개발자/튜터">현업 개발자/튜터</option>
-                <option value="프리학생(전공/비전공)랜서">학생(전공/비전공)</option>
+                <option value="학생(전공/비전공)">학생(전공/비전공)</option>
                 <option value="취미로 개발하는 사람">취미로 개발하는 사람</option>
                 <option value="재야의 무림고수">재야의 무림고수</option>
               </StyledSelectMyStatus>
