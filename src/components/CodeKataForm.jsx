@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { addArticle } from 'store/modules/article';
 import styled from 'styled-components';
 
 function CodeKataForm() {
-  // <----- 수정 예정 ----->
-  const [codeKata, setCodeKata] = useState([]);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // creatdAt, author_id, article_title, article_content, article_link, article_code, article_like
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
     const article_title = e.target.article_title.value;
     const article_content = e.target.article_content.value;
@@ -24,7 +24,6 @@ function CodeKataForm() {
     });
 
     const nextCodeKata = {
-      // author_id
       creatdAt,
       article_title,
       article_content,
@@ -33,11 +32,9 @@ function CodeKataForm() {
       article_code
     };
 
-    setCodeKata((prevCodeKata) => [nextCodeKata, ...prevCodeKata]);
-    console.log(codeKata);
+    dispatch(addArticle(nextCodeKata));
     e.target.reset();
   };
-  // <----- 수정 예정 ----->
 
   return (
     <FormArea onSubmit={onSubmitHandler}>
