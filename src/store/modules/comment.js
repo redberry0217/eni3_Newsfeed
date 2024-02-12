@@ -16,7 +16,6 @@ export const modComment = (payload) => {
 };
 
 export const delComment = (payload) => {
-  console.log(payload);
   return { type: DEL_COMMENT, payload };
 };
 
@@ -29,9 +28,9 @@ const comment = (state = initialState, action) => {
     case ADD_COMMENT:
       return [...state, action.payload];
     case DEL_COMMENT:
-      return state.filter((comment) => comment.id !== action.payload);
+      return state.filter((comment) => comment.uniqueId !== action.payload);
     case MOD_COMMENT:
-      return state.map((comment) => (comment.id === action.payload.id ? action.payload : comment));
+      return state.map((comment) => (comment.uniqueId === action.payload.uniqueId ? action.payload : comment));
     default:
       return state;
   }

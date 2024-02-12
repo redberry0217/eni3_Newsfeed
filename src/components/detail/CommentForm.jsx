@@ -1,24 +1,28 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addComment } from 'store/modules/comment';
+import { setComment } from 'store/modules/comment';
 import styled from 'styled-components';
-import { createComment } from 'util/getDocs';
+import { createComment, getComments } from 'util/getDocs';
 
 function CommentForm({ articleId }) {
   const dispatch = useDispatch();
-  const uid = useSelector((state) => state.loginAccess.user.uid);
+  const currentUser = useSelector((state) => state.loginAccess.user);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    const newComment = {
-      id: crypto.randomUUID(),
-      userId: uid,
-      articleId,
-      createdAt: new Date().toISOString(),
-      content: e.target.content.value
-    };
-    dispatch(addComment(newComment));
-    createComment(newComment);
-    e.target.reset();
+    if (currentUser) {
+      if (!window.confirm('댓글을 작성하시겠습니까?')) return;
+      const newComment = {
+        userId: currentUser.uid,
+        articleId,
+        createdAt: new Date().toISOString(),
+        content: e.target.content.value
+      };
+      createComment(newComment);
+      getComments().then((data) => dispatch(setComment(data)));
+      e.target.reset();
+    } else {
+      alert('로그인이 필요합니다.');
+    }
   };
 
   return (

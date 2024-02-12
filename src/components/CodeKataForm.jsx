@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { db } from 'shared/firebase';
 import { addArticle } from 'store/modules/article';
 import styled from 'styled-components';
-import { dateFormat } from 'util/date';
 
 function CodeKataForm() {
   const dispatch = useDispatch();

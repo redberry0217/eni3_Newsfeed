@@ -32,17 +32,19 @@ export const getArticles = async () => {
 };
 
 export const getComments = async () => {
+  console.log('댓글목록가져옴');
   let commentsList = [];
   try {
     const commentsRef = collection(db, 'comments');
     const commentSnapshot = await getDocs(commentsRef);
 
     commentSnapshot.forEach((doc) => {
-      commentsList.push({ id: doc.id, ...doc.data() });
+      commentsList.push({ uniqueId: doc.id, ...doc.data() });
     });
   } catch (error) {
     console.error('댓글 목록 가져오기 에러', error);
   }
+  console.log(commentsList);
   return commentsList;
 };
 
