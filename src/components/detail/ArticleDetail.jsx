@@ -1,7 +1,10 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { likeArticle } from 'store/modules/article';
 import styled from 'styled-components';
 import { dateFormat } from 'util/date';
+import Prism from 'prismjs';
+import 'prism.css';
 
 function ArticleDetail({ article }) {
   const dispatch = useDispatch();
@@ -12,6 +15,10 @@ function ArticleDetail({ article }) {
   const onClickHandler = () => {
     dispatch(likeArticle(id));
   };
+
+  useEffect(() => {
+    Prism.highlightAll();
+  }, []);
 
   return (
     <>

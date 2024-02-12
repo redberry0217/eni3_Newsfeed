@@ -1,6 +1,3 @@
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from 'shared/firebase';
-
 const SET_ARTICLE = 'articles/SET_ARTICLE';
 const ADD_ARTICLE = 'articles/ADD_ARTICLE';
 const DEL_ARTICLE = 'articles/DEL_ARTICLE';
@@ -27,14 +24,7 @@ export const likeArticle = (payload) => {
   return { type: LIKE_ARTICLE, payload };
 };
 
-const articleRef = collection(db, 'articles');
-const articleSnapshot = await getDocs(articleRef);
-const articles = [];
-articleSnapshot.forEach((doc) => {
-  articles.push({ id: doc.id, ...doc.data() });
-});
-
-const initialState = articles;
+const initialState = [];
 
 const article = (state = initialState, action) => {
   switch (action.type) {
