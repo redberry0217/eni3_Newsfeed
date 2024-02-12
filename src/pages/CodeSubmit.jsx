@@ -23,7 +23,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  margin: 80px auto 0;
+  margin: 45px auto 0;
 `;
 
 const TitleArea = styled.section`
