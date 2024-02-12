@@ -11,7 +11,7 @@ function Comment({ comment }) {
 
   const [editMode, setEditMode] = useState({ content: content, mode: false });
   const userList = useSelector((state) => state.users);
-  const { nickname } = userList.find((user) => user.id === userId);
+  const { nickname, avatar } = userList.find((user) => user.id === userId);
 
   const onChangeHandler = (e) => {
     setEditMode({ content: e.target.value, mode: true });
@@ -33,7 +33,7 @@ function Comment({ comment }) {
   return (
     <CommentWrap>
       <CommentHead>
-        {/* <Avatar src={avatar} alt={nickname} /> */}
+        <Avatar src={avatar} alt={nickname} />
         <span>{nickname}</span>
         <time>{dateFormat(createdAt)}</time>
       </CommentHead>

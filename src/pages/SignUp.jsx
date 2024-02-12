@@ -126,10 +126,11 @@ function SignUp() {
       const signUpDate = serverTimestamp();
       await setDoc(userDocRef, {
         fullEmail,
-        password,
         nickname,
         status,
         selectedIcon,
+        avatar:
+          'https://firebasestorage.googleapis.com/v0/b/test-32d7a.appspot.com/o/AnimalIcons%2FOptionImg_cat.png?alt=media&token=470bf4b0-975d-4d2b-a924-a78554a2b97c',
         signUpDate
       });
       alert('회원가입이 완료되었습니다.');

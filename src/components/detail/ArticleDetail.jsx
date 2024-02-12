@@ -10,7 +10,7 @@ function ArticleDetail({ article }) {
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.users);
   const { id, userId, title, createdAt, content, code, like } = article;
-  const { nickname } = userList.find((user) => user.id === userId);
+  const { nickname, avatar } = userList.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     dispatch(likeArticle(id));
@@ -25,7 +25,7 @@ function ArticleDetail({ article }) {
       <Article>
         <Title>{title}</Title>
         <Author>
-          {/* <Avatar src={avatar} alt={nickname} /> */}
+          <Avatar src={avatar} alt={nickname} />
           <NickName>{nickname}</NickName>
           <time>{dateFormat(createdAt)}</time>
         </Author>
@@ -56,11 +56,11 @@ const Author = styled.div`
   gap: 0.5rem;
 `;
 
-// const Avatar = styled.img`
-//   width: 2rem;
-//   height: 2rem;
-//   border-radius: 50%;
-// `;
+const Avatar = styled.img`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+`;
 
 const NickName = styled.span``;
 
