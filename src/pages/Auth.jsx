@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, setGithubLogin, setGooGleLogin } from '../firebase';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { auth, setGithubLogin, setGooGleLogin } from '../shared/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
 import { BsBoxArrowInRight } from 'react-icons/bs';
 import styled from 'styled-components';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../shared/firebase';
 
 function Auth() {
   const navigate = useNavigate();
@@ -28,20 +30,57 @@ function Auth() {
     }
   };
 
+  let nickname;
+
+  const getUserInfo = async (uid) => {
+    const userDocRef = doc(db, 'users', uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const userData = userDocSnap.data();
+      nickname = userData.nickname;
+    } else {
+      nickname = null;
+    }
+  };
+
   const signIn = async (event) => {
     event.preventDefault();
+    if (!email || !password) {
+      alert('이메일과 비밀번호를 입력해주세요.');
+      return;
+    }
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      await getUserInfo(userCredential.user.uid);
+      alert(`안녕하세요, ${nickname}님!`);
+      navigate('/');
+    } catch (error) {
+      if (error.code === 'auth/invalid-credential') {
+        alert('등록되지 않은 이메일이거나, 틀린 비밀번호입니다.');
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
+  const googleLoginHandler = async () => {
+    try {
+      await setGooGleLogin();
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
   };
 
-  // const logOut = async (event) => {
-  //   event.preventDefault();
-
-  //   await signOut(auth);
-  // };
+  const githubLoginHandler = async () => {
+    try {
+      await setGithubLogin();
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <LoginPage>
@@ -70,14 +109,13 @@ function Auth() {
             ></InputPassword>
           </InputAreas>
           <LoginBtn onClick={signIn}>로그인</LoginBtn>
-          {/* <button onClick={logOut}>로그아웃</button> */}
         </form>
       </LoginBox>
       <BottomOfLoginPage>
         <SocialLoginBtns>
-          <p>소셜 계정으로 로그인</p>
-          <StyledFcGoogle onClick={setGooGleLogin}></StyledFcGoogle>
-          <StyledImGithub onClick={setGithubLogin}></StyledImGithub>
+          <p>소셜 계정으로 간편 로그인</p>
+          <StyledFcGoogle onClick={googleLoginHandler}></StyledFcGoogle>
+          <StyledImGithub onClick={githubLoginHandler}></StyledImGithub>
         </SocialLoginBtns>
         <SignUpIcon onClick={ClickToSignUpPageHandler}>
           <StyledBsBoxArrowInRight />

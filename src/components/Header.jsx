@@ -1,31 +1,81 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaUserCircle } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import { signOut } from 'firebase/auth';
+import { auth } from '../shared/firebase';
 
 function Header() {
+  const user = useSelector((state) => state.loginAccess.user);
+  const [dropdown, setDropdown] = useState(false);
   const navigate = useNavigate();
-  const clickToHomePageHandler = () => {
+  const dropdownRef = useRef(null);
+
+  const logOut = async (event) => {
+    event.preventDefault();
+
+    await signOut(auth);
+    alert('로그아웃 되었습니다.');
+    setDropdown(false);
     navigate('/');
   };
-  const clickToMyPageHandler = () => {
-    navigate('/auth');
+
+  const clickUserIconHandler = () => {
+    if (user) {
+      toggleDropdown();
+    } else {
+      navigate('/auth');
+    }
   };
+
+  const toggleDropdown = () => {
+    setDropdown((prevDropdown) => !prevDropdown);
+  };
+
+  useEffect(() => {
+    const handleOutsideClose = (e) => {
+      if (dropdown && dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdown(false);
+      }
+    };
+
+    document.addEventListener('click', handleOutsideClose);
+
+    return () => {
+      document.removeEventListener('click', handleOutsideClose);
+    };
+  }, [dropdown]);
 
   return (
     <Background>
-      <LogoAndTitle onClick={clickToHomePageHandler}>
-        <img src="https://cdn2.iconfinder.com/data/icons/seo-web/512/website-code-512.png" alt="로고" width="65" />
-        <p>
-          <TitleText>E&I3</TitleText>
-          <br />
-          For Newbie Developers
-        </p>
-      </LogoAndTitle>
-      <SubmitCodeBtn>오늘의 코드 제출하기</SubmitCodeBtn>
-      <MypageIcon onClick={clickToMyPageHandler}>
-        <StyledFaUserCircle />
-      </MypageIcon>
+      <LogoAndTitleLink to="/">
+        <LogoAndTitle>
+          <img src="https://cdn2.iconfinder.com/data/icons/seo-web/512/website-code-512.png" alt="로고" width="65" />
+          <p>
+            <TitleText>E&I3</TitleText>
+            <br />
+            For Newbie Developers
+          </p>
+        </LogoAndTitle>
+      </LogoAndTitleLink>
+      <SubmitCodeBtn to="/submit">오늘의 코드 제출하기</SubmitCodeBtn>
+      <>
+        <MypageIcon onClick={clickUserIconHandler} ref={dropdownRef}>
+          <StyledFaUserCircle />
+        </MypageIcon>
+        <DropdownContent visible={dropdown ? 1 : 0}>
+          <DropdownItem
+            onClick={() => {
+              navigate('/mypage');
+              toggleDropdown();
+            }}
+          >
+            마이페이지
+          </DropdownItem>
+          <DropdownItem onClick={logOut}>로그아웃</DropdownItem>
+        </DropdownContent>
+      </>
     </Background>
   );
 }
@@ -53,14 +103,20 @@ const LogoAndTitle = styled.div`
   cursor: pointer;
 `;
 
+const LogoAndTitleLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
+
 const TitleText = styled.span`
   color: #2f89d1;
   font-weight: 600;
   font-size: 30pt;
   cursor: pointer;
+  line-height: 1;
 `;
 
-const SubmitCodeBtn = styled.button`
+const SubmitCodeBtn = styled(Link)`
   background-color: #2f89d1;
   color: white;
   font-weight: 600;
@@ -74,6 +130,7 @@ const SubmitCodeBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
 
   &:hover {
     background-color: #0b65ad;
@@ -98,6 +155,29 @@ const StyledFaUserCircle = styled(FaUserCircle)`
   &:hover {
     color: #0b65ad;
     transition: color 0.4s ease;
+  }
+`;
+
+const DropdownContent = styled.div`
+  top: 80px;
+  right: 105px;
+  display: ${(props) => (props.visible ? 'block' : 'none')};
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+`;
+
+const DropdownItem = styled.div`
+  padding: 12px 16px;
+  text-align: center;
+  justify-content: center;
+  text-decoration: none;
+  display: block;
+  color: #333;
+  cursor: pointer;
+  &:hover {
+    background-color: #f1f1f1;
   }
 `;
 
