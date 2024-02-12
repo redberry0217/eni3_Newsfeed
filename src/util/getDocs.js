@@ -1,4 +1,4 @@
-import { collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from 'shared/firebase';
 
 export const getUsers = async () => {
@@ -44,4 +44,32 @@ export const getComments = async () => {
     console.error('댓글 목록 가져오기 에러', error);
   }
   return commentsList;
+};
+
+export const createComment = async (comment) => {
+  console.log(comment);
+  try {
+    const commentRef = collection(db, 'comments');
+    await addDoc(commentRef, comment);
+  } catch (error) {
+    console.error('댓글 추가 오류', error);
+  }
+};
+
+export const updateComment = async (id, updated) => {
+  try {
+    const commentRef = doc(db, 'comments', id);
+    await updateDoc(commentRef, updated);
+  } catch (error) {
+    console.error('댓글 수정 오류', error);
+  }
+};
+
+export const deleteComment = async (id) => {
+  try {
+    const commentRef = doc(db, 'comments', id);
+    await deleteDoc(commentRef);
+  } catch (error) {
+    console.error('댓글 삭제 오류', error);
+  }
 };
