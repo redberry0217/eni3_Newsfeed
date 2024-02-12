@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from 'shared/firebase';
 
-function EditUserInfoForm({ setEditMode }) {
+function EditUserInfoForm({ setEditMode, currUserData, setCurrUserData }) {
   const [selectedAvatar, setselectedAvatar] = useState('개발하는 고양이');
+  const stateOptions = useSelector((state) => state.stateOptions.options);
+  const iconOptions = useSelector((state) => state.iconOptions.options);
 
   const selectAvatarHandler = (event) => {
     setselectedAvatar(event.target.value);
@@ -18,19 +23,22 @@ function EditUserInfoForm({ setEditMode }) {
       <EditItem>
         아이콘
         <StyledSelect value={selectedAvatar} onChange={selectAvatarHandler}>
-          {Object.keys(optionImages).map((option, index) => {
-            return <option key={index}>{option}</option>;
-          })}
+          {iconOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </StyledSelect>
+        {selectedAvatar && <img src={selectedAvatar.iconSrc} alt={selectedAvatar.label} />}
       </EditItem>
       <EditItem>
         나의 현재 상태
         <StyledSelect>
-          <option>개발자 취준생</option>
-          <option>현업 개발자/튜터</option>
-          <option>학생(전공/비전공)</option>
-          <option>취미로 개발하는 사람</option>
-          <option>재야의 무림고수</option>
+          {stateOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </StyledSelect>
         {/* <PreviewImage src={optionImages[selectedOption]} alt="미리보기 이미지" /> */}
       </EditItem>
@@ -43,13 +51,6 @@ function EditUserInfoForm({ setEditMode }) {
 }
 
 export default EditUserInfoForm;
-
-const optionImages = {
-  '개발하는 고양이': '고양이 이미지 경로',
-  '개발하는 강아지': '강아지 이미지 경로',
-  '개발하는 여우': '여우 이미지 경로',
-  '개발하는 앵무새': '앵무새 이미지 경로'
-};
 
 const EditUserInfoFormBox = styled.div`
   width: 80%;
