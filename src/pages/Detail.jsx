@@ -13,8 +13,8 @@ function Detail() {
   const articles = useSelector((state) => state.article);
   const allComments = useSelector((state) => state.comment);
 
-  const article = articles.find((article) => article.id === parseInt(id));
-  const comments = allComments.filter((comment) => comment.articleId === parseInt(id));
+  const article = articles.find((article) => article.id === id);
+  const comments = allComments.filter((comment) => comment.articleId === id);
 
   useEffect(() => {
     Prism.highlightAll();
