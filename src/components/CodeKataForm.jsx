@@ -1,6 +1,8 @@
+import { addDoc, collection } from 'firebase/firestore';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { db } from 'shared/firebase';
 import { addArticle } from 'store/modules/article';
 import styled from 'styled-components';
 
@@ -34,6 +36,10 @@ function CodeKataForm() {
 
     dispatch(addArticle(nextCodeKata));
     e.target.reset();
+
+    // firebase 데이터 추가
+    const collectionRef = collection(db, 'articles');
+    await addDoc(collectionRef, nextCodeKata);
   };
 
   return (
