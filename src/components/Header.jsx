@@ -59,7 +59,7 @@ function Header() {
           </p>
         </LogoAndTitle>
       </LogoAndTitleLink>
-      <SubmitCodeBtn>오늘의 코드 제출하기</SubmitCodeBtn>
+      <SubmitCodeBtn to="/submit">오늘의 코드 제출하기</SubmitCodeBtn>
       <>
         <MypageIcon onClick={clickUserIconHandler} ref={dropdownRef}>
           <StyledFaUserCircle />
@@ -113,9 +113,10 @@ const TitleText = styled.span`
   font-weight: 600;
   font-size: 30pt;
   cursor: pointer;
+  line-height: 1;
 `;
 
-const SubmitCodeBtn = styled.button`
+const SubmitCodeBtn = styled(Link)`
   background-color: #2f89d1;
   color: white;
   font-weight: 600;
@@ -129,6 +130,7 @@ const SubmitCodeBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
 
   &:hover {
     background-color: #0b65ad;
