@@ -10,6 +10,7 @@ import { deleteArticle, updateArticle } from 'util/getDocs';
 import { useNavigate } from 'react-router-dom';
 import { getAnimalIconUrl } from 'util/avatar';
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
+import { FaCalendarAlt } from 'react-icons/fa';
 
 function ArticleDetail({ article, editBtnHandler }) {
   const dispatch = useDispatch();
@@ -50,7 +51,10 @@ function ArticleDetail({ article, editBtnHandler }) {
         <Author>
           <Avatar src={getAnimalIconUrl(avatar, token)} alt={nickname} />
           <NickName>{nickname}</NickName>
-          <time>{dateFormat(createdAt)}</time>
+          <time>
+            <FaCalendarAlt />
+            {dateFormat(createdAt)}
+          </time>
           {auth.currentUser?.uid && userId === auth.currentUser?.uid ? (
             <>
               <Button type="button" onClick={editBtnHandler}>
@@ -91,9 +95,15 @@ const Author = styled.div`
   gap: 0.5rem;
 
   time {
+    display: flex;
+    align-items: center;
     margin-left: auto;
     font-size: 90%;
     color: #666;
+  }
+
+  svg {
+    margin-right: 0.5rem;
   }
 `;
 
