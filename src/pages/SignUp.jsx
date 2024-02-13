@@ -129,7 +129,7 @@ function SignUp() {
       if (error.code === 'auth/email-already-in-use') {
         alert('이미 가입된 이메일입니다.');
       } else if (error.code === 'auth/weak-password') {
-        alert('비밀번호는 6자리 이상 입력해주세요.');
+        alert('비밀번호는 최소 6글자가 필요합니다.');
       } else if (error.code === 'auth/invalid-email') {
         alert('올바른 이메일 형식이 아닙니다.');
       } else {
