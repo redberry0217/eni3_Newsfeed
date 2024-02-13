@@ -8,7 +8,7 @@ import { deleteComment, updateComment } from 'util/getDocs';
 
 function Comment({ comment }) {
   const dispatch = useDispatch();
-  const { uniqueId, userId, content, createdAt } = comment;
+  const { id, userId, content, createdAt } = comment;
 
   const [editComment, setEditComment] = useState({ content: content, mode: false });
   const userList = useSelector((state) => state.users);
@@ -22,13 +22,13 @@ function Comment({ comment }) {
     setEditComment({ content, mode: !editComment.mode });
     if (editComment.mode === true && !window.confirm('수정하시겠습니까?')) return;
     dispatch(modComment({ ...comment, content: editComment.content }));
-    updateComment(uniqueId, { ...comment, content: editComment.content });
+    updateComment(id, { ...comment, content: editComment.content });
   };
 
   const delBtnHandler = () => {
     if (!window.confirm('댓글을 삭제하시겠습니까?')) return;
-    dispatch(delComment(uniqueId));
-    deleteComment(uniqueId);
+    dispatch(delComment(id));
+    deleteComment(id);
   };
 
   return (
@@ -62,7 +62,7 @@ function CommentList({ comments }) {
     <section>
       <CommentsWrap>
         {comments.map((comment) => {
-          return <Comment comment={comment} key={comment.uniqueId} />;
+          return <Comment comment={comment} key={comment.id} />;
         })}
       </CommentsWrap>
     </section>
