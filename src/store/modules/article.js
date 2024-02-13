@@ -38,12 +38,13 @@ const article = (state = initialState, action) => {
       return state.map((article) => (article.id === action.payload.id ? action.payload : article));
     case LIKE_ARTICLE:
       return state.map((article) => {
-        if (article.id === action.payload) {
-          if (article.liked.includes(action.payload)) {
-            const updatedLiked = article.liked.filter((item) => item !== action.payload);
+        console.log(action.payload);
+        if (article.id === action.payload.id) {
+          if (article.liked.includes(action.payload.currentUserId)) {
+            const updatedLiked = article.liked.filter((item) => item !== action.payload.currentUserId);
             return { ...article, liked: updatedLiked };
           } else {
-            return { ...article, liked: [...article.liked, action.payload] };
+            return { ...article, liked: [...article.liked, action.payload.currentUserId] };
           }
         }
         return article;
