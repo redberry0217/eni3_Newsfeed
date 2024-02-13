@@ -17,12 +17,12 @@ function ArticleDetail({ article, editBtnHandler }) {
   const { id, userId, title, createdAt, content, code, liked, link, difficulty } = article;
   const { nickname, avatar, token } = userList.find((user) => user.id === userId);
 
-  const onClickHandler = () => {
-    dispatch(likeArticle(id));
-    const updated = liked.includes(id)
-      ? { ...article, liked: liked.filter((user) => user !== id) }
-      : { ...article, liked: [...liked, id] };
-    console.log(updated);
+  const likeBtnHandler = () => {
+    const currentUserId = auth.currentUser.uid;
+    dispatch(likeArticle({ id, currentUserId }));
+    const updated = liked.includes(currentUserId)
+      ? { ...article, liked: liked.filter((user) => user !== currentUserId) }
+      : { ...article, liked: [...liked, currentUserId] };
     updateArticle(id, updated);
   };
 
@@ -66,7 +66,7 @@ function ArticleDetail({ article, editBtnHandler }) {
             문제풀이 링크
           </CodeLink>
         </ContentWrap>
-        <LikeButton type="button" onClick={onClickHandler}>
+        <LikeButton type="button" onClick={likeBtnHandler}>
           ❤️ {liked?.length}
         </LikeButton>
       </Article>

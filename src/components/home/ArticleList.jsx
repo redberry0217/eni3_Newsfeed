@@ -6,7 +6,7 @@ import { getAnimalIconUrl } from 'util/avatar';
 
 function ArticleItem({ article }) {
   const navigate = useNavigate();
-  const { id, userId, title, createdAt, content, like } = article;
+  const { id, userId, title, createdAt, content, liked } = article;
   const userList = useSelector((state) => state.users);
   const { nickname, avatar, token } = userList.find((user) => user.id === userId);
 
@@ -25,7 +25,7 @@ function ArticleItem({ article }) {
         <Content>{content}</Content>
         <Bottom>
           <time>{dateFormat(createdAt)}</time>
-          <span>{like}</span>
+          <span>{liked?.length}</span>
         </Bottom>
       </ContentWrap>
     </Article>

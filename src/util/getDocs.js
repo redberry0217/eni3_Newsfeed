@@ -19,8 +19,8 @@ export const getUsers = async () => {
 export const getArticles = async () => {
   let articlesList = [];
   try {
-    const articlesRef = collection(db, 'articles');
-    const articlesSnapshot = await getDocs(articlesRef);
+    const articleRef = collection(db, 'articles');
+    const articlesSnapshot = await getDocs(articleRef);
 
     articlesSnapshot.forEach((doc) => {
       articlesList.push({ id: doc.id, ...doc.data() });
@@ -29,6 +29,16 @@ export const getArticles = async () => {
     console.error('글목록 가져오기 에러', error);
   }
   return articlesList;
+};
+
+export const createArticle = async (article) => {
+  try {
+    const articleRef = collection(db, 'articles');
+    const res = await addDoc(articleRef, article);
+    return res;
+  } catch (error) {
+    console.error('게시글 추가 오류', error);
+  }
 };
 
 export const updateArticle = async (id, updated) => {
@@ -50,27 +60,25 @@ export const deleteArticle = async (id) => {
 };
 
 export const getComments = async () => {
-  console.log('댓글목록가져옴');
   let commentsList = [];
   try {
     const commentsRef = collection(db, 'comments');
     const commentSnapshot = await getDocs(commentsRef);
 
     commentSnapshot.forEach((doc) => {
-      commentsList.push({ uniqueId: doc.id, ...doc.data() });
+      commentsList.push({ id: doc.id, ...doc.data() });
     });
   } catch (error) {
     console.error('댓글 목록 가져오기 에러', error);
   }
-  console.log(commentsList);
   return commentsList;
 };
 
 export const createComment = async (comment) => {
-  console.log(comment);
   try {
     const commentRef = collection(db, 'comments');
-    await addDoc(commentRef, comment);
+    const res = await addDoc(commentRef, comment);
+    return res;
   } catch (error) {
     console.error('댓글 추가 오류', error);
   }

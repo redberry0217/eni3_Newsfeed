@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setComment } from 'store/modules/comment';
+import { addComment, setComment } from 'store/modules/comment';
 import styled from 'styled-components';
 import { createComment, getComments } from 'util/getDocs';
 
@@ -7,7 +7,7 @@ function CommentForm({ articleId }) {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.loginAccess.user);
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (currentUser) {
       if (!window.confirm('댓글을 작성하시겠습니까?')) return;
@@ -17,8 +17,8 @@ function CommentForm({ articleId }) {
         createdAt: new Date().toISOString(),
         content: e.target.content.value
       };
-      createComment(newComment);
-      getComments().then((data) => dispatch(setComment(data)));
+      const { id } = await createComment(newComment);
+      dispatch(addComment({ ...newComment, id }));
       e.target.reset();
     } else {
       alert('로그인이 필요합니다.');
