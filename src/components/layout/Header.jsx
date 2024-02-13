@@ -25,7 +25,6 @@ function Header() {
   };
 
   const toggleDropdown = () => {
-    console.log(dropdown);
     setDropdown((prevDropdown) => !prevDropdown);
   };
 
