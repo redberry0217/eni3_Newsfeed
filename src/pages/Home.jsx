@@ -11,7 +11,7 @@ function Home() {
   let list = articles;
   switch (sortMethod) {
     case 'popular':
-      list = articles.sort((a, b) => b.like - a.like);
+      list = articles.sort((a, b) => b.liked.length - a.liked.length);
       break;
     case 'latest':
       list = articles.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
