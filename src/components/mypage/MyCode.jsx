@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { delArticle } from 'store/modules/article';
 import { useDispatch } from 'react-redux';
-import { mypageDate } from 'util/mypageDate';
 import { deleteArticle } from 'util/getDocs';
+import { mypageDate } from 'util/date';
 
 function MyCode({ filteredArticles }) {
   const dispatch = useDispatch();
