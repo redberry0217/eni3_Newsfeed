@@ -3,38 +3,43 @@ import { useDispatch, useSelector } from 'react-redux';
 import { delComment, modComment } from 'store/modules/comment';
 import styled from 'styled-components';
 import { dateFormat } from 'util/date';
+import { deleteComment, updateComment } from 'util/getDocs';
 
 function Comment({ comment }) {
   const dispatch = useDispatch();
-  const { userId, content, createdAt } = comment;
+  const { uniqueId, userId, content, createdAt } = comment;
 
-  const [editMode, setEditMode] = useState({ content: content, mode: false });
+  const [editComment, setEditComment] = useState({ content: content, mode: false });
   const userList = useSelector((state) => state.users);
-  const { nickname } = userList.find((user) => user.id === userId);
+  const { nickname, avatar } = userList.find((user) => user.id === userId);
 
   const onChangeHandler = (e) => {
-    setEditMode({ content: e.target.value, mode: true });
+    setEditComment({ content: e.target.value, mode: true });
   };
 
   const modBtnHandler = () => {
-    setEditMode({ content, mode: !editMode.mode });
-    dispatch(modComment({ ...comment, content: editMode.content }));
+    setEditComment({ content, mode: !editComment.mode });
+    if (editComment.mode === true && !window.confirm('수정하시겠습니까?')) return;
+    dispatch(modComment({ ...comment, content: editComment.content }));
+    updateComment(uniqueId, { ...comment, content: editComment.content });
   };
 
   const delBtnHandler = () => {
-    dispatch(delComment(comment.id));
+    if (!window.confirm('댓글을 삭제하시겠습니까?')) return;
+    dispatch(delComment(uniqueId));
+    deleteComment(uniqueId);
   };
 
   return (
     <CommentWrap>
       <CommentHead>
-        {/* <Avatar src={avatar} alt={nickname} /> */}
+        <Avatar src={avatar} alt={nickname} />
         <span>{nickname}</span>
         <time>{dateFormat(createdAt)}</time>
       </CommentHead>
-      {editMode.mode ? <textarea value={editMode.content} onChange={onChangeHandler} /> : <p>{content}</p>}
+      {editComment.mode ? <textarea value={editComment.content} onChange={onChangeHandler} /> : <p>{content}</p>}
       <button type="button" onClick={modBtnHandler}>
-        {editMode.mode ? '수정 완료' : '수정'}
+        {editComment.mode ? '수정 완료' : '수정'}
       </button>
       <button type="button" onClick={delBtnHandler}>
         삭제
@@ -48,7 +53,7 @@ function CommentList({ comments }) {
     <section>
       <CommentsWrap>
         {comments.map((comment) => {
-          return <Comment comment={comment} key={comment.id} />;
+          return <Comment comment={comment} key={comment.uniqueId} />;
         })}
       </CommentsWrap>
     </section>

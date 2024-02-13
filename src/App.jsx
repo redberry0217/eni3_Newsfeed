@@ -2,13 +2,14 @@ import Router from 'shared/Router';
 import './App.css';
 import GlobalStyle from './GlobalStyle';
 import { useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { auth } from './shared/firebase';
 import { Provider } from 'react-redux';
 import store from 'store/config/configStore';
 import { login, logout } from 'store/modules/loginAccess';
 
 function App() {
+  const auth = getAuth();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {

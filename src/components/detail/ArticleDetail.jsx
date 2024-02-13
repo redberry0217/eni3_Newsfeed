@@ -6,11 +6,11 @@ import { dateFormat } from 'util/date';
 import Prism from 'prismjs';
 import 'prism.css';
 
-function ArticleDetail({ article }) {
+function ArticleDetail({ article, editBtnHandler }) {
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.users);
-  const { id, userId, title, createdAt, content, code, like } = article;
-  const { nickname } = userList.find((user) => user.id === userId);
+  const { id, userId, title, createdAt, content, code, like, link, difficulty } = article;
+  const { nickname, avatar } = userList.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     dispatch(likeArticle(id));
@@ -25,15 +25,21 @@ function ArticleDetail({ article }) {
       <Article>
         <Title>{title}</Title>
         <Author>
-          {/* <Avatar src={avatar} alt={nickname} /> */}
+          <Avatar src={avatar} alt={nickname} />
           <NickName>{nickname}</NickName>
           <time>{dateFormat(createdAt)}</time>
+          <button onClick={editBtnHandler}>수정</button>
+          <button>삭제</button>
         </Author>
         <ContentWrap>
-          <Content>{content}</Content>
           <Pre>
             <code className="language-javascript">{code}</code>
           </Pre>
+          <Content>{content}</Content>
+          <div>문제 난이도 : {difficulty}</div>
+          <CodeLink href={link} target="_blank" rel="noreferrer">
+            문제풀이 링크
+          </CodeLink>
         </ContentWrap>
         <LikeButton type="button" onClick={onClickHandler}>
           ❤️ {like}
@@ -44,27 +50,30 @@ function ArticleDetail({ article }) {
 }
 
 const Article = styled.article`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
   margin: 2rem 0;
 `;
 
 const Author = styled.div`
   display: flex;
   align-items: center;
+  margin: 1rem 0;
   gap: 0.5rem;
 `;
 
-// const Avatar = styled.img`
-//   width: 2rem;
-//   height: 2rem;
-//   border-radius: 50%;
-// `;
+const Avatar = styled.img`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+`;
 
 const NickName = styled.span``;
 
-const ContentWrap = styled.div``;
+const ContentWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1rem 0;
+`;
 
 const Title = styled.h2`
   font-size: 2rem;
@@ -72,6 +81,17 @@ const Title = styled.h2`
 `;
 
 const Content = styled.p``;
+
+const CodeLink = styled.a`
+  display: inline-block;
+  padding: 0.5rem;
+  background: #2f89d1;
+  border-radius: 10px;
+  text-align: center;
+  width: 150px;
+  color: white;
+  text-decoration: none;
+`;
 
 const Pre = styled.pre`
   border-radius: 10px;

@@ -1,52 +1,16 @@
-import styled from 'styled-components';
-import UserInfo from 'components/mypage/UserInfo';
 import UserActivity from 'components/mypage/UserActivity';
+import UserInfo from 'components/mypage/UserInfo';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { db, auth } from '../shared/firebase';
-import { getAnimalIconUrl } from 'util/avatar';
+import styled from 'styled-components';
 
 function MyPage() {
   const navigate = useNavigate();
-
-  const [imageUrl, setImageUrl] = useState('');
-
-  let avatar;
-
-  const getUserInfo = async (token) => {
-    const user = auth.currentUser;
-    if (user) {
-      const uid = user.uid;
-      const userDocRef = doc(db, 'users', uid);
-      const userDocSnap = await getDoc(userDocRef);
-
-      if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        avatar = userData.avatar;
-        token = userData.token;
-
-        setImageUrl(getAnimalIconUrl(avatar, userData.token));
-
-        console.log(`${imageUrl}`);
-      }
-    } else {
-      console.log('사용자가 로그인되어 있지 않습니다.');
-    }
-  };
-
-  useEffect(() => {
-    getUserInfo();
-  }, []);
-
-  console.log('imageUrl', `${imageUrl}`);
 
   return (
     <>
       <GoBackBtn onClick={() => navigate(`/`)} title="코드카타 피드로 돌아갑니다">
         피드로 돌아가기
       </GoBackBtn>
-      <img src={imageUrl} alt="User Icon" />
       <MyPageContainer>
         <UserInfo />
         <UserActivity />
