@@ -9,11 +9,11 @@ import { MdAccountCircle } from 'react-icons/md';
 import { IoLogOutOutline } from 'react-icons/io5';
 
 function Header() {
-  const { currentUser } = useSelector((state) => state.users);
+  const navigate = useNavigate();
 
   const [dropdown, setDropdown] = useState(false);
-  const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const currentUser = useSelector((state) => state.users.currentUser);
 
   const logOut = async (event) => {
     event.preventDefault();
@@ -24,16 +24,14 @@ function Header() {
     navigate('/');
   };
 
-  const clickUserIconHandler = () => {
-    if (currentUser) {
-      toggleDropdown();
-    } else {
-      navigate('/auth');
-    }
+  const toggleDropdown = () => {
+    console.log(dropdown);
+    setDropdown((prevDropdown) => !prevDropdown);
   };
 
-  const toggleDropdown = () => {
-    setDropdown((prevDropdown) => !prevDropdown);
+  const clickUserIconHandler = () => {
+    toggleDropdown();
+    if (!currentUser) navigate('/auth');
   };
 
   useEffect(() => {
@@ -77,11 +75,10 @@ function Header() {
         )}
         <MypageIcon onClick={clickUserIconHandler} ref={dropdownRef}>
           <StyledFaUserCircle />
-          <DropdownContent $visible={dropdown ? 1 : 0}>
+          <DropdownContent $visible={dropdown}>
             <DropdownItem
               onClick={() => {
                 navigate('/mypage');
-                toggleDropdown();
               }}
             >
               <MdAccountCircle />
