@@ -12,7 +12,7 @@ function UserInfo() {
   return (
     <UserInfoContainer>
       {editMode ? (
-        <EditUserInfoForm setEditMode={setEditMode} />
+        <EditUserInfoForm setEditMode={setEditMode} filteredUser={filteredUser} />
       ) : (
         <UserCurrentInfo setEditMode={setEditMode} filteredUser={filteredUser} />
       )}
