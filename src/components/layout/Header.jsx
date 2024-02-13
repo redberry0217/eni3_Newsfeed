@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { FaUserCircle } from 'react-icons/fa';
 import { signOut } from 'firebase/auth';
-import { auth } from 'shared/firebase';
+import React, { useEffect, useRef, useState } from 'react';
+import { FaUserCircle } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth } from 'shared/firebase';
+import styled from 'styled-components';
 
 function Header() {
   const { currentUser } = useSelector((state) => state.users);
@@ -55,24 +55,24 @@ function Header() {
 
   return (
     <Background>
-      <LogoAndTitleLink to="/">
-        <LogoAndTitle>
-          <img src="https://cdn2.iconfinder.com/data/icons/seo-web/512/website-code-512.png" alt="로고" width="65" />
-          <p>
-            <TitleText>E&I3</TitleText>
-            <br />
-            For Newbie Developers
-          </p>
-        </LogoAndTitle>
-      </LogoAndTitleLink>
-      {currentUser === null ? (
-        <SubmitCodeBtn onClick={loginAlert} to="/auth">
-          오늘의 코드 제출하기
-        </SubmitCodeBtn>
-      ) : (
-        <SubmitCodeBtn to="/submit">오늘의 코드 제출하기</SubmitCodeBtn>
-      )}
-      <>
+      <Container>
+        <LogoAndTitleLink to="/">
+          <LogoAndTitle>
+            <img src="https://cdn2.iconfinder.com/data/icons/seo-web/512/website-code-512.png" alt="로고" width="65" />
+            <p>
+              <TitleText>E&I3</TitleText>
+              <br />
+              For Newbie Developers
+            </p>
+          </LogoAndTitle>
+        </LogoAndTitleLink>
+        {currentUser === null ? (
+          <SubmitCodeBtn onClick={loginAlert} to="/auth">
+            오늘의 코드 제출하기
+          </SubmitCodeBtn>
+        ) : (
+          <SubmitCodeBtn to="/submit">오늘의 코드 제출하기</SubmitCodeBtn>
+        )}
         <MypageIcon onClick={clickUserIconHandler} ref={dropdownRef}>
           <StyledFaUserCircle />
         </MypageIcon>
@@ -87,19 +87,16 @@ function Header() {
           </DropdownItem>
           <DropdownItem onClick={logOut}>로그아웃</DropdownItem>
         </DropdownContent>
-      </>
+      </Container>
     </Background>
   );
 }
 
-const Background = styled.div`
+const Background = styled.header`
   height: 100px;
   background-color: #ddecf8;
   border-bottom: solid 2px #c7c7c7;
   padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: sticky;
   top: 0%;
   left: 0;
@@ -107,11 +104,19 @@ const Background = styled.div`
   z-index: 1000;
 `;
 
-const LogoAndTitle = styled.div`
-  margin-left: 150px;
+const Container = styled.div`
   display: flex;
   align-items: center;
-  gap: 15px;
+  justify-content: center;
+  max-width: 1500px;
+  width: 100%;
+  margin: 0 auto;
+`;
+
+const LogoAndTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   cursor: pointer;
 `;
 
@@ -123,7 +128,7 @@ const LogoAndTitleLink = styled(Link)`
 const TitleText = styled.span`
   color: #2f89d1;
   font-weight: 600;
-  font-size: 30pt;
+  font-size: 2rem;
   cursor: pointer;
   line-height: 1;
 `;
@@ -151,8 +156,7 @@ const SubmitCodeBtn = styled(Link)`
 `;
 
 const MypageIcon = styled.div`
-  margin-left: 30px;
-  margin-right: 150px;
+  margin-left: 2rem;
 `;
 
 const StyledFaUserCircle = styled(FaUserCircle)`
