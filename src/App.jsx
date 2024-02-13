@@ -8,6 +8,7 @@ import { setCurrentUser, setUsers } from 'store/modules/users';
 import { setArticle } from 'store/modules/article';
 import { setComment } from 'store/modules/comment';
 import { getArticles, getComments, getUsers } from 'util/getDocs';
+import { setLoading } from 'store/modules/loading';
 
 function App() {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function App() {
       dispatch(setUsers(users));
       dispatch(setArticle(articles));
       dispatch(setComment(comments));
+      dispatch(setLoading(false));
     };
     fetchData();
   }, [dispatch]);
