@@ -6,8 +6,6 @@ import styled from 'styled-components';
 
 function MyPage() {
   const navigate = useNavigate();
-  const loading = useSelector((state) => state.loading);
-  if (!loading) navigate('/');
 
   return (
     <>

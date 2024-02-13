@@ -1,18 +1,13 @@
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 function AuthLayout() {
-  const currentUser = useSelector((state) => state.users.currentUser);
   const navigate = useNavigate();
-  console.log(currentUser);
+  const currentUser = useSelector((state) => state.users.currentUser);
+  const loading = useSelector((state) => state.loading);
 
-  useEffect(() => {
-    if (!currentUser) {
-      navigate('/auth');
-    } else {
-    }
-  }, [currentUser, navigate]);
+  if (loading) return <div>Loading</div>;
+  if (!currentUser) navigate('/auth');
 
   return <Outlet />;
 }
