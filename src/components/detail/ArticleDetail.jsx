@@ -18,7 +18,7 @@ function ArticleDetail({ article, editBtnHandler }) {
 
   const onClickHandler = () => {
     dispatch(likeArticle(id));
-    const updated = article.liked.includes(id)
+    const updated = liked.includes(id)
       ? { ...article, liked: liked.filter((user) => user !== id) }
       : { ...article, liked: [...liked, id] };
     console.log(updated);
@@ -66,7 +66,7 @@ function ArticleDetail({ article, editBtnHandler }) {
           </CodeLink>
         </ContentWrap>
         <LikeButton type="button" onClick={onClickHandler}>
-          ❤️ {liked.length}
+          ❤️ {liked?.length}
         </LikeButton>
       </Article>
     </>
