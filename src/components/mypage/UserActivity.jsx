@@ -3,33 +3,29 @@ import styled from 'styled-components';
 import MyActivity from './MyActivity';
 import MyCode from './MyCode';
 import { useSelector } from 'react-redux';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from 'shared/firebase';
+import { getArticles, getComments } from 'util/getDocs';
 
 function UserActivity() {
-  const user = useSelector((state) => state.loginAccess.user);
   const [articles, setArticles] = useState([]);
+  const [comments, setComments] = useState([]);
+  const loginUser = useSelector((state) => state.loginAccess.user);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (user) {
-        const q = query(collection(db, 'articles'), where('userId', '==', user.uid));
-        const querySnapshot = await getDocs(q);
-        const articleData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setArticles(articleData);
-        console.log(articleData);
-      }
-    };
-    fetchData();
-  }, [user]);
+    getArticles().then((data) => setArticles(data));
+    getComments().then((data) => setComments(data));
+  }, []);
+
+  if (!articles && !comments) {
+    return <div>Now Loading...</div>;
+  }
+
+  const filteredArticles = articles ? articles.filter((article) => article.userId === loginUser.uid) : [];
+  const filteredComments = comments ? comments.filter((comment) => comment.userId === loginUser.uid) : [];
 
   return (
     <UserActivityBox>
-      <MyActivity articles={articles} />
-      <MyCode articles={articles} />
+      <MyActivity filteredArticles={filteredArticles} filteredComments={filteredComments} />
+      <MyCode filteredArticles={filteredArticles} />
     </UserActivityBox>
   );
 }
