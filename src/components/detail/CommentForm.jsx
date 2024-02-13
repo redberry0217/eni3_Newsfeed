@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { auth } from 'shared/firebase';
 import { addComment } from 'store/modules/comment';
 import styled from 'styled-components';
@@ -6,23 +7,27 @@ import { createComment } from 'util/getDocs';
 
 function CommentForm({ articleId }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentUser = auth.currentUser;
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (currentUser) {
       if (!window.confirm('댓글을 작성하시겠습니까?')) return;
+
       const newComment = {
         userId: currentUser.uid,
         articleId,
         createdAt: new Date().toISOString(),
         content: e.target.content.value
       };
+
       const { id } = await createComment(newComment);
       dispatch(addComment({ ...newComment, id }));
       e.target.reset();
     } else {
       alert('로그인이 필요합니다.');
+      navigate('/auth');
     }
   };
 

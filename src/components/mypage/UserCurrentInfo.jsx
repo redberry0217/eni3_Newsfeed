@@ -1,17 +1,9 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 import { dateFormat } from 'util/date';
 import { getAnimalIconUrl } from 'util/avatar';
 
-function UserCurrentInfo({ setEditMode }) {
-  const { users, currentUser } = useSelector((state) => state.users);
-
-  const filteredUser = currentUser ? users.find((user) => user.id === currentUser.uid) : {};
-
-  if (!users) {
-    return <div>Now Loading...</div>;
-  }
-
+function UserCurrentInfo({ setEditMode, filteredUser }) {
+  if (!filteredUser) return <div>Now Loading...</div>;
   return (
     <>
       <WelcomeMsg>

@@ -1,10 +1,15 @@
 import UserActivity from 'components/mypage/UserActivity';
 import UserInfo from 'components/mypage/UserInfo';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function MyPage() {
   const navigate = useNavigate();
+  const loginUser = useSelector((state) => state.users.currentUser);
+  const loading = useSelector((state) => state.loading);
+
+  if (!loginUser && !loading) navigate('/');
 
   return (
     <>

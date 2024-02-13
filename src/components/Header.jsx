@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaUserCircle } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
 import { signOut } from 'firebase/auth';
-import { auth } from '../shared/firebase';
+import { auth } from 'shared/firebase';
+import { useSelector } from 'react-redux';
 
 function Header() {
-  const user = useSelector((state) => state.users);
+  const { currentUser } = useSelector((state) => state.users);
+
   const [dropdown, setDropdown] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -22,7 +23,7 @@ function Header() {
   };
 
   const clickUserIconHandler = () => {
-    if (user) {
+    if (currentUser) {
       toggleDropdown();
     } else {
       navigate('/auth');
@@ -64,7 +65,7 @@ function Header() {
           </p>
         </LogoAndTitle>
       </LogoAndTitleLink>
-      {user.currentUser ? (
+      {currentUser === null ? (
         <SubmitCodeBtn onClick={loginAlert} to="/auth">
           오늘의 코드 제출하기
         </SubmitCodeBtn>

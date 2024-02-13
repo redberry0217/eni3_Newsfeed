@@ -3,19 +3,16 @@ import styled from 'styled-components';
 import MyActivity from './MyActivity';
 import MyCode from './MyCode';
 import { useSelector } from 'react-redux';
-import { auth } from 'shared/firebase';
 
 function UserActivity() {
-  const user = auth.currentUser;
+  const user = useSelector((state) => state.users.currentUser);
   const articleList = useSelector((state) => state.article);
   const commentList = useSelector((state) => state.comment);
+
+  if (!user || !articleList || !commentList) return <div>Now Loading...</div>;
+
   const articles = articleList.filter((article) => article.userId === user.uid);
   const comments = commentList.filter((comment) => comment.userId === user.uid);
-
-  if (!articles && !comments) {
-    return <div>Now Loading...</div>;
-  }
-
   const filteredArticles = articles ? articles.filter((article) => article.userId === user.uid) : [];
   const filteredComments = comments ? comments.filter((comment) => comment.userId === user.uid) : [];
 

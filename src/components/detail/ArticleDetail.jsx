@@ -14,11 +14,16 @@ function ArticleDetail({ article, editBtnHandler }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userList = useSelector((state) => state.users);
+  const currentUser = useSelector((state) => state.users.currentUser);
   const { id, userId, title, createdAt, content, code, liked, link, difficulty } = article;
   const { nickname, avatar, token } = userList.users.find((user) => user.id === userId);
 
   const likeBtnHandler = () => {
-    const currentUserId = auth.currentUser.uid;
+    if (!currentUser) {
+      alert('로그인이 필요합니다.');
+      navigate('/auth');
+    }
+    const currentUserId = auth.currentUser?.uid;
     dispatch(likeArticle({ id, currentUserId }));
     const updated = liked.includes(currentUserId)
       ? { ...article, liked: liked.filter((user) => user !== currentUserId) }
