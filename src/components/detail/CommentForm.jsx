@@ -1,11 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { addComment, setComment } from 'store/modules/comment';
+import { useDispatch } from 'react-redux';
+import { auth } from 'shared/firebase';
+import { addComment } from 'store/modules/comment';
 import styled from 'styled-components';
-import { createComment, getComments } from 'util/getDocs';
+import { createComment } from 'util/getDocs';
 
 function CommentForm({ articleId }) {
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.loginAccess.user);
+  const currentUser = auth.currentUser;
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
