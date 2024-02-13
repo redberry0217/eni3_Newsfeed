@@ -2,7 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-function CodeKataForm({ value = { title: '', link: '', content: '', difficulty: '', code: '' }, onSubmitHandler }) {
+function CodeKataForm({
+  value = { title: '', link: '', content: '', difficulty: '', code: '' },
+  onSubmitHandler,
+  editMode = false
+}) {
   const navigate = useNavigate();
 
   return (
@@ -40,7 +44,7 @@ function CodeKataForm({ value = { title: '', link: '', content: '', difficulty: 
         <textarea name="code" placeholder="해결한 문제 코드를 입력해주세요." defaultValue={value.code}></textarea>
       </InputArea>
       <ButtonArea>
-        <button type="submit">등록하기</button>
+        <button type="submit">{editMode ? '수정하기' : '등록하기'}</button>
         <button type="button" onClick={() => navigate('/')}>
           취소하기
         </button>

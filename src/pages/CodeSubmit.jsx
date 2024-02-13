@@ -2,7 +2,7 @@ import CodeKataForm from 'components/CodeKataForm';
 import { addDoc, collection } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { auth, db } from 'shared/firebase';
+import { db } from 'shared/firebase';
 import { addArticle } from 'store/modules/article';
 import styled from 'styled-components';
 

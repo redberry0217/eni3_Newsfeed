@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { delArticle } from 'store/modules/article';
 import { useDispatch } from 'react-redux';
+import { dateFormat } from 'util/date';
 
 function MyCode({ articles }) {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ function MyCode({ articles }) {
         <tbody>
           {articles.map((article) => (
             <tr key={article.id}>
-              <td>{article.createdAt.toDate().toLocaleDateString()}</td>
+              <td>{dateFormat(article.createdAt)}</td>
               <td>
                 <Link to={`/detail/${article.id}`}>{article.title}</Link>
               </td>

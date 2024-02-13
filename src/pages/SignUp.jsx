@@ -9,7 +9,7 @@ import catIcon from 'assets/OptionImg1_cat.png';
 import dogIcon from 'assets/OptionImg2_dog.png';
 import foxIcon from 'assets/OptionImg3_fox.png';
 import parrotIcon from 'assets/OptionImg4_parrot.png';
-import { doc, setDoc, collection, getDocs, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../shared/firebase';
 import { query, where } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
@@ -123,13 +123,14 @@ function SignUp() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, fullEmail, password);
       const userDocRef = doc(db, 'users', userCredential.user.uid);
-      const signUpDate = serverTimestamp();
+      const signUpDate = new Date().toISOString();
       await setDoc(userDocRef, {
         fullEmail,
-        password,
         nickname,
         status,
         selectedIcon,
+        avatar:
+          'https://firebasestorage.googleapis.com/v0/b/test-32d7a.appspot.com/o/AnimalIcons%2FOptionImg_cat.png?alt=media&token=470bf4b0-975d-4d2b-a924-a78554a2b97c',
         signUpDate
       });
       alert('회원가입이 완료되었습니다.');
@@ -137,6 +138,8 @@ function SignUp() {
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
         alert('이미 가입된 이메일입니다.');
+      } else if (error.code === 'auth/weak-password') {
+        alert('비밀번호는 최소 6글자가 필요합니다.');
       } else {
         console.error(error);
       }

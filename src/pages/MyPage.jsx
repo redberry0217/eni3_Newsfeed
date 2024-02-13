@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import UserInfo from 'components/mypage/UserInfo';
 import UserActivity from 'components/mypage/UserActivity';
+import UserInfo from 'components/mypage/UserInfo';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 function MyPage() {
   const navigate = useNavigate();
