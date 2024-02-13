@@ -32,7 +32,9 @@ function Detail() {
   }, [dispatch]);
 
   const article = articles.find((article) => article.id === id);
-  const comments = allComments.filter((comment) => comment.articleId === id);
+  const comments = allComments
+    .filter((comment) => comment.articleId === id)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
