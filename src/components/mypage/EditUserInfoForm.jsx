@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { STATE_OPTIONS } from 'constant/stateOptions';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from 'shared/firebase';
 import { modUser } from 'store/modules/users';
 
@@ -13,14 +13,8 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
 
   const myId = filteredUser.id;
 
-  // const selectAvatarHandler = (event) => {
-  //   setselectedAvatar(event.target.value);
-  // };
-
-  console.log('모든 유저들222', filteredUser);
-  console.log('나의 아이디', myId);
-
   const onSubmitHandler = async (e) => {
+    setEditMode(true);
     e.preventDefault();
 
     const nickname = e.target.nickname.value;
@@ -38,11 +32,18 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
         avatar: icon,
         status: state
       };
-      await setDoc(doc(db, 'users', myId), updateUser);
-      dispatch(modUser({ ...filteredUser, updateUser }));
+      await updateDoc(doc(db, 'users', myId), updateUser);
+      dispatch(modUser({ ...filteredUser, ...updateUser }));
       setEditMode(false);
     } catch (error) {
       alert('정보 수정에 실패했습니다.');
+    }
+  };
+
+  const cancelHandler = () => {
+    const confirmCancel = window.confirm(`정보 수정을 취소하시겠습니까?`);
+    if (confirmCancel) {
+      setEditMode(false);
     }
   };
 
@@ -75,7 +76,7 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
       </EditItem>
       <EditBtns>
         <ConfirmButton type="submit">수정완료</ConfirmButton>
-        <CancelButton onClick={() => setEditMode(false)}>취소하기</CancelButton>
+        <CancelButton onClick={cancelHandler}>취소하기</CancelButton>
       </EditBtns>
     </EditUserInfoFormBox>
   );

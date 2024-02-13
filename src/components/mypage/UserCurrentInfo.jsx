@@ -22,7 +22,7 @@ function UserCurrentInfo({ setEditMode, filteredUser }) {
           {filteredUser.fullEmail}
           <br />
           <ItemBox>현재 상태</ItemBox>
-          {filteredUser.status ? filteredUser.status : '아직 설정하지 않았습니다.'}
+          {filteredUser.status !== '' ? filteredUser.status : '아직 설정하지 않았습니다.'}
         </UserInfoStyle>
       </UserInfoContent>
       <EditUserInfoBtn onClick={() => setEditMode(true)}>정보 수정하기</EditUserInfoBtn>

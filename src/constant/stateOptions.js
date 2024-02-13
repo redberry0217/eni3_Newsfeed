@@ -1,5 +1,5 @@
 export const STATE_OPTIONS = [
-  { value: 'null', label: '선택해주세요' },
+  { value: '', label: '선택해주세요' },
   { value: '개발자 취준생', label: '개발자 취준생' },
   { value: '학생(전공/비전공)', label: '학생(전공/비전공)' },
   { value: '현업 개발자/튜터', label: '현업 개발자/튜터' },
