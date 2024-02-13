@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth, db } from 'shared/firebase';
 import { addArticle } from 'store/modules/article';
 import styled from 'styled-components';
+import { createArticle } from 'util/getDocs';
 
 function CodeSubmit() {
   const dispatch = useDispatch();
@@ -33,7 +34,8 @@ function CodeSubmit() {
       code
     };
 
-    dispatch(addArticle(nextCodeKata));
+    const { id } = await createArticle(nextCodeKata);
+    dispatch(addArticle({ ...nextCodeKata, id }));
     e.target.reset();
 
     // 등록 되면서 홈으로 이동

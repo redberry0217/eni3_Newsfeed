@@ -28,9 +28,9 @@ const comment = (state = initialState, action) => {
     case ADD_COMMENT:
       return [...state, action.payload];
     case DEL_COMMENT:
-      return state.filter((comment) => comment.uniqueId !== action.payload);
+      return state.filter((comment) => comment.id !== action.payload);
     case MOD_COMMENT:
-      return state.map((comment) => (comment.uniqueId === action.payload.uniqueId ? action.payload : comment));
+      return state.map((comment) => (comment.id === action.payload.id ? action.payload : comment));
     default:
       return state;
   }

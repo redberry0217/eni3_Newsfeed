@@ -4,12 +4,25 @@ import GlobalStyle from './GlobalStyle';
 import { useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { auth } from './shared/firebase';
-import { Provider } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import store from 'store/config/configStore';
 import { login, logout } from 'store/modules/loginAccess';
+import { setUsers } from 'store/modules/users';
+import { setArticle } from 'store/modules/article';
+import { setComment } from 'store/modules/comment';
+import { getArticles, getComments, getUsers } from 'util/getDocs';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getUsers().then((data) => dispatch(setUsers(data)));
+    getArticles().then((data) => dispatch(setArticle(data)));
+    getComments().then((data) => dispatch(setComment(data)));
+  }, [dispatch]);
+
   const auth = getAuth();
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -28,10 +41,10 @@ function App() {
   }, []);
 
   return (
-    <Provider store={store}>
+    <>
       <GlobalStyle />
       <Router />
-    </Provider>
+    </>
   );
 }
 
