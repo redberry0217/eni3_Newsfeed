@@ -86,6 +86,6 @@ const DigitStyle = styled.span`
 const MyActivityInfo = styled.p`
   line-height: 2;
   padding: 20px;
-  margin-left: 30px;
+  margin-left: 15px;
 `;
 export default MyActivity;
