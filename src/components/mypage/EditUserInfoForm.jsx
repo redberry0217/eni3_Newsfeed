@@ -1,54 +1,80 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { STATE_OPTIONS } from 'constant/stateOptions';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from 'shared/firebase';
+import { modUser } from 'store/modules/users';
 
 function EditUserInfoForm({ setEditMode, filteredUser }) {
-  const [nickname, setNickname] = useState(filteredUser.nickname);
-  const [avatar, setAvatar] = useState(filteredUser.avatar);
-  const [userstatus, setUserstatus] = useState(filteredUser.status);
-  const [previewImage, setPreviewImage] = useState(null);
-
-  const stateOptions = useSelector((state) => state.stateOptions.options);
+  const dispatch = useDispatch();
+  // const [previewImage, setPreviewImage] = useState(null);
   const iconOptions = useSelector((state) => state.iconOptions.iconOptions);
 
-  console.log('선택한 아바타', avatar);
+  const myId = filteredUser.id;
 
   // const selectAvatarHandler = (event) => {
   //   setselectedAvatar(event.target.value);
   // };
 
   console.log('모든 유저들222', filteredUser);
+  console.log('나의 아이디', myId);
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+
+    const nickname = e.target.nickname.value;
+    const icon = e.target.icon.value;
+    const state = e.target.state.value;
+
+    if (!nickname) {
+      alert('닉네임은 필수 입력 항목입니다.');
+      return;
+    }
+
+    try {
+      const updateUser = {
+        nickname: nickname,
+        avatar: icon,
+        status: state
+      };
+      await setDoc(doc(db, 'users', myId), updateUser);
+      dispatch(modUser({ ...filteredUser, updateUser }));
+      setEditMode(false);
+    } catch (error) {
+      alert('정보 수정에 실패했습니다.');
+    }
+  };
 
   return (
-    <EditUserInfoFormBox>
+    <EditUserInfoFormBox onSubmit={onSubmitHandler}>
       <WelcomeMsg>회원 정보 수정</WelcomeMsg>
       <EditItem>
-        닉네임 <StyledInput placeholder="최대 10글자 입력 가능" value={nickname} />
+        닉네임 <StyledInput name="nickname" placeholder="최대 10글자 입력 가능" defaultValue={filteredUser.nickname} />
       </EditItem>
       <EditItem>
         아이콘
-        <StyledSelect value={filteredUser.avatar} onChange={(event) => setAvatar(event.target.value)}>
+        <StyledSelect name="icon" defaultValue={filteredUser.avatar}>
           {iconOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </StyledSelect>
-        {previewImage && <img src={previewImage} alt="아바타 미리보기" />}
+        {/* {previewImage && <img src={previewImage} alt="아바타 미리보기" />} */}
       </EditItem>
       <EditItem>
         나의 현재 상태
-        <StyledSelect>
-          {stateOptions.map((option) => (
-            <option key={option.value} value={userstatus}>
+        <StyledSelect name="state" defaultValue={filteredUser.status}>
+          {STATE_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </StyledSelect>
       </EditItem>
       <EditBtns>
-        <ConfirmButton>수정완료</ConfirmButton>
+        <ConfirmButton type="submit">수정완료</ConfirmButton>
         <CancelButton onClick={() => setEditMode(false)}>취소하기</CancelButton>
       </EditBtns>
     </EditUserInfoFormBox>
@@ -57,7 +83,7 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
 
 export default EditUserInfoForm;
 
-const EditUserInfoFormBox = styled.div`
+const EditUserInfoFormBox = styled.form`
   width: 80%;
   display: flex;
   flex-direction: column;
