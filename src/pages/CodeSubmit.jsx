@@ -1,4 +1,5 @@
 import CodeKataForm from 'components/CodeKataForm';
+import { getAuth } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +12,8 @@ function CodeSubmit() {
   const navigate = useNavigate();
 
   const onSubmitHandler = async (e) => {
+    const auth = getAuth();
+
     e.preventDefault();
     const title = e.target.title.value;
     const content = e.target.content.value;
