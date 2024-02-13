@@ -1,70 +1,32 @@
-import { getAuth } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { db } from 'shared/firebase';
-import { addArticle } from 'store/modules/article';
 import styled from 'styled-components';
-import { dateFormat } from 'util/date';
 
-function CodeKataForm() {
-  const dispatch = useDispatch();
+function CodeKataForm({ value = { title: '', link: '', content: '', difficulty: '', code: '' }, onSubmitHandler }) {
   const navigate = useNavigate();
-
-  const auth = getAuth();
-
-  const onSubmitHandler = async (e) => {
-    e.preventDefault();
-    const title = e.target.title.value;
-    const content = e.target.content.value;
-    const link = e.target.link.value;
-    const difficulty = e.target.difficulty.value;
-    const code = e.target.code.value;
-
-    if (!title || !content || !link || !difficulty || !code) {
-      return alert('모든 항목을 작성해주세요.');
-    }
-
-    const nextCodeKata = {
-      userId: auth.currentUser.uid,
-      createdAt: dateFormat(new Date()),
-      like: 0,
-      title,
-      content,
-      link,
-      difficulty,
-      code
-    };
-
-    dispatch(addArticle(nextCodeKata));
-    e.target.reset();
-
-    // firebase 데이터 추가
-    const collectionRef = collection(db, 'articles');
-    await addDoc(collectionRef, nextCodeKata);
-
-    // 등록 되면서 홈으로 이동
-    navigate('/');
-  };
 
   return (
     <FormArea onSubmit={onSubmitHandler}>
       <InputArea>
         <label>제목</label>
-        <input type="text" name="title" placeholder="해결한 문제 제목을 입력해주세요." />
+        <input type="text" name="title" placeholder="해결한 문제 제목을 입력해주세요." defaultValue={value.title} />
       </InputArea>
       <InputArea>
         <label>한마디</label>
-        <input type="text" name="content" placeholder="해결한 문제에 대한 평을 입력해주세요." />
+        <input
+          type="text"
+          name="content"
+          placeholder="해결한 문제에 대한 평을 입력해주세요."
+          defaultValue={value.content}
+        />
       </InputArea>
       <InputArea>
         <label>주소</label>
-        <input type="text" name="link" placeholder="해결한 문제 주소를 입력해주세요." />
+        <input type="text" name="link" placeholder="해결한 문제 주소를 입력해주세요." defaultValue={value.link} />
       </InputArea>
       <InputArea>
         <label>체감 난이도</label>
-        <select name="difficulty">
+        <select name="difficulty" defaultValue={value.difficulty}>
           <option value="">별점을 선택해주세요.</option>
           <option value="⭐">⭐</option>
           <option value="⭐⭐">⭐⭐</option>
@@ -75,7 +37,7 @@ function CodeKataForm() {
       </InputArea>
       <InputArea>
         <label>코드</label>
-        <textarea name="code" placeholder="해결한 문제 코드를 입력해주세요."></textarea>
+        <textarea name="code" placeholder="해결한 문제 코드를 입력해주세요." defaultValue={value.code}></textarea>
       </InputArea>
       <ButtonArea>
         <button type="submit">등록하기</button>
