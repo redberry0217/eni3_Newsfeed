@@ -31,6 +31,15 @@ export const getArticles = async () => {
   return articlesList;
 };
 
+export const deleteArticle = async (id) => {
+  try {
+    const articleRef = doc(db, 'articles', id);
+    await deleteDoc(articleRef);
+  } catch (error) {
+    console.error('게시글 삭제 오류', error);
+  }
+};
+
 export const getComments = async () => {
   console.log('댓글목록가져옴');
   let commentsList = [];
