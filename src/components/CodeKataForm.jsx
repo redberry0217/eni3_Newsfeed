@@ -86,7 +86,7 @@ function CodeKataForm({
       </InputArea>
       <ButtonArea>
         <button type="submit">{editMode ? '수정하기' : '등록하기'}</button>
-        <button type="button" onClick={() => navigate('/')}>
+        <button type="button" onClick={() => navigate(-1)}>
           취소하기
         </button>
       </ButtonArea>
