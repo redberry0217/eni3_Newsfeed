@@ -5,10 +5,11 @@ import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { doc, setDoc, collection, getDocs, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from 'shared/firebase';
 import { query, where } from 'firebase/firestore';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser } from 'store/modules/users';
 
 function SignUp() {
   const [emailId, setEmailId] = useState('');
@@ -20,6 +21,8 @@ function SignUp() {
   const [status, setStatus] = useState('');
   const [fullEmail, setFullEmail] = useState('');
   const [avatar, setAvatar] = useState('cat');
+
+  const dispatch = useDispatch();
 
   const iconOptions = useSelector((state) => state.iconOptions.iconOptions) || [];
 
@@ -115,14 +118,17 @@ function SignUp() {
       const userDocRef = doc(db, 'users', userCredential.user.uid);
       const signUpDate = new Date().toISOString();
 
-      await setDoc(userDocRef, {
+      const newUser = {
         fullEmail,
         nickname,
         status,
         avatar,
         token,
         signUpDate
-      });
+      };
+
+      await setDoc(userDocRef, newUser);
+      dispatch(addUser({ ...newUser, id: userCredential.user.uid }));
       alert('회원가입이 완료되었습니다.');
       navigate('/');
     } catch (error) {

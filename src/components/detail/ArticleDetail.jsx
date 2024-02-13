@@ -15,7 +15,7 @@ function ArticleDetail({ article, editBtnHandler }) {
   const navigate = useNavigate();
   const userList = useSelector((state) => state.users);
   const { id, userId, title, createdAt, content, code, liked, link, difficulty } = article;
-  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
+  const { nickname, avatar, token } = userList.users.find((user) => user.id === userId);
 
   const likeBtnHandler = () => {
     const currentUserId = auth.currentUser.uid;

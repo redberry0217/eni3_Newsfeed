@@ -8,7 +8,7 @@ function ArticleItem({ article }) {
   const navigate = useNavigate();
   const { id, userId, title, createdAt, content, liked } = article;
   const userList = useSelector((state) => state.users);
-  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
+  const { nickname, avatar, token } = userList.users.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     navigate(`/detail/${id}`);

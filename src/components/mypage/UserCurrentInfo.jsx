@@ -4,12 +4,11 @@ import { dateFormat } from 'util/date';
 import { getAnimalIconUrl } from 'util/avatar';
 
 function UserCurrentInfo({ setEditMode }) {
-  const userData = useSelector((state) => state.users);
-  const loginUser = useSelector((state) => state.loginAccess.user);
+  const { users, currentUser } = useSelector((state) => state.users);
 
-  const filteredUser = userData ? userData.find((user) => user.id === loginUser.uid) : [];
+  const filteredUser = currentUser ? users.find((user) => user.id === currentUser.uid) : {};
 
-  if (!userData) {
+  if (!users) {
     return <div>Now Loading...</div>;
   }
 
