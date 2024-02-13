@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { delArticle } from 'store/modules/article';
 import { useDispatch } from 'react-redux';
-import { dateFormat } from 'util/date';
+import { mypageDate } from 'util/mypageDate';
 
-function MyCode({ articles }) {
+function MyCode({ filteredArticles }) {
   const dispatch = useDispatch();
   const deleteHandler = (articleId) => {
     const checkIf = window.confirm('해당 게시글을 삭제하시겠습니까?');
@@ -29,15 +29,15 @@ function MyCode({ articles }) {
           </tr>
         </thead>
         <tbody>
-          {articles.map((article) => (
-            <tr key={article.id}>
-              <td>{dateFormat(article.createdAt)}</td>
+          {filteredArticles.map((filteredArticles) => (
+            <tr key={filteredArticles.id}>
+              <td>{mypageDate(filteredArticles.createdAt)}</td>
               <td>
-                <Link to={`/detail/${article.id}`}>{article.title}</Link>
+                <Link to={`/detail/${filteredArticles.id}`}>{filteredArticles.title}</Link>
               </td>
-              <td>{article.difficulty}</td>
+              <td>{filteredArticles.difficulty}</td>
               <td>
-                <Deletebutton onClick={() => deleteHandler(article.id)} title="게시글을 삭제합니다.">
+                <Deletebutton onClick={() => deleteHandler(filteredArticles.id)} title="게시글을 삭제합니다.">
                   ❌
                 </Deletebutton>
               </td>
