@@ -13,7 +13,6 @@ function UserActivity() {
 
   const articles = articleList.filter((article) => article.userId === user.uid);
   const comments = commentList.filter((comment) => comment.userId === user.uid);
-
   const filteredArticles = articles ? articles.filter((article) => article.userId === user.uid) : [];
   const filteredComments = comments ? comments.filter((comment) => comment.userId === user.uid) : [];
 

@@ -10,15 +10,13 @@ function MyCode({ filteredArticles }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const deleteBtnHandler = async (articleId) => {
-    const checkIf = window.confirm(`해당 게시글을 삭제하시겠습니까?`);
-    if (checkIf) {
-      try {
-        await deleteArticle(articleId);
-        dispatch(delArticle(articleId));
-        navigate('/mypage');
-      } catch (error) {
-        console.error('게시글 삭제 오류', error);
-      }
+    if (window.confirm(`해당 게시글을 삭제하시겠습니까?`)) return;
+    try {
+      await deleteArticle(articleId);
+      dispatch(delArticle(articleId));
+      navigate('/mypage');
+    } catch (error) {
+      console.error('게시글 삭제 오류', error);
     }
   };
 

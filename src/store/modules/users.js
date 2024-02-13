@@ -1,9 +1,9 @@
 const SET_USERS = 'users/SET_USERS';
 const ADD_USER = 'users/ADD_USERS';
-const SET_USER = 'users/SET_USER';
+const SET_CURRENT_USER = 'users/SET_USER';
 
-export const setUser = (payload) => {
-  return { type: SET_USER, payload };
+export const setCurrentUser = (payload) => {
+  return { type: SET_CURRENT_USER, payload };
 };
 
 export const setUsers = (payload) => {
@@ -22,7 +22,7 @@ const initialState = {
 
 const users = (state = initialState, action) => {
   switch (action.type) {
-    case SET_USER:
+    case SET_CURRENT_USER:
       return { ...state, currentUser: action.payload };
     case SET_USERS:
       return { ...state, users: action.payload };

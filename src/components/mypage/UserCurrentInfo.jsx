@@ -6,9 +6,11 @@ import { getAnimalIconUrl } from 'util/avatar';
 function UserCurrentInfo({ setEditMode }) {
   const { users, currentUser } = useSelector((state) => state.users);
 
-  if (!currentUser) return <div>Now Loading...</div>;
+  if (!users || !currentUser) return <div>Now Loading...</div>;
 
   const filteredUser = users.find((user) => user.id === currentUser.uid);
+
+  if (!filteredUser) return <div>Now Loading...</div>;
 
   return (
     <>
