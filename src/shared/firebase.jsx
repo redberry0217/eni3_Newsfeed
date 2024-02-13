@@ -45,7 +45,8 @@ export const setGithubLogin = async () => {
     const user = result.user;
 
     const userDocRef = doc(db, 'users', user.uid);
-    const signUpDate = await setDoc(userDocRef, {
+    const signUpDate = new Date().toISOString();
+    await setDoc(userDocRef, {
       fullEmail: user.email,
       nickname: user.displayName,
       status: '',
