@@ -46,6 +46,7 @@ const TextArea = styled.textarea`
   padding: 1rem;
   min-height: 100px;
   width: 100%;
+  font-family: sans-serif;
 `;
 
 const Button = styled.button`
@@ -54,6 +55,12 @@ const Button = styled.button`
   font-size: 100%;
   padding: 0.5rem;
   border-radius: 10px;
+
+  &:hover {
+    background-color: #2f89d1;
+    color: white;
+    transition: all 0.1s ease;
+  }
 `;
 
 export default CommentForm;

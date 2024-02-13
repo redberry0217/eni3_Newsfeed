@@ -50,7 +50,7 @@ const Section = styled.section`
 
 const Article = styled.article`
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   padding: 2rem;
   background-color: #f2f2f2;
   border-radius: 10px;
@@ -91,6 +91,11 @@ const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: auto;
+
+  time {
+    font-size: 90%;
+    color: #666;
+  }
 `;
 
 const Content = styled.p`
