@@ -1,26 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import MyActivity from './MyActivity';
 import MyCode from './MyCode';
 import { useSelector } from 'react-redux';
-import { getArticles, getComments } from 'util/getDocs';
 
 function UserActivity() {
-  const [articles, setArticles] = useState([]);
-  const [comments, setComments] = useState([]);
-  const loginUser = useSelector((state) => state.loginAccess.user);
-
-  useEffect(() => {
-    getArticles().then((data) => setArticles(data));
-    getComments().then((data) => setComments(data));
-  }, []);
+  const user = useSelector((state) => state.loginAccess.user);
+  const articleList = useSelector((state) => state.article);
+  const commentList = useSelector((state) => state.comment);
+  const articles = articleList.filter((article) => article.userId === user.uid);
+  const comments = commentList.filter((comment) => comment.userId === user.uid);
 
   if (!articles && !comments) {
     return <div>Now Loading...</div>;
   }
 
-  const filteredArticles = articles ? articles.filter((article) => article.userId === loginUser.uid) : [];
-  const filteredComments = comments ? comments.filter((comment) => comment.userId === loginUser.uid) : [];
+  const filteredArticles = articles ? articles.filter((article) => article.userId === user.uid) : [];
+  const filteredComments = comments ? comments.filter((comment) => comment.userId === user.uid) : [];
 
   return (
     <UserActivityBox>
