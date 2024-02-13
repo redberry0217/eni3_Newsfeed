@@ -19,10 +19,8 @@ function UserActivity() {
     return <div>Now Loading...</div>;
   }
 
-  const filteredArticles = articles ? articles.find((article) => article.userId === loginUser.uid) : [];
-  const filteredComments = comments ? comments.find((comment) => comment.userId === loginUser.uid) : [];
-  console.log('걸러진 글', filteredArticles);
-  console.log('걸러진 댓글', filteredComments);
+  const filteredArticles = articles ? articles.filter((article) => article.userId === loginUser.uid) : [];
+  const filteredComments = comments ? comments.filter((comment) => comment.userId === loginUser.uid) : [];
 
   return (
     <UserActivityBox>
