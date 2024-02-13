@@ -2,7 +2,7 @@
 import { initializeApp } from 'firebase/app';
 // import { getAnalytics } from 'firebase/analytics';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, serverTimestamp } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { signInWithPopup, GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
@@ -45,8 +45,7 @@ export const setGithubLogin = async () => {
     const user = result.user;
 
     const userDocRef = doc(db, 'users', user.uid);
-    const signUpDate = serverTimestamp();
-    await setDoc(userDocRef, {
+    const signUpDate = await setDoc(userDocRef, {
       fullEmail: user.email,
       nickname: user.displayName,
       status: '',
@@ -69,7 +68,7 @@ export const setGooGleLogin = async () => {
     const user = result.user;
 
     const userDocRef = doc(db, 'users', user.uid);
-    const signUpDate = serverTimestamp();
+    const signUpDate = new Date().toISOString();
     await setDoc(userDocRef, {
       fullEmail: user.email,
       nickname: user.displayName,

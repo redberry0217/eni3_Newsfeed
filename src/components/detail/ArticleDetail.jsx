@@ -5,12 +5,15 @@ import styled from 'styled-components';
 import { dateFormat } from 'util/date';
 import Prism from 'prismjs';
 import 'prism.css';
+import { auth } from 'shared/firebase';
 
 function ArticleDetail({ article, editBtnHandler }) {
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.users);
   const { id, userId, title, createdAt, content, code, like, link, difficulty } = article;
   const { nickname, avatar } = userList.find((user) => user.id === userId);
+  console.log('게시글 주인', userId, auth);
+  console.log(auth);
 
   const onClickHandler = () => {
     dispatch(likeArticle(id));
@@ -28,8 +31,12 @@ function ArticleDetail({ article, editBtnHandler }) {
           <Avatar src={avatar} alt={nickname} />
           <NickName>{nickname}</NickName>
           <time>{dateFormat(createdAt)}</time>
-          <button onClick={editBtnHandler}>수정</button>
-          <button>삭제</button>
+          {auth ? (
+            <>
+              <button onClick={editBtnHandler}>수정</button>
+              <button>삭제</button>
+            </>
+          ) : null}
         </Author>
         <ContentWrap>
           <Pre>
