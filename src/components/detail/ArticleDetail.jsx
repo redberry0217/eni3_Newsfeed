@@ -1,20 +1,30 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { likeArticle } from 'store/modules/article';
+import { delArticle, likeArticle } from 'store/modules/article';
 import styled from 'styled-components';
 import { dateFormat } from 'util/date';
 import Prism from 'prismjs';
 import 'prism.css';
 import { auth } from 'shared/firebase';
+import { deleteArticle } from 'util/getDocs';
+import { useNavigate } from 'react-router-dom';
 
 function ArticleDetail({ article, editBtnHandler }) {
   const dispatch = useDispatch();
+  const nagivate = useNavigate();
   const userList = useSelector((state) => state.users);
   const { id, userId, title, createdAt, content, code, like, link, difficulty } = article;
   const { nickname, avatar } = userList.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     dispatch(likeArticle(id));
+  };
+
+  const delBtnHandler = () => {
+    if (!window.confirm('삭제하시겠습니까?')) return null;
+    dispatch(delArticle(id));
+    deleteArticle(id);
+    nagivate('/');
   };
 
   useEffect(() => {
@@ -31,8 +41,12 @@ function ArticleDetail({ article, editBtnHandler }) {
           <time>{dateFormat(createdAt)}</time>
           {auth.currentUser?.uid && userId === auth.currentUser?.uid ? (
             <>
-              <button onClick={editBtnHandler}>수정</button>
-              <button>삭제</button>
+              <Button type="button" onClick={editBtnHandler}>
+                수정
+              </Button>
+              <Button type="button" onClick={delBtnHandler}>
+                삭제
+              </Button>
             </>
           ) : null}
         </Author>
@@ -63,6 +77,12 @@ const Author = styled.div`
   align-items: center;
   margin: 1rem 0;
   gap: 0.5rem;
+
+  time {
+    margin-left: auto;
+    font-size: 90%;
+    color: #666;
+  }
 `;
 
 const Avatar = styled.img`
@@ -108,6 +128,18 @@ const LikeButton = styled.button`
   background: #fff;
   padding: 0.5rem 1rem;
   font-size: 100%;
+`;
+
+const Button = styled.button`
+  border: none;
+  padding: 0.2rem 0.4rem;
+  border-radius: 10px;
+
+  &:hover {
+    background-color: #2f89d1;
+    color: white;
+    transition: all 0.1s ease;
+  }
 `;
 
 export default ArticleDetail;
