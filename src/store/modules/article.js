@@ -38,7 +38,6 @@ const article = (state = initialState, action) => {
       return state.map((article) => (article.id === action.payload.id ? action.payload : article));
     case LIKE_ARTICLE:
       return state.map((article) => {
-        console.log(action.payload);
         if (article.id === action.payload.id) {
           if (article.liked.includes(action.payload.currentUserId)) {
             const updatedLiked = article.liked.filter((item) => item !== action.payload.currentUserId);

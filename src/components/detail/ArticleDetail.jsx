@@ -22,7 +22,6 @@ function ArticleDetail({ article, editBtnHandler }) {
     const updated = liked.includes(currentUserId)
       ? { ...article, liked: liked.filter((user) => user !== currentUserId) }
       : { ...article, liked: [...liked, currentUserId] };
-    console.log(updated);
     updateArticle(id, updated);
   };
 
