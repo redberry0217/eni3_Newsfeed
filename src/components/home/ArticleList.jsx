@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { dateFormat } from 'util/date';
 import { getAnimalIconUrl } from 'util/avatar';
 import { FcComments, FcLike } from 'react-icons/fc';
+import { FaCalendarAlt } from 'react-icons/fa';
 
 function ArticleItem({ article }) {
   const navigate = useNavigate();
@@ -29,7 +30,10 @@ function ArticleItem({ article }) {
         <Title>{title}</Title>
         <Content>{content}</Content>
         <Bottom>
-          <time>{dateFormat(createdAt)}</time>
+          <time>
+            <FaCalendarAlt />
+            {dateFormat(createdAt)}
+          </time>
           <CommentIcon>
             <FcComments />
             {countComment}
@@ -107,8 +111,14 @@ const Bottom = styled.div`
   margin-top: auto;
 
   time {
+    display: flex;
+    align-items: center;
     font-size: 90%;
     color: #666;
+  }
+
+  svg {
+    margin-right: 0.5rem;
   }
 `;
 

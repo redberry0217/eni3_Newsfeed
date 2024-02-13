@@ -67,11 +67,11 @@ function CodeKataForm({
           <option value="" disabled hidden>
             별점을 선택해주세요.
           </option>
-          <option value="⭐">⭐</option>
-          <option value="⭐⭐">⭐⭐</option>
-          <option value="⭐⭐⭐">⭐⭐⭐</option>
-          <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
-          <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
+          <option value="🌶️">🌶️</option>
+          <option value="🌶️🌶️">🌶️🌶️</option>
+          <option value="🌶️🌶️🌶️">🌶️🌶️🌶️</option>
+          <option value="🌶️🌶️🌶️🌶️">🌶️🌶️🌶️🌶️</option>
+          <option value="🌶️🌶️🌶️🌶️🌶️">🌶️🌶️🌶️🌶️🌶️</option>
         </select>
       </InputArea>
       <InputArea>

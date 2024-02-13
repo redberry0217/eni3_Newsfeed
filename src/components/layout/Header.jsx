@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from 'shared/firebase';
 import styled from 'styled-components';
+import { MdAccountCircle } from 'react-icons/md';
+import { IoLogOutOutline } from 'react-icons/io5';
 
 function Header() {
   const { currentUser } = useSelector((state) => state.users);
@@ -75,18 +77,22 @@ function Header() {
         )}
         <MypageIcon onClick={clickUserIconHandler} ref={dropdownRef}>
           <StyledFaUserCircle />
+          <DropdownContent visible={dropdown ? 1 : 0}>
+            <DropdownItem
+              onClick={() => {
+                navigate('/mypage');
+                toggleDropdown();
+              }}
+            >
+              <MdAccountCircle />
+              마이페이지
+            </DropdownItem>
+            <DropdownItem onClick={logOut}>
+              <IoLogOutOutline />
+              로그아웃
+            </DropdownItem>
+          </DropdownContent>
         </MypageIcon>
-        <DropdownContent visible={dropdown ? 1 : 0}>
-          <DropdownItem
-            onClick={() => {
-              navigate('/mypage');
-              toggleDropdown();
-            }}
-          >
-            마이페이지
-          </DropdownItem>
-          <DropdownItem onClick={logOut}>로그아웃</DropdownItem>
-        </DropdownContent>
       </Container>
     </Background>
   );
@@ -157,6 +163,7 @@ const SubmitCodeBtn = styled(Link)`
 
 const MypageIcon = styled.div`
   margin-left: 2rem;
+  position: relative;
 `;
 
 const StyledFaUserCircle = styled(FaUserCircle)`
@@ -164,6 +171,7 @@ const StyledFaUserCircle = styled(FaUserCircle)`
   height: 50px;
   background-color: white;
   border-radius: 50%;
+  color: #2e4356;
   cursor: pointer;
   border: none;
   box-sizing: border-box;
@@ -175,8 +183,9 @@ const StyledFaUserCircle = styled(FaUserCircle)`
 `;
 
 const DropdownContent = styled.div`
-  top: 80px;
-  right: 105px;
+  top: 40px;
+  right: 25px;
+  border-radius: 15px;
   display: ${(props) => (props.visible ? 'block' : 'none')};
   position: absolute;
   background-color: #f9f9f9;
@@ -185,15 +194,21 @@ const DropdownContent = styled.div`
 `;
 
 const DropdownItem = styled.div`
-  padding: 12px 16px;
-  text-align: center;
+  display: flex;
   justify-content: center;
-  text-decoration: none;
-  display: block;
+  align-items: center;
+  padding: 12px 16px;
   color: #333;
+  text-decoration: none;
+  text-align: center;
   cursor: pointer;
   &:hover {
     background-color: #f1f1f1;
+    border-radius: 15px;
+  }
+
+  svg {
+    margin-right: 0.5rem;
   }
 `;
 
