@@ -5,15 +5,25 @@ import { useSelector } from 'react-redux';
 import { dateFormat } from 'util/date';
 import { getUsers } from 'util/getDocs';
 import { getAnimalIconUrl } from 'util/avatar';
+import { useNavigate } from 'react-router-dom';
 
 function UserCurrentInfo({ setEditMode }) {
   const [userData, setUserData] = useState(null);
   const loginUser = useSelector((state) => state.loginAccess.user);
+  const navigate = useNavigate();
   useEffect(() => {
     getUsers().then((data) => setUserData(data));
   }, []);
 
   const filteredUser = userData ? userData.find((user) => user.id === loginUser.uid) : [];
+  console.log('로그인한 유저', loginUser);
+
+  useEffect(() => {
+    if (loginUser === null) {
+      alert('로그인이 필요한 페이지입니다');
+      navigate(`/auth`);
+    }
+  }, [loginUser]);
 
   if (!userData) {
     return <div>Now Loading...</div>;

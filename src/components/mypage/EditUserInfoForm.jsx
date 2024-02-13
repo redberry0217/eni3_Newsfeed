@@ -14,33 +14,12 @@ function EditUserInfoForm({ setEditMode }) {
     setselectedAvatar(event.target.value);
   };
 
-  const [currUserData, setCurrUserData] = useState([
-    {
-      fullEmail: '이메일@gmail.com',
-      nickname: '닉네임',
-      selectedIcon: 'cat',
-      signUpDate: '2024년 2월 11일 오후 4시 44분 16초 UTC+9',
-      status: '재야의 무림고수'
-    }
-  ]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const q = query(collection(db, 'users'));
-      const querySnapshot = await getDocs(q);
-      const initialUserData = [];
+  const [userData, setUserData] = useState(null);
+  const loginUser = useSelector((state) => state.loginAccess.user);
+  const users = useSelector((state) => state.users);
+  const filteredUser = userData ? userData.find((user) => user.id === loginUser.uid) : [];
 
-      querySnapshot.forEach((doc) => {
-        const data = {
-          id: doc.id,
-          ...doc.data()
-        };
-        initialUserData.push(data);
-      });
-
-      setCurrUserData(initialUserData);
-    };
-    fetchData();
-  }, []);
+  console.log('모든 유저들', users);
 
   return (
     <EditUserInfoFormBox>

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import MyActivity from './MyActivity';
 import MyCode from './MyCode';
 import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 function UserActivity() {
   const user = useSelector((state) => state.loginAccess.user);
