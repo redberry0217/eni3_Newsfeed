@@ -1,53 +1,51 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { collection, getDocs, query } from 'firebase/firestore';
-import { db } from 'shared/firebase';
 
-function EditUserInfoForm({ setEditMode }) {
-  const [selectedAvatar, setselectedAvatar] = useState('개발하는 고양이');
+function EditUserInfoForm({ setEditMode, filteredUser }) {
+  const [nickname, setNickname] = useState(filteredUser.nickname);
+  const [avatar, setAvatar] = useState(filteredUser.avatar);
+  const [userstatus, setUserstatus] = useState(filteredUser.status);
+  const [previewImage, setPreviewImage] = useState(null);
+
   const stateOptions = useSelector((state) => state.stateOptions.options);
-  const iconOptions = useSelector((state) => state.iconOptions.options);
+  const iconOptions = useSelector((state) => state.iconOptions.iconOptions);
 
-  const selectAvatarHandler = (event) => {
-    setselectedAvatar(event.target.value);
-  };
+  console.log('선택한 아바타', avatar);
 
-  const [userData, setUserData] = useState(null);
-  const loginUser = useSelector((state) => state.loginAccess.user);
-  const users = useSelector((state) => state.users);
-  const filteredUser = userData ? userData.find((user) => user.id === loginUser.uid) : [];
+  // const selectAvatarHandler = (event) => {
+  //   setselectedAvatar(event.target.value);
+  // };
 
-  console.log('모든 유저들', users);
+  console.log('모든 유저들222', filteredUser);
 
   return (
     <EditUserInfoFormBox>
       <WelcomeMsg>회원 정보 수정</WelcomeMsg>
       <EditItem>
-        닉네임 <StyledInput placeholder="최대 10글자 입력 가능" />
+        닉네임 <StyledInput placeholder="최대 10글자 입력 가능" value={nickname} />
       </EditItem>
       <EditItem>
         아이콘
-        <StyledSelect value={selectedAvatar} onChange={selectAvatarHandler}>
+        <StyledSelect value={filteredUser.avatar} onChange={(event) => setAvatar(event.target.value)}>
           {iconOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </StyledSelect>
-        {selectedAvatar && <img src={selectedAvatar.iconSrc} alt={selectedAvatar.label} />}
+        {previewImage && <img src={previewImage} alt="아바타 미리보기" />}
       </EditItem>
       <EditItem>
         나의 현재 상태
         <StyledSelect>
           {stateOptions.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option key={option.value} value={userstatus}>
               {option.label}
             </option>
           ))}
         </StyledSelect>
-        {/* <PreviewImage src={optionImages[selectedOption]} alt="미리보기 이미지" /> */}
       </EditItem>
       <EditBtns>
         <ConfirmButton>수정완료</ConfirmButton>
