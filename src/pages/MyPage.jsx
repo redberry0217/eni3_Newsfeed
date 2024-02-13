@@ -1,18 +1,12 @@
 import UserActivity from 'components/mypage/UserActivity';
 import UserInfo from 'components/mypage/UserInfo';
 import { useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function MyPage() {
   const navigate = useNavigate();
-  const loginUser = useSelector((state) => state.loginAccess.user);
-
-  if (loginUser === null) {
-    console.log('로그인 유저', loginUser);
-    alert('로그인이 필요한 페이지입니다.');
-    return <Navigate to="/auth" />; // 라우터 가드
-  }
+  const loginUser = useSelector((state) => state.users.currentUser);
 
   return (
     <>
