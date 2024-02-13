@@ -4,6 +4,7 @@ import { getAnimalIconUrl } from 'util/avatar';
 
 function UserCurrentInfo({ setEditMode, filteredUser }) {
   if (!filteredUser) return <div>Now Loading...</div>;
+
   return (
     <>
       <WelcomeMsg>

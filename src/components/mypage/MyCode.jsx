@@ -9,6 +9,7 @@ import { mypageDate } from 'util/date';
 function MyCode({ filteredArticles }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const deleteBtnHandler = async (articleId) => {
     if (!window.confirm(`해당 게시글을 삭제하시겠습니까?`)) return;
     try {

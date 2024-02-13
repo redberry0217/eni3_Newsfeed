@@ -13,9 +13,9 @@ function Comment({ comment }) {
   const { id, userId, content, createdAt } = comment;
 
   const [editComment, setEditComment] = useState({ content: content, mode: false });
-  const userList = useSelector((state) => state.users);
-  console.log(userList);
-  const { nickname, avatar, token } = userList.users.find((user) => user.id === userId);
+  const userList = useSelector((state) => state.users.users);
+
+  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
 
   const onChangeHandler = (e) => {
     setEditComment({ content: e.target.value, mode: true });

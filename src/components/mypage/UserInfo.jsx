@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 function UserInfo() {
   const [editMode, setEditMode] = useState(false);
   const { users, currentUser } = useSelector((state) => state.users);
+
   const filteredUser = currentUser && users.find((user) => user.id === currentUser.uid);
 
   return (

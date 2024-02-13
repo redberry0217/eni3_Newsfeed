@@ -17,11 +17,12 @@ function Detail() {
   const allComments = useSelector((state) => state.comment);
   const [editArticle, setEditArticle] = useState(false);
 
+  const article = articles.find((article) => article.id === id);
+
   const editBtnHandler = () => {
     setEditArticle((prev) => !prev);
   };
 
-  const article = articles.find((article) => article.id === id);
   const comments = allComments
     .filter((comment) => comment.articleId === id)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));

@@ -11,12 +11,13 @@ import { db } from '../shared/firebase';
 
 function Auth() {
   const navigate = useNavigate();
-  const ClickToSignUpPageHandler = () => {
-    navigate('/signup');
-  };
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const ClickToSignUpPageHandler = () => {
+    navigate('/signup');
+  };
 
   const onChange = (event) => {
     const {
@@ -46,10 +47,12 @@ function Auth() {
 
   const signIn = async (event) => {
     event.preventDefault();
+
     if (!email || !password) {
       alert('이메일과 비밀번호를 입력해주세요.');
       return;
     }
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       await getUserInfo(userCredential.user.uid);

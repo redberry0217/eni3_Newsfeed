@@ -1,8 +1,7 @@
 import CodeKataForm from 'components/CodeKataForm';
-import { addDoc, collection } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { auth, db } from 'shared/firebase';
+import { auth } from 'shared/firebase';
 import { addArticle } from 'store/modules/article';
 import styled from 'styled-components';
 import { createArticle } from 'util/getDocs';
@@ -13,6 +12,7 @@ function CodeSubmit() {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
     const title = e.target.title.value;
     const content = e.target.content.value;
     const link = e.target.link.value;

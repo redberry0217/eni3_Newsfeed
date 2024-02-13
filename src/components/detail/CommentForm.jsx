@@ -1,6 +1,5 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { auth } from 'shared/firebase';
 import { addComment } from 'store/modules/comment';
 import styled from 'styled-components';
 import { createComment } from 'util/getDocs';
@@ -8,7 +7,7 @@ import { createComment } from 'util/getDocs';
 function CommentForm({ articleId }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentUser = auth.currentUser;
+  const currentUser = useSelector((state) => state.users.currentUser);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();

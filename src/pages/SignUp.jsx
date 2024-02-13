@@ -23,10 +23,9 @@ function SignUp() {
   const [avatar, setAvatar] = useState('cat');
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const iconOptions = useSelector((state) => state.iconOptions.iconOptions) || [];
-
-  const navigate = useNavigate();
 
   const CancelSignUpHandler = () => {
     const cancelConfirm = window.confirm('가입을 취소하시겠습니까?');
@@ -146,8 +145,7 @@ function SignUp() {
 
   const googleLoginHandler = async () => {
     try {
-      const data = await setGooGleLogin();
-      console.log(data);
+      await setGooGleLogin();
       navigate('/');
     } catch (error) {
       console.error(error);

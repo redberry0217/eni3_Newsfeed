@@ -8,17 +8,18 @@ import { FaCalendarAlt } from 'react-icons/fa';
 
 function ArticleItem({ article }) {
   const navigate = useNavigate();
-  const { id, userId, title, createdAt, content, liked } = article;
-  const userList = useSelector((state) => state.users);
+
+  const userList = useSelector((state) => state.users.users);
   const commnentList = useSelector((state) => state.comment);
-  const { nickname, avatar, token } = userList.users.find((user) => user.id === userId);
+
+  const { id, userId, title, createdAt, content, liked } = article;
+  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     navigate(`/detail/${id}`);
   };
 
   const countComment = commnentList.filter((comment) => comment.articleId === id).length;
-  console.log(countComment);
 
   return (
     <Article onClick={onClickHandler}>

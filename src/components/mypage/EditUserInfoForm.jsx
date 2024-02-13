@@ -52,7 +52,6 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
   const iconSelectHandler = (e) => {
     setSelectedIcon(e.target.value);
   };
-  console.log(selectedIcon);
 
   const getIconImageSrc = (selectedIcon, iconOptions) => {
     // 선택한 아이콘의 값과 일치하는 아이콘 옵션을 찾습니다.

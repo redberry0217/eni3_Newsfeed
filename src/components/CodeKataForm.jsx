@@ -7,8 +7,9 @@ function CodeKataForm({
   onSubmitHandler,
   editMode = false
 }) {
-  const [codeText, setCodeText] = useState();
   const navigate = useNavigate();
+
+  const [codeText, setCodeText] = useState();
   const titleRef = useRef('');
 
   useEffect(() => {
