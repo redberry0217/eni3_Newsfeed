@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -8,12 +8,23 @@ function CodeKataForm({
   editMode = false
 }) {
   const navigate = useNavigate();
+  const titleRef = useRef('');
+
+  useEffect(() => {
+    titleRef.current.focus();
+  }, []);
 
   return (
     <FormArea onSubmit={onSubmitHandler}>
       <InputArea>
         <label>제목</label>
-        <input type="text" name="title" placeholder="해결한 문제 제목을 입력해주세요." defaultValue={value.title} />
+        <input
+          type="text"
+          name="title"
+          placeholder="해결한 문제 제목을 입력해주세요."
+          defaultValue={value.title}
+          ref={titleRef}
+        />
       </InputArea>
       <InputArea>
         <label>한마디</label>
