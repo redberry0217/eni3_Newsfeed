@@ -12,8 +12,6 @@ function ArticleDetail({ article, editBtnHandler }) {
   const userList = useSelector((state) => state.users);
   const { id, userId, title, createdAt, content, code, like, link, difficulty } = article;
   const { nickname, avatar } = userList.find((user) => user.id === userId);
-  console.log('게시글 주인', userId, auth);
-  console.log(auth);
 
   const onClickHandler = () => {
     dispatch(likeArticle(id));
@@ -31,7 +29,7 @@ function ArticleDetail({ article, editBtnHandler }) {
           <Avatar src={avatar} alt={nickname} />
           <NickName>{nickname}</NickName>
           <time>{dateFormat(createdAt)}</time>
-          {auth ? (
+          {userId === auth.currentUser.uid ? (
             <>
               <button onClick={editBtnHandler}>수정</button>
               <button>삭제</button>
