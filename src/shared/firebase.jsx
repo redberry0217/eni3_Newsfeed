@@ -50,7 +50,7 @@ export const setGithubLogin = async () => {
       fullEmail: user.email,
       nickname: user.displayName,
       status: '',
-      selectedIcon: 'cat',
+      avatar: 'cat',
       token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
       signUpDate
     });
@@ -73,7 +73,7 @@ export const setGooGleLogin = async () => {
       fullEmail: user.email,
       nickname: user.displayName,
       status: '',
-      selectedIcon: 'cat',
+      avatar: 'cat',
       token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
       signUpDate
     });
