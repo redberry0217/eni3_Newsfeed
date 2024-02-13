@@ -1,17 +1,11 @@
-import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { dateFormat } from 'util/date';
-import { getUsers } from 'util/getDocs';
 import { getAnimalIconUrl } from 'util/avatar';
 
 function UserCurrentInfo({ setEditMode }) {
-  const [userData, setUserData] = useState(null);
+  const userData = useSelector((state) => state.users);
   const loginUser = useSelector((state) => state.loginAccess.user);
-  useEffect(() => {
-    getUsers().then((data) => setUserData(data));
-  }, []);
 
   const filteredUser = userData ? userData.find((user) => user.id === loginUser.uid) : [];
 

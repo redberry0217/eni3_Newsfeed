@@ -113,7 +113,7 @@ function SignUp() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, fullEmail, password);
       const userDocRef = doc(db, 'users', userCredential.user.uid);
-      const signUpDate = serverTimestamp();
+      const signUpDate = new Date().toISOString();
 
       await setDoc(userDocRef, {
         fullEmail,
