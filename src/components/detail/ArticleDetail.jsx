@@ -6,7 +6,7 @@ import { dateFormat } from 'util/date';
 import Prism from 'prismjs';
 import 'prism.css';
 
-function ArticleDetail({ article }) {
+function ArticleDetail({ article, editBtnHandler }) {
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.users);
   const { id, userId, title, createdAt, content, code, like } = article;
@@ -28,6 +28,8 @@ function ArticleDetail({ article }) {
           <Avatar src={avatar} alt={nickname} />
           <NickName>{nickname}</NickName>
           <time>{dateFormat(createdAt)}</time>
+          <button onClick={editBtnHandler}>수정</button>
+          <button>삭제</button>
         </Author>
         <ContentWrap>
           <Content>{content}</Content>
