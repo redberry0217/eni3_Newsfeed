@@ -9,6 +9,7 @@ import { auth } from 'shared/firebase';
 import { deleteArticle, updateArticle } from 'util/getDocs';
 import { useNavigate } from 'react-router-dom';
 import { getAnimalIconUrl } from 'util/avatar';
+import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 
 function ArticleDetail({ article, editBtnHandler }) {
   const dispatch = useDispatch();
@@ -72,7 +73,7 @@ function ArticleDetail({ article, editBtnHandler }) {
           </CodeLink>
         </ContentWrap>
         <LikeButton type="button" onClick={likeBtnHandler}>
-          ❤️ {liked?.length}
+          {liked.length > 0 ? <FcLike /> : <FcLikePlaceholder />} {liked?.length}
         </LikeButton>
       </Article>
     </>
@@ -139,6 +140,11 @@ const LikeButton = styled.button`
   background: #fff;
   padding: 0.5rem 1rem;
   font-size: 100%;
+
+  svg {
+    margin-bottom: -1px;
+    margin-right: 0.3rem;
+  }
 `;
 
 const Button = styled.button`
