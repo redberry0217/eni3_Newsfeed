@@ -37,7 +37,17 @@ const article = (state = initialState, action) => {
     case MOD_ARTICLE:
       return state.map((article) => (article.id === action.payload.id ? action.payload : article));
     case LIKE_ARTICLE:
-      return state.map((article) => (article.id === action.payload ? { ...article, like: article.like + 1 } : article));
+      return state.map((article) => {
+        if (article.id === action.payload) {
+          if (article.liked.includes(action.payload)) {
+            const updatedLiked = article.liked.filter((item) => item !== action.payload);
+            return { ...article, liked: updatedLiked };
+          } else {
+            return { ...article, liked: [...article.liked, action.payload] };
+          }
+        }
+        return article;
+      });
     default:
       return state;
   }
