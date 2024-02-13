@@ -3,16 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { dateFormat } from 'util/date';
 import { getAnimalIconUrl } from 'util/avatar';
+import { FcComments, FcLike } from 'react-icons/fc';
 
 function ArticleItem({ article }) {
   const navigate = useNavigate();
   const { id, userId, title, createdAt, content, liked } = article;
   const userList = useSelector((state) => state.users);
+  const commnentList = useSelector((state) => state.comment);
   const { nickname, avatar, token } = userList.users.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     navigate(`/detail/${id}`);
   };
+
+  const countComment = commnentList.filter((comment) => comment.articleId === id).length;
+  console.log(countComment);
 
   return (
     <Article onClick={onClickHandler}>
@@ -25,7 +30,14 @@ function ArticleItem({ article }) {
         <Content>{content}</Content>
         <Bottom>
           <time>{dateFormat(createdAt)}</time>
-          <span>{liked?.length}</span>
+          <CommentIcon>
+            <FcComments />
+            {countComment}
+          </CommentIcon>
+          <LikeIcon>
+            <FcLike />
+            {liked?.length}
+          </LikeIcon>
         </Bottom>
       </ContentWrap>
     </Article>
@@ -91,11 +103,28 @@ const ContentWrap = styled.div`
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
   margin-top: auto;
 
   time {
     font-size: 90%;
     color: #666;
+  }
+`;
+
+const CommentIcon = styled.span`
+  margin-left: auto;
+
+  svg {
+    margin-bottom: -1px;
+    margin-right: 0.3rem;
+  }
+`;
+
+const LikeIcon = styled.span`
+  svg {
+    margin-bottom: -1px;
+    margin-right: 0.3rem;
   }
 `;
 
