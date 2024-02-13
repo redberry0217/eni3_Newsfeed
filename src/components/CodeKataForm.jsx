@@ -42,7 +42,9 @@ function CodeKataForm({
       <InputArea>
         <label>체감 난이도</label>
         <select name="difficulty" defaultValue={value.difficulty}>
-          <option value="">별점을 선택해주세요.</option>
+          <option value="" disabled hidden>
+            별점을 선택해주세요.
+          </option>
           <option value="⭐">⭐</option>
           <option value="⭐⭐">⭐⭐</option>
           <option value="⭐⭐⭐">⭐⭐⭐</option>
