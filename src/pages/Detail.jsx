@@ -64,7 +64,7 @@ function Detail() {
   return (
     <Container>
       {editArticle ? (
-        <CodeKataForm value={article} onSubmitHandler={onSubmitHandler} />
+        <CodeKataForm value={article} onSubmitHandler={onSubmitHandler} editMode={true} />
       ) : (
         <>
           <ArticleDetail article={article} editBtnHandler={editBtnHandler} />
