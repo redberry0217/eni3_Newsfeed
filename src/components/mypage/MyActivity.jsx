@@ -34,7 +34,7 @@ function MyActivity({ filteredArticles, filteredComments }) {
           지금까지 <DigitStyle>{filteredArticles ? filteredArticles.length : 0}</DigitStyle> 문제 해결했습니다.
           <br />
           좋아요 <DigitStyle>{filteredArticles.like ? filteredArticles.like : 0}</DigitStyle>개, 댓글은{' '}
-          <DigitStyle>{filteredComments ? filteredComments.length : 0}</DigitStyle>개 받았습니다.
+          <DigitStyle>{filteredComments ? filteredComments.length : 0}</DigitStyle>개 작성했습니다.
           <br />
           앞으로 <DigitStyle>{nextLevelTodo}</DigitStyle> 문제 더 해결하면 레벨이 올라요!
         </MyActivityInfo>
