@@ -2,7 +2,7 @@ import Router from 'shared/Router';
 import './App.css';
 import GlobalStyle from './GlobalStyle';
 import { useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { auth } from './shared/firebase';
 import { useDispatch } from 'react-redux';
 import store from 'store/config/configStore';
@@ -20,6 +20,8 @@ function App() {
     getArticles().then((data) => dispatch(setArticle(data)));
     getComments().then((data) => dispatch(setComment(data)));
   }, [dispatch]);
+
+  const auth = getAuth();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

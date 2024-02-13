@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 function MyPage() {
   const navigate = useNavigate();
+
   return (
     <>
       <GoBackBtn onClick={() => navigate(`/`)} title="코드카타 피드로 돌아갑니다">

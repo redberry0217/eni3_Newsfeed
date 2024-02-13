@@ -8,13 +8,14 @@ import 'prism.css';
 import { auth } from 'shared/firebase';
 import { deleteArticle, updateArticle } from 'util/getDocs';
 import { useNavigate } from 'react-router-dom';
+import { getAnimalIconUrl } from 'util/avatar';
 
 function ArticleDetail({ article, editBtnHandler }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userList = useSelector((state) => state.users);
   const { id, userId, title, createdAt, content, code, liked, link, difficulty } = article;
-  const { nickname, avatar } = userList.find((user) => user.id === userId);
+  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
 
   const likeBtnHandler = () => {
     const currentUserId = auth.currentUser.uid;
@@ -41,7 +42,7 @@ function ArticleDetail({ article, editBtnHandler }) {
       <Article>
         <Title>{title}</Title>
         <Author>
-          <Avatar src={avatar} alt={nickname} />
+          <Avatar src={getAnimalIconUrl(avatar, token)} alt={nickname} />
           <NickName>{nickname}</NickName>
           <time>{dateFormat(createdAt)}</time>
           {auth.currentUser?.uid && userId === auth.currentUser?.uid ? (

@@ -50,9 +50,8 @@ export const setGithubLogin = async () => {
       fullEmail: user.email,
       nickname: user.displayName,
       status: '',
-      selectedIcon: 'cat',
-      avatar:
-        'https://firebasestorage.googleapis.com/v0/b/test-32d7a.appspot.com/o/AnimalIcons%2FOptionImg_cat.png?alt=media&token=470bf4b0-975d-4d2b-a924-a78554a2b97c',
+      avatar: 'cat',
+      token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
       signUpDate
     });
     await getUserInfo(user.uid);
@@ -74,9 +73,8 @@ export const setGooGleLogin = async () => {
       fullEmail: user.email,
       nickname: user.displayName,
       status: '',
-      selectedIcon: 'cat',
-      avatar:
-        'https://firebasestorage.googleapis.com/v0/b/test-32d7a.appspot.com/o/AnimalIcons%2FOptionImg_cat.png?alt=media&token=470bf4b0-975d-4d2b-a924-a78554a2b97c',
+      avatar: 'cat',
+      token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
       signUpDate
     });
     await getUserInfo(user.uid);
