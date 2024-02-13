@@ -93,10 +93,9 @@ function Header() {
 }
 
 const Background = styled.header`
-  height: 100px;
   background-color: #ddecf8;
   border-bottom: solid 2px #c7c7c7;
-  padding: 10px;
+  padding: 0 2rem;
   position: sticky;
   top: 0%;
   left: 0;
@@ -110,6 +109,7 @@ const Container = styled.div`
   justify-content: center;
   max-width: 1500px;
   width: 100%;
+  height: 100px;
   margin: 0 auto;
 `;
 
