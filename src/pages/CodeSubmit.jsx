@@ -36,12 +36,13 @@ function CodeSubmit() {
     dispatch(addArticle(nextCodeKata));
     e.target.reset();
 
+    // 등록 되면서 홈으로 이동
+    alert('등록 완료!');
+    navigate('/');
+
     // firebase 데이터 추가
     const collectionRef = collection(db, 'articles');
     await addDoc(collectionRef, nextCodeKata);
-
-    // 등록 되면서 홈으로 이동
-    navigate('/');
   };
 
   return (
