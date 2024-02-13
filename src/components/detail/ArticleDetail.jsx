@@ -73,7 +73,7 @@ function ArticleDetail({ article, editBtnHandler }) {
           </CodeLink>
         </ContentWrap>
         <LikeButton type="button" onClick={likeBtnHandler}>
-          {liked.length > 0 ? <FcLike /> : <FcLikePlaceholder />} {liked?.length}
+          {liked.includes(currentUser.uid) ? <FcLike /> : <FcLikePlaceholder />} {liked?.length}
         </LikeButton>
       </Article>
     </>

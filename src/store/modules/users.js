@@ -1,5 +1,6 @@
 const SET_USERS = 'users/SET_USERS';
 const ADD_USER = 'users/ADD_USERS';
+const MOD_USER = 'users/MOD_USER';
 const SET_CURRENT_USER = 'users/SET_USER';
 
 export const setCurrentUser = (payload) => {
@@ -11,8 +12,11 @@ export const setUsers = (payload) => {
 };
 
 export const addUser = (payload) => {
-  console.log(payload);
   return { type: ADD_USER, payload };
+};
+
+export const modUser = (payload) => {
+  return { type: MOD_USER, payload };
 };
 
 const initialState = {
@@ -28,6 +32,8 @@ const users = (state = initialState, action) => {
       return { ...state, users: action.payload };
     case ADD_USER:
       return { ...state, users: [...state.users, action.payload] };
+    case MOD_USER:
+      return { ...state, users: state.users.map((user) => (user.id === action.payload.id ? action.payload : user)) };
     default:
       return state;
   }
