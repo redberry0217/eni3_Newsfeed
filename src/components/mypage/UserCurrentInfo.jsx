@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { collection, getDocs, query } from 'firebase/firestore';
-import { db } from 'shared/firebase';
 import { useSelector } from 'react-redux';
 import { dateFormat } from 'util/date';
 import { getUsers } from 'util/getDocs';
+import { getAnimalIconUrl } from 'util/avatar';
 
 function UserCurrentInfo({ setEditMode }) {
   const [userData, setUserData] = useState(null);
@@ -14,11 +13,11 @@ function UserCurrentInfo({ setEditMode }) {
     getUsers().then((data) => setUserData(data));
   }, []);
 
+  const filteredUser = userData ? userData.find((user) => user.id === loginUser.uid) : [];
+
   if (!userData) {
     return <div>Now Loading...</div>;
   }
-
-  const filteredUser = userData ? userData.find((user) => user.id === loginUser.uid) : [];
 
   return (
     <>
@@ -27,7 +26,7 @@ function UserCurrentInfo({ setEditMode }) {
         오늘도 즐거운 코딩하세요!
       </WelcomeMsg>
       <UserIcon>
-        <img src={filteredUser.avatar} width="60%" alt="유저 아이콘 이미지" />
+        <img src={getAnimalIconUrl(filteredUser.avatar, filteredUser.token)} width="60%" alt="유저 아이콘 이미지" />
       </UserIcon>
       <UserInfoContent>
         <UserInfoStyle>
