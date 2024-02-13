@@ -7,7 +7,7 @@ function ArticleItem({ article }) {
   const navigate = useNavigate();
   const { id, userId, title, createdAt, content, like } = article;
   const userList = useSelector((state) => state.users);
-  const { nickname } = userList.find((user) => user.id === userId);
+  const { nickname, avatar } = userList.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     navigate(`/detail/${id}`);
@@ -16,14 +16,14 @@ function ArticleItem({ article }) {
   return (
     <Article onClick={onClickHandler}>
       <Author>
-        {/* <Avatar src={avatar} alt={nickname} /> */}
+        <Avatar src={avatar} alt={nickname} />
         <NickName>{nickname}</NickName>
       </Author>
       <ContentWrap>
         <Title>{title}</Title>
         <Content>{content}</Content>
         <Bottom>
-          <time>{dateFormat(createdAt.toDate())}</time>
+          <time>{dateFormat(createdAt)}</time>
           <span>{like}</span>
         </Bottom>
       </ContentWrap>
@@ -69,11 +69,11 @@ const Author = styled.div`
   gap: 0.5rem;
 `;
 
-// const Avatar = styled.img`
-//   width: 4rem;
-//   height: 4rem;
-//   border-radius: 50%;
-// `;
+const Avatar = styled.img`
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+`;
 
 const NickName = styled.span`
   font-weight: bold;
