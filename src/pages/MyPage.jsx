@@ -1,6 +1,5 @@
 import UserActivity from 'components/mypage/UserActivity';
 import UserInfo from 'components/mypage/UserInfo';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
