@@ -7,11 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { setUsers } from 'store/modules/users';
 import { modArticle, setArticle } from 'store/modules/article';
-import { getArticles, getComments, getUsers } from 'util/getDocs';
+import { getArticles, getComments, getUsers, updateArticle } from 'util/getDocs';
 import { setComment } from 'store/modules/comment';
 import CodeKataForm from 'components/CodeKataForm';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from 'shared/firebase';
 
 function Detail() {
   const { id } = useParams();
@@ -56,8 +54,7 @@ function Detail() {
 
     if (!window.confirm('수정하시겠습니까')) return;
     dispatch(modArticle({ ...article, ...nextCodeKata }));
-    const collectionRef = doc(db, 'articles', id);
-    await updateDoc(collectionRef, nextCodeKata);
+    updateArticle(id, nextCodeKata);
     setEditArticle(false);
   };
 

@@ -25,7 +25,7 @@ function CodeSubmit() {
     const nextCodeKata = {
       userId: auth.currentUser.uid,
       createdAt: new Date().toISOString(),
-      like: 0,
+      liked: [],
       title,
       content,
       link,

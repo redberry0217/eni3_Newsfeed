@@ -31,6 +31,15 @@ export const getArticles = async () => {
   return articlesList;
 };
 
+export const updateArticle = async (id, updated) => {
+  try {
+    const collectionRef = doc(db, 'articles', id);
+    await updateDoc(collectionRef, updated);
+  } catch (error) {
+    console.error('게시글 수정 오류', error);
+  }
+};
+
 export const deleteArticle = async (id) => {
   try {
     const articleRef = doc(db, 'articles', id);
