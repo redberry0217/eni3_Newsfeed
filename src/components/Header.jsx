@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaUserCircle } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
 import { signOut } from 'firebase/auth';
-import { auth } from '../shared/firebase';
+import { auth } from 'shared/firebase';
+import { useSelector } from 'react-redux';
 
 function Header() {
-  const user = useSelector((state) => state.loginAccess.user);
+  const { currentUser } = useSelector((state) => state.users);
+
   const [dropdown, setDropdown] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -22,7 +23,7 @@ function Header() {
   };
 
   const clickUserIconHandler = () => {
-    if (user) {
+    if (currentUser) {
       toggleDropdown();
     } else {
       navigate('/auth');
@@ -47,6 +48,11 @@ function Header() {
     };
   }, [dropdown]);
 
+  // 오늘의 코드 제출하기 눌렀을 때 로그인이 필요할 시 alert
+  const loginAlert = () => {
+    alert('로그인이 필요합니다.');
+  };
+
   return (
     <Background>
       <LogoAndTitleLink to="/">
@@ -59,7 +65,13 @@ function Header() {
           </p>
         </LogoAndTitle>
       </LogoAndTitleLink>
-      <SubmitCodeBtn to="/submit">오늘의 코드 제출하기</SubmitCodeBtn>
+      {currentUser === null ? (
+        <SubmitCodeBtn onClick={loginAlert} to="/auth">
+          오늘의 코드 제출하기
+        </SubmitCodeBtn>
+      ) : (
+        <SubmitCodeBtn to="/submit">오늘의 코드 제출하기</SubmitCodeBtn>
+      )}
       <>
         <MypageIcon onClick={clickUserIconHandler} ref={dropdownRef}>
           <StyledFaUserCircle />

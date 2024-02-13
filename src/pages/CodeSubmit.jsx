@@ -1,19 +1,17 @@
 import CodeKataForm from 'components/CodeKataForm';
-import { getAuth } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { db } from 'shared/firebase';
+import { auth, db } from 'shared/firebase';
 import { addArticle } from 'store/modules/article';
 import styled from 'styled-components';
+import { createArticle } from 'util/getDocs';
 
 function CodeSubmit() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onSubmitHandler = async (e) => {
-    const auth = getAuth();
-
     e.preventDefault();
     const title = e.target.title.value;
     const content = e.target.content.value;
@@ -36,15 +34,17 @@ function CodeSubmit() {
       code
     };
 
-    dispatch(addArticle(nextCodeKata));
+    const { id } = await createArticle(nextCodeKata);
+    dispatch(addArticle({ ...nextCodeKata, id }));
     e.target.reset();
+
+    // 등록 되면서 홈으로 이동
+    alert('등록 완료!');
+    navigate('/');
 
     // firebase 데이터 추가
     const collectionRef = collection(db, 'articles');
     await addDoc(collectionRef, nextCodeKata);
-
-    // 등록 되면서 홈으로 이동
-    navigate('/');
   };
 
   return (

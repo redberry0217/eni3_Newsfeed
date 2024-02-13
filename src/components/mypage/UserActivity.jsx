@@ -4,9 +4,10 @@ import MyActivity from './MyActivity';
 import MyCode from './MyCode';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import { auth } from 'shared/firebase';
 
 function UserActivity() {
-  const user = useSelector((state) => state.loginAccess.user);
+  const user = auth.currentUser;
   const articleList = useSelector((state) => state.article);
   const commentList = useSelector((state) => state.comment);
   const articles = articleList.filter((article) => article.userId === user.uid);
