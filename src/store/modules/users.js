@@ -2,6 +2,7 @@ const SET_USERS = 'users/SET_USERS';
 const ADD_USER = 'users/ADD_USERS';
 const MOD_USER = 'users/MOD_USER';
 const SET_CURRENT_USER = 'users/SET_USER';
+const MOD_USER = 'users/MOD_USER';
 
 export const setCurrentUser = (payload) => {
   return { type: SET_CURRENT_USER, payload };
