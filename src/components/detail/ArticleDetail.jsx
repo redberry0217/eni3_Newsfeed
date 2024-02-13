@@ -6,26 +6,31 @@ import { dateFormat } from 'util/date';
 import Prism from 'prismjs';
 import 'prism.css';
 import { auth } from 'shared/firebase';
-import { deleteArticle } from 'util/getDocs';
+import { deleteArticle, updateArticle } from 'util/getDocs';
 import { useNavigate } from 'react-router-dom';
 import { getAnimalIconUrl } from 'util/avatar';
 
 function ArticleDetail({ article, editBtnHandler }) {
   const dispatch = useDispatch();
-  const nagivate = useNavigate();
+  const navigate = useNavigate();
   const userList = useSelector((state) => state.users);
-  const { id, userId, title, createdAt, content, code, like, link, difficulty } = article;
+  const { id, userId, title, createdAt, content, code, liked, link, difficulty } = article;
   const { nickname, avatar, token } = userList.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     dispatch(likeArticle(id));
+    const updated = liked.includes(id)
+      ? { ...article, liked: liked.filter((user) => user !== id) }
+      : { ...article, liked: [...liked, id] };
+    console.log(updated);
+    updateArticle(id, updated);
   };
 
   const delBtnHandler = () => {
     if (!window.confirm('삭제하시겠습니까?')) return null;
     dispatch(delArticle(id));
     deleteArticle(id);
-    nagivate('/');
+    navigate('/');
   };
 
   useEffect(() => {
@@ -62,7 +67,7 @@ function ArticleDetail({ article, editBtnHandler }) {
           </CodeLink>
         </ContentWrap>
         <LikeButton type="button" onClick={onClickHandler}>
-          ❤️ {like}
+          ❤️ {liked?.length}
         </LikeButton>
       </Article>
     </>
