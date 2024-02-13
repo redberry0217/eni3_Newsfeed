@@ -47,7 +47,7 @@ function UserCurrentInfo({ setEditMode }) {
       <UserInfoContent>
         <UserInfoStyle>
           <ItemBox>가입일</ItemBox>
-          {dateFormat(currUserData.signUpDate.toDate())}
+          {dateFormat(currUserData.signUpDate)}
           <br />
           <ItemBox>이메일(아이디)</ItemBox>
           {currUserData.fullEmail} <br />

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from 'shared/firebase';
-import { query } from 'firebase/firestore';
 
 function EditUserInfoForm({ setEditMode }) {
   const [selectedAvatar, setselectedAvatar] = useState('개발하는 고양이');

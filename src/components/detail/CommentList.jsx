@@ -30,7 +30,7 @@ function Comment({ comment }) {
       <CommentHead>
         {/* <Avatar src={avatar} alt={nickname} /> */}
         <span>{nickname}</span>
-        <time>{dateFormat(createdAt.toDate())}</time>
+        <time>{dateFormat(createdAt)}</time>
       </CommentHead>
       {editMode.mode ? <textarea value={editMode.content} onChange={onChangeHandler} /> : <p>{content}</p>}
       <button type="button" onClick={modBtnHandler}>

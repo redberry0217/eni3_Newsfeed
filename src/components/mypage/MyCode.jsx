@@ -30,7 +30,7 @@ function MyCode({ articles }) {
         <tbody>
           {articles.map((article) => (
             <tr key={article.id}>
-              <td>{article.createdAt.toDate().toLocaleDateString()}</td>
+              <td>{article.createdAt.toLocaleDateString()}</td>
               <td>
                 <Link to={`/detail/${article.id}`}>{article.title}</Link>
               </td>
