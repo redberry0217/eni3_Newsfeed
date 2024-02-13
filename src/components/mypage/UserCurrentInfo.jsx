@@ -5,54 +5,40 @@ import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from 'shared/firebase';
 import { useSelector } from 'react-redux';
 import { dateFormat } from 'util/date';
+import { getUsers } from 'util/getDocs';
 
 function UserCurrentInfo({ setEditMode }) {
-  const [currUserData, setCurrUserData] = useState(null);
-  const user = useSelector((state) => state.loginAccess.user);
-
+  const [userData, setUserData] = useState(null);
+  const loginUser = useSelector((state) => state.loginAccess.user);
   useEffect(() => {
-    const fetchData = async () => {
-      if (user) {
-        const q = query(collection(db, 'users'));
-        const querySnapshot = await getDocs(q);
-        const userData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        if (userData.length > 0) {
-          setCurrUserData(userData[0]);
-        }
-      }
-    };
-    fetchData();
-  }, [user]);
+    getUsers().then((data) => setUserData(data));
+  }, []);
 
-  if (!currUserData) {
-    return <div>Loading...</div>;
+  if (!userData) {
+    return <div>Now Loading...</div>;
   }
+
+  const filteredUser = userData ? userData.find((user) => user.id === loginUser.uid) : [];
 
   return (
     <>
       <WelcomeMsg>
-        <UserNameStyle>{currUserData.nickname}</UserNameStyle> 님, <br />
+        <UserNameStyle>{filteredUser.nickname}</UserNameStyle> 님, <br />
         오늘도 즐거운 코딩하세요!
       </WelcomeMsg>
       <UserIcon>
-        <img
-          src="https://firebasestorage.googleapis.com/v0/b/test-32d7a.appspot.com/o/AnimalIcons%2FOptionImg_cat.png?alt=media&token=470bf4b0-975d-4d2b-a924-a78554a2b97c"
-          width="60%"
-          alt="유저 아이콘 이미지"
-        />
+        <img src={filteredUser.avatar} width="60%" alt="유저 아이콘 이미지" />
       </UserIcon>
       <UserInfoContent>
         <UserInfoStyle>
           <ItemBox>가입일</ItemBox>
-          {dateFormat(currUserData.signUpDate)}
+          {dateFormat(filteredUser.signUpDate)}
           <br />
           <ItemBox>이메일(아이디)</ItemBox>
-          {currUserData.fullEmail} <br />
+          {filteredUser.fullEmail}
+          <br />
           <ItemBox>현재 상태</ItemBox>
-          {currUserData.status ? currUserData.status : '아직 설정하지 않았습니다.'}
+          {filteredUser.status ? filteredUser.status : '아직 설정하지 않았습니다.'}
         </UserInfoStyle>
       </UserInfoContent>
       <EditUserInfoBtn onClick={() => setEditMode(true)}>정보 수정하기</EditUserInfoBtn>

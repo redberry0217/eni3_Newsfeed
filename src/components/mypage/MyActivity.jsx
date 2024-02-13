@@ -1,22 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function MyActivity({ articles }) {
+function MyActivity({ filteredArticles, filteredComments }) {
   let level;
   let nextLevelTodo;
 
-  if (articles.length >= 65) {
+  if (filteredArticles.length >= 65) {
     level = 4;
     nextLevelTodo = 0;
-  } else if (articles.length >= 41) {
+  } else if (filteredArticles.length >= 41) {
     level = 3;
-    nextLevelTodo = 65 - articles.length;
-  } else if (articles.length >= 11) {
+    nextLevelTodo = 65 - filteredArticles.length;
+  } else if (filteredArticles.length >= 11) {
     level = 2;
-    nextLevelTodo = 41 - articles.length;
+    nextLevelTodo = 41 - filteredArticles.length;
   } else {
     level = 1;
-    nextLevelTodo = 11 - articles.length;
+    nextLevelTodo = 11 - filteredArticles.length;
   }
 
   return (
@@ -31,9 +31,10 @@ function MyActivity({ articles }) {
           </p>
         </MyLevel>
         <MyActivityInfo>
-          지금까지 <DigitStyle>{articles.length}</DigitStyle> 문제 해결했습니다.
+          지금까지 <DigitStyle>{filteredArticles.length}</DigitStyle> 문제 해결했습니다.
           <br />
-          좋아요 <DigitStyle>52</DigitStyle>개, 댓글은 <DigitStyle>1</DigitStyle>개 받았습니다.
+          좋아요 <DigitStyle>{filteredArticles.like}</DigitStyle>개, 댓글은{' '}
+          <DigitStyle>{filteredComments.length}</DigitStyle>개 받았습니다.
           <br />
           <DigitStyle>{nextLevelTodo}</DigitStyle> 문제 더 해결하면 레벨이 올라요!
         </MyActivityInfo>
