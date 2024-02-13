@@ -29,7 +29,7 @@ function ArticleDetail({ article, editBtnHandler }) {
           <Avatar src={avatar} alt={nickname} />
           <NickName>{nickname}</NickName>
           <time>{dateFormat(createdAt)}</time>
-          {userId === auth.currentUser.uid ? (
+          {auth.currentUser?.uid && userId === auth.currentUser?.uid ? (
             <>
               <button onClick={editBtnHandler}>수정</button>
               <button>삭제</button>

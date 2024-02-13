@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { auth } from 'shared/firebase';
 import { delComment, modComment } from 'store/modules/comment';
 import styled from 'styled-components';
 import { dateFormat } from 'util/date';
@@ -38,12 +39,16 @@ function Comment({ comment }) {
         <time>{dateFormat(createdAt)}</time>
       </CommentHead>
       {editComment.mode ? <textarea value={editComment.content} onChange={onChangeHandler} /> : <p>{content}</p>}
-      <button type="button" onClick={modBtnHandler}>
-        {editComment.mode ? '수정 완료' : '수정'}
-      </button>
-      <button type="button" onClick={delBtnHandler}>
-        삭제
-      </button>
+      {auth.currentUser?.uid && userId === auth.currentUser?.uid ? (
+        <>
+          <button type="button" onClick={modBtnHandler}>
+            {editComment.mode ? '수정 완료' : '수정'}
+          </button>
+          <button type="button" onClick={delBtnHandler}>
+            삭제
+          </button>
+        </>
+      ) : null}
     </CommentWrap>
   );
 }
