@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { setGithubLogin, setGooGleLogin } from '../shared/firebase';
+import { setGithubLogin, setGooGleLogin } from 'shared/firebase';
 import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import catIcon from 'assets/OptionImg1_cat.png';
-import dogIcon from 'assets/OptionImg2_dog.png';
-import foxIcon from 'assets/OptionImg3_fox.png';
-import parrotIcon from 'assets/OptionImg4_parrot.png';
-import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
-import { db } from '../shared/firebase';
+import { doc, setDoc, collection, getDocs, serverTimestamp } from 'firebase/firestore';
+import { db } from 'shared/firebase';
 import { query, where } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 
@@ -23,6 +19,9 @@ function SignUp() {
   const [nickname, setNickname] = useState('');
   const [status, setStatus] = useState('');
   const [fullEmail, setFullEmail] = useState('');
+  const [avatar, setAvatar] = useState('cat');
+
+  const iconOptions = useSelector((state) => state.iconOptions.iconOptions) || [];
 
   const navigate = useNavigate();
 
@@ -47,7 +46,6 @@ function SignUp() {
 
   useEffect(() => {
     setFullEmail(`${emailId}@${customDomain || selectedDomain}`);
-    // console.log(`${emailId}@${customDomain || selectedDomain}`);
   }, [emailId, customDomain, selectedDomain]);
 
   const onSelectChange = (event) => {
@@ -67,19 +65,11 @@ function SignUp() {
     setNickname(value);
   };
 
-  const iconOptions = [
-    { value: 'cat', label: '개발하는 고양이', icon: <IconAnimal src={catIcon} /> },
-    { value: 'dog', label: '개발하는 강아지', icon: <IconAnimal src={dogIcon} /> },
-    { value: 'fox', label: '개발하는 여우', icon: <IconAnimal src={foxIcon} /> },
-    { value: 'parrot', label: '개발하는 앵무새', icon: <IconAnimal src={parrotIcon} /> }
-  ];
-
-  const stateOptions = useSelector((state) => state.stateOptions.options);
-
-  const [selectedIcon, setSelectedOption] = useState(iconOptions[0].value);
+  const token = iconOptions[0]?.token;
 
   const ChangeIconHandler = (e) => {
-    setSelectedOption(e.target.value);
+    const selectedAvatar = e.target.value;
+    setAvatar(selectedAvatar);
   };
 
   const auth = getAuth();
@@ -123,14 +113,14 @@ function SignUp() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, fullEmail, password);
       const userDocRef = doc(db, 'users', userCredential.user.uid);
-      const signUpDate = new Date().toISOString();
+      const signUpDate = serverTimestamp();
+
       await setDoc(userDocRef, {
         fullEmail,
         nickname,
         status,
-        selectedIcon,
-        avatar:
-          'https://firebasestorage.googleapis.com/v0/b/test-32d7a.appspot.com/o/AnimalIcons%2FOptionImg_cat.png?alt=media&token=470bf4b0-975d-4d2b-a924-a78554a2b97c',
+        avatar,
+        token,
         signUpDate
       });
       alert('회원가입이 완료되었습니다.');
@@ -140,6 +130,8 @@ function SignUp() {
         alert('이미 가입된 이메일입니다.');
       } else if (error.code === 'auth/weak-password') {
         alert('비밀번호는 최소 6글자가 필요합니다.');
+      } else if (error.code === 'auth/invalid-email') {
+        alert('올바른 이메일 형식이 아닙니다.');
       } else {
         console.error(error);
       }
@@ -230,15 +222,25 @@ function SignUp() {
               </div>
               <div>
                 <IconTitle>아이콘*</IconTitle>
-                <StyledSelectIcon name="icon" value={selectedIcon} onChange={ChangeIconHandler} required>
-                  {iconOptions.map((iconOptions) => (
-                    <option key={iconOptions.value} value={iconOptions.value}>
-                      {iconOptions.label}
+                <StyledSelectIcon name="icon" value={avatar} onChange={ChangeIconHandler} required>
+                  {iconOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
                     </option>
                   ))}
                 </StyledSelectIcon>
               </div>
-              <div>{iconOptions.find((option) => option.value === selectedIcon)?.icon}</div>
+              <div>
+                {iconOptions.map((iconOption) => (
+                  <StyledIconAnimal
+                    key={iconOption.value}
+                    src={iconOption.iconsrc}
+                    alt="Animal Icon"
+                    avatar={avatar}
+                    value={iconOption.value}
+                  />
+                ))}
+              </div>
             </NickNameAndIconSection>
             <div>
               <MyStatusTitle>나의 현재 상태</MyStatusTitle>
@@ -246,11 +248,11 @@ function SignUp() {
                 <option value="" hidden>
                   선택해주세요
                 </option>
-                {stateOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
+                <option value="개발자 취준생">개발자 취준생</option>
+                <option value="현업 개발자/튜터">현업 개발자/튜터</option>
+                <option value="학생(전공/비전공)">학생(전공/비전공)</option>
+                <option value="취미로 개발하는 사람">취미로 개발하는 사람</option>
+                <option value="재야의 무림고수">재야의 무림고수</option>
               </StyledSelectMyStatus>
             </div>
           </SignUpInputs>
@@ -439,13 +441,11 @@ const StyledSelectIcon = styled.select`
   font-size: 15pt;
 `;
 
-const IconAnimal = styled.img.attrs((props) => ({
-  src: props.src,
-  alt: 'Animal Icon'
-}))`
+const StyledIconAnimal = styled.img`
   width: 70px;
   height: 70px;
   margin-top: 30px;
+  display: ${(props) => (props.avatar === props.value ? 'block' : 'none')};
 `;
 
 const MyStatusTitle = styled.div`
