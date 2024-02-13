@@ -5,6 +5,7 @@ import { delComment, modComment } from 'store/modules/comment';
 import styled from 'styled-components';
 import { dateFormat } from 'util/date';
 import { deleteComment, updateComment } from 'util/getDocs';
+import { getAnimalIconUrl } from 'util/avatar';
 
 function Comment({ comment }) {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ function Comment({ comment }) {
 
   const [editComment, setEditComment] = useState({ content: content, mode: false });
   const userList = useSelector((state) => state.users);
-  const { nickname, avatar } = userList.find((user) => user.id === userId);
+  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
 
   const onChangeHandler = (e) => {
     setEditComment({ content: e.target.value, mode: true });
@@ -34,7 +35,7 @@ function Comment({ comment }) {
   return (
     <CommentWrap>
       <CommentHead>
-        <Avatar src={avatar} alt={nickname} />
+        <Avatar src={getAnimalIconUrl(avatar, token)} alt={nickname} />
         <span>{nickname}</span>
         <time>{dateFormat(createdAt)}</time>
         {auth.currentUser?.uid && userId === auth.currentUser?.uid ? (
