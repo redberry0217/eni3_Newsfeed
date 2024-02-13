@@ -2,13 +2,20 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import EditUserInfoForm from './EditUserInfoForm';
 import UserCurrentInfo from './UserCurrentInfo';
+import { useSelector } from 'react-redux';
 
 function UserInfo() {
   const [editMode, setEditMode] = useState(false);
+  const { users, currentUser } = useSelector((state) => state.users);
+  const filteredUser = currentUser && users.find((user) => user.id === currentUser.uid);
 
   return (
     <UserInfoContainer>
-      {editMode ? <EditUserInfoForm setEditMode={setEditMode} /> : <UserCurrentInfo setEditMode={setEditMode} />}
+      {editMode ? (
+        <EditUserInfoForm setEditMode={setEditMode} />
+      ) : (
+        <UserCurrentInfo setEditMode={setEditMode} filteredUser={filteredUser} />
+      )}
     </UserInfoContainer>
   );
 }
