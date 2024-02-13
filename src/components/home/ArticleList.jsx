@@ -2,12 +2,13 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { dateFormat } from 'util/date';
+import { getAnimalIconUrl } from 'util/avatar';
 
 function ArticleItem({ article }) {
   const navigate = useNavigate();
   const { id, userId, title, createdAt, content, like } = article;
   const userList = useSelector((state) => state.users);
-  const { nickname, avatar } = userList.find((user) => user.id === userId);
+  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     navigate(`/detail/${id}`);
@@ -16,7 +17,7 @@ function ArticleItem({ article }) {
   return (
     <Article onClick={onClickHandler}>
       <Author>
-        <Avatar src={avatar} alt={nickname} />
+        <Avatar src={getAnimalIconUrl(avatar, token)} alt={nickname} />
         <NickName>{nickname}</NickName>
       </Author>
       <ContentWrap>

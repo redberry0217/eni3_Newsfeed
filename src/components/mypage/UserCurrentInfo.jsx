@@ -13,11 +13,11 @@ function UserCurrentInfo({ setEditMode }) {
     getUsers().then((data) => setUserData(data));
   }, []);
 
+  const filteredUser = userData ? userData.find((user) => user.id === loginUser.uid) : [];
+
   if (!userData) {
     return <div>Now Loading...</div>;
   }
-
-  const filteredUser = userData ? userData.find((user) => user.id === loginUser.uid) : [];
 
   return (
     <>
