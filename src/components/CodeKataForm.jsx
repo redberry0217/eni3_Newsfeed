@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -7,12 +7,34 @@ function CodeKataForm({
   onSubmitHandler,
   editMode = false
 }) {
+  const [codeText, setCodeText] = useState();
   const navigate = useNavigate();
   const titleRef = useRef('');
 
   useEffect(() => {
     titleRef.current.focus();
   }, []);
+
+  const onChangeCodeTextHandler = (e) => {
+    setCodeText(e.target.value);
+  };
+
+  const codeTextTabHandler = (e) => {
+    if (e.keyCode === 9) {
+      e.preventDefault();
+
+      const start = e.target.selectionStart;
+      const end = e.target.selectionEnd;
+
+      const val = e.target.value;
+      const updatedText = val.substring(0, start) + '  ' + val.substring(end);
+
+      e.target.value = updatedText;
+      e.target.selectionStart = e.target.selectionEnd = start + 2;
+
+      setCodeText(updatedText);
+    }
+  };
 
   return (
     <FormArea onSubmit={onSubmitHandler}>
@@ -54,7 +76,13 @@ function CodeKataForm({
       </InputArea>
       <InputArea>
         <label>코드</label>
-        <textarea name="code" placeholder="해결한 문제 코드를 입력해주세요." defaultValue={value.code}></textarea>
+        <textarea
+          name="code"
+          placeholder="해결한 문제 코드를 입력해주세요."
+          value={codeText}
+          onChange={onChangeCodeTextHandler}
+          onKeyDown={codeTextTabHandler}
+        ></textarea>
       </InputArea>
       <ButtonArea>
         <button type="submit">{editMode ? '수정하기' : '등록하기'}</button>
