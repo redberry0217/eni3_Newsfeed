@@ -146,7 +146,8 @@ function SignUp() {
 
   const googleLoginHandler = async () => {
     try {
-      await setGooGleLogin();
+      const data = await setGooGleLogin();
+      console.log(data);
       navigate('/');
     } catch (error) {
       console.error(error);
@@ -242,8 +243,8 @@ function SignUp() {
                     key={iconOption.value}
                     src={iconOption.iconsrc}
                     alt="Animal Icon"
-                    avatar={avatar}
-                    value={iconOption.value}
+                    $avatar={avatar}
+                    $value={iconOption.value}
                   />
                 ))}
               </div>
@@ -451,7 +452,7 @@ const StyledIconAnimal = styled.img`
   width: 70px;
   height: 70px;
   margin-top: 30px;
-  display: ${(props) => (props.avatar === props.value ? 'block' : 'none')};
+  display: ${(props) => (props.$avatar === props.$value ? 'block' : 'none')};
 `;
 
 const MyStatusTitle = styled.div`

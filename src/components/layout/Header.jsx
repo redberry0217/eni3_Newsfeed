@@ -77,7 +77,7 @@ function Header() {
         )}
         <MypageIcon onClick={clickUserIconHandler} ref={dropdownRef}>
           <StyledFaUserCircle />
-          <DropdownContent visible={dropdown ? 1 : 0}>
+          <DropdownContent $visible={dropdown ? 1 : 0}>
             <DropdownItem
               onClick={() => {
                 navigate('/mypage');
@@ -186,7 +186,7 @@ const DropdownContent = styled.div`
   top: 40px;
   right: 25px;
   border-radius: 15px;
-  display: ${(props) => (props.visible ? 'block' : 'none')};
+  display: ${(props) => (props.$visible ? 'block' : 'none')};
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
