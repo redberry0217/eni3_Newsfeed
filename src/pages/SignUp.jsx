@@ -24,10 +24,9 @@ function SignUp() {
   const [confirmEmailButtonClick, setConfirmEmailButtonClick] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const iconOptions = useSelector((state) => state.iconOptions.iconOptions) || [];
-
-  const navigate = useNavigate();
 
   const CancelSignUpHandler = () => {
     const cancelConfirm = window.confirm('가입을 취소하시겠습니까?');
@@ -249,8 +248,8 @@ function SignUp() {
                     key={iconOption.value}
                     src={iconOption.iconsrc}
                     alt="Animal Icon"
-                    avatar={avatar}
-                    value={iconOption.value}
+                    $avatar={avatar}
+                    $value={iconOption.value}
                   />
                 ))}
               </div>
@@ -458,7 +457,7 @@ const StyledIconAnimal = styled.img`
   width: 70px;
   height: 70px;
   margin-top: 30px;
-  display: ${(props) => (props.avatar === props.value ? 'block' : 'none')};
+  display: ${(props) => (props.$avatar === props.$value ? 'block' : 'none')};
 `;
 
 const MyStatusTitle = styled.div`

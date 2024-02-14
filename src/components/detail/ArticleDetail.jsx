@@ -10,14 +10,17 @@ import { deleteArticle, updateArticle } from 'util/getDocs';
 import { useNavigate } from 'react-router-dom';
 import { getAnimalIconUrl } from 'util/avatar';
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
+import { FaCalendarAlt, FaLink } from 'react-icons/fa';
 
 function ArticleDetail({ article, editBtnHandler }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userList = useSelector((state) => state.users);
+
+  const userList = useSelector((state) => state.users.users);
   const currentUser = useSelector((state) => state.users.currentUser);
+
   const { id, userId, title, createdAt, content, code, liked, link, difficulty } = article;
-  const { nickname, avatar, token } = userList.users.find((user) => user.id === userId);
+  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
 
   const likeBtnHandler = () => {
     if (!currentUser) {
@@ -50,7 +53,10 @@ function ArticleDetail({ article, editBtnHandler }) {
         <Author>
           <Avatar src={getAnimalIconUrl(avatar, token)} alt={nickname} />
           <NickName>{nickname}</NickName>
-          <time>{dateFormat(createdAt)}</time>
+          <time>
+            <FaCalendarAlt />
+            {dateFormat(createdAt)}
+          </time>
           {auth.currentUser?.uid && userId === auth.currentUser?.uid ? (
             <>
               <Button type="button" onClick={editBtnHandler}>
@@ -63,18 +69,20 @@ function ArticleDetail({ article, editBtnHandler }) {
           ) : null}
         </Author>
         <ContentWrap>
+          <Difficulty>{difficulty}</Difficulty>
           <Pre>
             <code className="language-javascript">{code}</code>
           </Pre>
           <Content>{content}</Content>
-          <div>문제 난이도 : {difficulty}</div>
-          <CodeLink href={link} target="_blank" rel="noreferrer">
-            문제풀이 링크
-          </CodeLink>
         </ContentWrap>
-        <LikeButton type="button" onClick={likeBtnHandler}>
-          {liked.length > 0 ? <FcLike /> : <FcLikePlaceholder />} {liked?.length}
-        </LikeButton>
+        <Bottom>
+          <CodeLink href={link} target="_blank" rel="noreferrer">
+            <FaLink />이 문제 풀어보기
+          </CodeLink>
+          <LikeButton type="button" onClick={likeBtnHandler}>
+            {currentUser && liked.includes(currentUser.uid) ? <FcLike /> : <FcLikePlaceholder />} {liked?.length}
+          </LikeButton>
+        </Bottom>
       </Article>
     </>
   );
@@ -91,9 +99,15 @@ const Author = styled.div`
   gap: 0.5rem;
 
   time {
+    display: flex;
+    align-items: center;
     margin-left: auto;
     font-size: 90%;
     color: #666;
+  }
+
+  svg {
+    margin-right: 0.5rem;
   }
 `;
 
@@ -112,6 +126,10 @@ const ContentWrap = styled.div`
   margin: 1rem 0;
 `;
 
+const Difficulty = styled.div`
+  text-align: right;
+`;
+
 const Title = styled.h2`
   font-size: 2rem;
   font-weight: bold;
@@ -120,18 +138,31 @@ const Title = styled.h2`
 const Content = styled.p``;
 
 const CodeLink = styled.a`
-  display: inline-block;
-  padding: 0.5rem;
-  background: #2f89d1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem;
+  border: 1px solid #ddd;
   border-radius: 10px;
-  text-align: center;
-  width: 150px;
-  color: white;
   text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  svg {
+    margin-right: 0.5rem;
+  }
 `;
 
 const Pre = styled.pre`
   border-radius: 10px;
+`;
+
+const Bottom = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const LikeButton = styled.button`

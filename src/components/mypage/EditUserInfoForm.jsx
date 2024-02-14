@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { STATE_OPTIONS } from 'constant/stateOptions';
@@ -8,7 +8,6 @@ import { modUser } from 'store/modules/users';
 
 function EditUserInfoForm({ setEditMode, filteredUser }) {
   const dispatch = useDispatch();
-  // const [previewImage, setPreviewImage] = useState(null);
   const iconOptions = useSelector((state) => state.iconOptions.iconOptions);
 
   const myId = filteredUser.id;
@@ -26,6 +25,7 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
       return;
     }
 
+    if (!window.confirm(`입력한 내용으로 사용자 정보를 수정합니다.`)) return;
     try {
       const updateUser = {
         nickname: nickname,
@@ -47,6 +47,23 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
     }
   };
 
+  const [selectedIcon, setSelectedIcon] = useState(filteredUser.avatar);
+
+  const iconSelectHandler = (e) => {
+    setSelectedIcon(e.target.value);
+  };
+
+  const getIconImageSrc = (selectedIcon, iconOptions) => {
+    // 선택한 아이콘의 값과 일치하는 아이콘 옵션을 찾습니다.
+    const selectedOption = iconOptions.find((option) => option.value === selectedIcon);
+
+    // 선택한 아이콘에 해당하는 아이콘 옵션이 있다면 해당 아이콘의 이미지 주소를 반환합니다.
+    // 없다면 null을 반환합니다.
+    return selectedOption ? selectedOption.iconsrc : null;
+  };
+
+  const iconImageSrc = getIconImageSrc(selectedIcon, iconOptions);
+
   return (
     <EditUserInfoFormBox onSubmit={onSubmitHandler}>
       <WelcomeMsg>회원 정보 수정</WelcomeMsg>
@@ -55,15 +72,17 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
       </EditItem>
       <EditItem>
         아이콘
-        <StyledSelect name="icon" defaultValue={filteredUser.avatar}>
+        <StyledSelect name="icon" defaultValue={filteredUser.avatar} onChange={iconSelectHandler}>
           {iconOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </StyledSelect>
-        {/* {previewImage && <img src={previewImage} alt="아바타 미리보기" />} */}
       </EditItem>
+      <PreviewAvatar>
+        {iconImageSrc && <img src={iconImageSrc} alt="아바타 미리보기" style={{ width: '100%' }} />}
+      </PreviewAvatar>
       <EditItem>
         나의 현재 상태
         <StyledSelect name="state" defaultValue={filteredUser.status}>
@@ -96,12 +115,14 @@ const WelcomeMsg = styled.span`
   text-align: center;
   font-size: 18pt;
   margin-bottom: 50px;
+  font-weight: 600;
 `;
 
 const EditItem = styled.div`
   display: flex;
   flex-direction: column;
   font-weight: 600;
+  display: 100%;
 `;
 
 const StyledInput = styled.input`
@@ -126,6 +147,7 @@ const EditBtns = styled.div`
   display: flex;
   justify-content: center;
   gap: 10px;
+  margin-top: 30px;
 `;
 
 const ConfirmButton = styled.button`
@@ -148,4 +170,10 @@ const CancelButton = styled.button`
   width: 120px;
   height: 35px;
   cursor: pointer;
+`;
+
+const PreviewAvatar = styled.div`
+  width: 50%;
+  margin: auto;
+  margin-bottom: 30px;
 `;

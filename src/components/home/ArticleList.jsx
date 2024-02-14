@@ -4,20 +4,22 @@ import styled from 'styled-components';
 import { dateFormat } from 'util/date';
 import { getAnimalIconUrl } from 'util/avatar';
 import { FcComments, FcLike } from 'react-icons/fc';
+import { FaCalendarAlt } from 'react-icons/fa';
 
 function ArticleItem({ article }) {
   const navigate = useNavigate();
-  const { id, userId, title, createdAt, content, liked } = article;
-  const userList = useSelector((state) => state.users);
+
+  const userList = useSelector((state) => state.users.users);
   const commnentList = useSelector((state) => state.comment);
-  const { nickname, avatar, token } = userList.users.find((user) => user.id === userId);
+
+  const { id, userId, title, createdAt, content, liked } = article;
+  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     navigate(`/detail/${id}`);
   };
 
   const countComment = commnentList.filter((comment) => comment.articleId === id).length;
-  console.log(countComment);
 
   return (
     <Article onClick={onClickHandler}>
@@ -29,7 +31,10 @@ function ArticleItem({ article }) {
         <Title>{title}</Title>
         <Content>{content}</Content>
         <Bottom>
-          <time>{dateFormat(createdAt)}</time>
+          <time>
+            <FaCalendarAlt />
+            {dateFormat(createdAt)}
+          </time>
           <CommentIcon>
             <FcComments />
             {countComment}
@@ -107,8 +112,14 @@ const Bottom = styled.div`
   margin-top: auto;
 
   time {
+    display: flex;
+    align-items: center;
     font-size: 90%;
     color: #666;
+  }
+
+  svg {
+    margin-right: 0.5rem;
   }
 `;
 

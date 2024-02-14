@@ -6,15 +6,16 @@ import styled from 'styled-components';
 import { dateFormat } from 'util/date';
 import { deleteComment, updateComment } from 'util/getDocs';
 import { getAnimalIconUrl } from 'util/avatar';
+import { FaCalendarAlt } from 'react-icons/fa';
 
 function Comment({ comment }) {
   const dispatch = useDispatch();
   const { id, userId, content, createdAt } = comment;
 
   const [editComment, setEditComment] = useState({ content: content, mode: false });
-  const userList = useSelector((state) => state.users);
-  console.log(userList);
-  const { nickname, avatar, token } = userList.users.find((user) => user.id === userId);
+  const userList = useSelector((state) => state.users.users);
+
+  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
 
   const onChangeHandler = (e) => {
     setEditComment({ content: e.target.value, mode: true });
@@ -38,7 +39,10 @@ function Comment({ comment }) {
       <CommentHead>
         <Avatar src={getAnimalIconUrl(avatar, token)} alt={nickname} />
         <span>{nickname}</span>
-        <time>{dateFormat(createdAt)}</time>
+        <time>
+          <FaCalendarAlt />
+          {dateFormat(createdAt)}
+        </time>
         {auth.currentUser?.uid && userId === auth.currentUser?.uid ? (
           <>
             <Button type="button" onClick={modBtnHandler}>
@@ -89,9 +93,15 @@ const CommentHead = styled.div`
   gap: 0.5rem;
 
   time {
+    display: flex;
+    align-items: center;
     margin-left: auto;
     font-size: 90%;
     color: #666;
+  }
+
+  svg {
+    margin-right: 0.5rem;
   }
 `;
 

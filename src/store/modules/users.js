@@ -12,7 +12,6 @@ export const setUsers = (payload) => {
 };
 
 export const addUser = (payload) => {
-  console.log(payload);
   return { type: ADD_USER, payload };
 };
 

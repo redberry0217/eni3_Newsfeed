@@ -7,8 +7,9 @@ function CodeKataForm({
   onSubmitHandler,
   editMode = false
 }) {
-  const [codeText, setCodeText] = useState();
   const navigate = useNavigate();
+
+  const [codeText, setCodeText] = useState();
   const titleRef = useRef('');
 
   useEffect(() => {
@@ -67,11 +68,11 @@ function CodeKataForm({
           <option value="" disabled hidden>
             별점을 선택해주세요.
           </option>
-          <option value="⭐">⭐</option>
-          <option value="⭐⭐">⭐⭐</option>
-          <option value="⭐⭐⭐">⭐⭐⭐</option>
-          <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
-          <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
+          <option value="🌶️">🌶️</option>
+          <option value="🌶️🌶️">🌶️🌶️</option>
+          <option value="🌶️🌶️🌶️">🌶️🌶️🌶️</option>
+          <option value="🌶️🌶️🌶️🌶️">🌶️🌶️🌶️🌶️</option>
+          <option value="🌶️🌶️🌶️🌶️🌶️">🌶️🌶️🌶️🌶️🌶️</option>
         </select>
       </InputArea>
       <InputArea>
@@ -86,7 +87,7 @@ function CodeKataForm({
       </InputArea>
       <ButtonArea>
         <button type="submit">{editMode ? '수정하기' : '등록하기'}</button>
-        <button type="button" onClick={() => navigate('/')}>
+        <button type="button" onClick={() => navigate(-1)}>
           취소하기
         </button>
       </ButtonArea>
