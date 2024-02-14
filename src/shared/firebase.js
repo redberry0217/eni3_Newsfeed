@@ -47,13 +47,7 @@ export const setGithubLogin = async () => {
     const userDocRef = doc(db, 'users', user.uid);
     const signUpDate = new Date().toISOString();
 
-    const generateRandomNickname = () => {
-      const randomNumber = Math.floor(Math.random() * 10000);
-      const formattedNumber = randomNumber.toString().padStart(4, '0');
-      return `익명유저${formattedNumber}`;
-    };
-
-    const nickname = user.displayName || generateRandomNickname();
+    const nickname = user.displayName || '익명유저';
 
     const newUser = {
       fullEmail: user.email,
