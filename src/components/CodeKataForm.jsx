@@ -37,6 +37,16 @@ function CodeKataForm({
     }
   };
 
+  const confirmCancelBtnHandler = (event) => {
+    event.preventDefault();
+    const confirmCancel = window.confirm('작성을 취소하시겠습니까?');
+    if (confirmCancel) {
+      navigate(-1);
+    } else {
+      return;
+    }
+  };
+
   return (
     <FormArea onSubmit={onSubmitHandler}>
       <InputArea>
@@ -87,7 +97,7 @@ function CodeKataForm({
       </InputArea>
       <ButtonArea>
         <button type="submit">{editMode ? '수정하기' : '등록하기'}</button>
-        <button type="button" onClick={() => navigate(-1)}>
+        <button type="button" onClick={confirmCancelBtnHandler}>
           취소하기
         </button>
       </ButtonArea>

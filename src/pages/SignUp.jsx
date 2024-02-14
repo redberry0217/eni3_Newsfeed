@@ -276,8 +276,12 @@ function SignUp() {
             <StyledImGithub onClick={githubLoginHandler}></StyledImGithub>
           </SocialSignUpBtns>
           <SignUpOptionBtns>
-            <ConfirmSignUpBtn onClick={signUp}>가입하기</ConfirmSignUpBtn>
-            <CancelSignUpBtn onClick={CancelSignUpHandler}>취소하기</CancelSignUpBtn>
+            <ConfirmSignUpBtn type="button" onClick={signUp}>
+              가입하기
+            </ConfirmSignUpBtn>
+            <CancelSignUpBtn type="button" onClick={CancelSignUpHandler}>
+              취소하기
+            </CancelSignUpBtn>
           </SignUpOptionBtns>
         </SignUpBtns>
       </SignUpBox>

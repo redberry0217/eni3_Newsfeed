@@ -61,6 +61,8 @@ function Auth() {
     } catch (error) {
       if (error.code === 'auth/invalid-credential') {
         alert('등록되지 않은 이메일이거나, 틀린 비밀번호입니다.');
+      } else if (error.code === 'auth/invalid-email') {
+        alert('올바른 이메일 형식이 아닙니다.');
       } else {
         console.error(error);
       }
@@ -159,7 +161,7 @@ const LoginComment = styled.div`
   line-height: 1.3;
 `;
 
-const InputAreas = styled.div`
+const InputAreas = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
