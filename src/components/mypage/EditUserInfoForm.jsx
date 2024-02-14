@@ -68,7 +68,13 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
     <EditUserInfoFormBox onSubmit={onSubmitHandler}>
       <WelcomeMsg>회원 정보 수정</WelcomeMsg>
       <EditItem>
-        닉네임 <StyledInput name="nickname" placeholder="최대 10글자 입력 가능" defaultValue={filteredUser.nickname} />
+        닉네임{' '}
+        <StyledInput
+          name="nickname"
+          placeholder="최대 10글자 입력 가능"
+          defaultValue={filteredUser.nickname}
+          maxLength="10"
+        />
       </EditItem>
       <EditItem>
         아이콘
