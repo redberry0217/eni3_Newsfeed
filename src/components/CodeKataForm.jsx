@@ -54,9 +54,11 @@ function CodeKataForm({
         <input
           type="text"
           name="title"
-          placeholder="해결한 문제 제목을 입력해주세요."
+          placeholder="해결한 문제 제목을 입력해주세요. 최소 5자 이상, 최대 100자까지 작성 가능합니다."
           defaultValue={value.title}
           ref={titleRef}
+          maxLength="100"
+          minLength="5"
         />
       </InputArea>
       <InputArea>
@@ -64,13 +66,15 @@ function CodeKataForm({
         <input
           type="text"
           name="content"
-          placeholder="해결한 문제에 대한 평을 입력해주세요."
+          placeholder="해결한 문제에 대한 평을 입력해주세요. 최소 30자 이상, 최대 150자까지 작성 가능합니다."
           defaultValue={value.content}
+          maxLength="150"
+          minLength="30"
         />
       </InputArea>
       <InputArea>
         <label>주소</label>
-        <input type="text" name="link" placeholder="해결한 문제 주소를 입력해주세요." defaultValue={value.link} />
+        <input type="text" name="link" placeholder="해결한 문제의 주소를 입력해주세요." defaultValue={value.link} />
       </InputArea>
       <InputArea>
         <label>체감 난이도</label>
@@ -89,7 +93,7 @@ function CodeKataForm({
         <label>코드</label>
         <textarea
           name="code"
-          placeholder="해결한 문제 코드를 입력해주세요."
+          placeholder="해결한 문제의 코드를 입력해주세요."
           value={codeText}
           onChange={onChangeCodeTextHandler}
           onKeyDown={codeTextTabHandler}
