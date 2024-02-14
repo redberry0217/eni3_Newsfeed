@@ -95,6 +95,12 @@ const Avatar = styled.img`
 
 const NickName = styled.span`
   font-weight: bold;
+  font-size: 80%;
+  width: 70px;
+  white-space: space;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  text-align: center;
 `;
 
 const ContentWrap = styled.div`
