@@ -152,7 +152,8 @@ function SignUp() {
 
   const googleLoginHandler = async () => {
     try {
-      await setGooGleLogin();
+      const newUser = await setGooGleLogin();
+      dispatch(addUser(newUser));
       navigate('/');
     } catch (error) {
       console.error(error);
@@ -161,7 +162,8 @@ function SignUp() {
 
   const githubLoginHandler = async () => {
     try {
-      await setGithubLogin();
+      const newUser = await setGithubLogin();
+      dispatch(addUser(newUser));
       navigate('/');
     } catch (error) {
       console.error(error);

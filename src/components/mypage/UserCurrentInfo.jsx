@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { dateFormat } from 'util/date';
 import { getAnimalIconUrl } from 'util/avatar';
+import Loading from 'components/Loading';
 
 function UserCurrentInfo({ setEditMode, filteredUser }) {
-  if (!filteredUser) return <div>Now Loading...</div>;
+  if (!filteredUser) return <Loading />;
 
   return (
     <>

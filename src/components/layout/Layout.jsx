@@ -16,7 +16,7 @@ function Layout({ children }) {
 const Main = styled.main`
   max-width: 1500px;
   width: 100%;
-  margin: 2rem auto;
+  margin: 0 auto;
 `;
 
 export default Layout;

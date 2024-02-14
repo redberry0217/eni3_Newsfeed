@@ -22,7 +22,7 @@ function SortMenu({ changeSort }) {
 const MainTopSection = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin: 1rem;
+  margin: 1rem 0;
 `;
 
 const SelectWrap = styled.div`
