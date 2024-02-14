@@ -49,7 +49,8 @@ export const setGithubLogin = async () => {
 
     const generateRandomNickname = () => {
       const randomNumber = Math.floor(Math.random() * 10000);
-      return `익명유저${randomNumber}`;
+      const formattedNumber = randomNumber.toString().padStart(4, '0');
+      return `익명유저${formattedNumber}`;
     };
 
     const nickname = user.displayName || generateRandomNickname();
@@ -82,7 +83,8 @@ export const setGooGleLogin = async (dispatch) => {
 
     const generateRandomNickname = () => {
       const randomNumber = Math.floor(Math.random() * 10000);
-      return `익명유저${randomNumber}`;
+      const formattedNumber = randomNumber.toString().padStart(4, '0');
+      return `익명유저${formattedNumber}`;
     };
 
     const nickname = user.displayName || generateRandomNickname();
