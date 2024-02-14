@@ -76,7 +76,7 @@ function CodeKataForm({
         <label>체감 난이도</label>
         <select name="difficulty" defaultValue={value.difficulty}>
           <option value="" disabled hidden>
-            별점을 선택해주세요.
+            선택해주세요.
           </option>
           <option value="🌶️">🌶️</option>
           <option value="🌶️🌶️">🌶️🌶️</option>
@@ -114,22 +114,25 @@ const FormArea = styled.form`
   flex-direction: column;
   gap: 2rem;
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: 15px;
 `;
 
 const InputArea = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.5rem;
+  font-weight: 600;
+
   & label {
     padding-left: 6px;
   }
   & input,
   select,
   textarea {
-    padding: 5px 8px;
-    border: 2px solid #7f7f7f;
-    border-radius: 8px;
+    height: 35px;
+    border-radius: 15px;
+    border: 1px solid gray;
+    padding-left: 15px;
   }
   & select {
     width: 200px;
@@ -137,6 +140,7 @@ const InputArea = styled.div`
   & textarea {
     resize: none;
     height: 100px;
+    padding-top: 10px;
   }
 `;
 
@@ -144,28 +148,30 @@ const ButtonArea = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
   & :nth-child(1) {
-    width: 180px;
+    width: 170px;
     height: 40px;
     border: none;
-    border-radius: 8px;
-    background-color: #202b3d;
+    border-radius: 15px;
+    background-color: #2f89d1;
     color: white;
     cursor: pointer;
     font-weight: 600;
     font-size: 14pt;
     margin-left: auto;
   }
-  & :nth-child(1):active {
-    background-color: #2e3e57;
+  & :nth-child(1):hover {
+    background-color: #0b65ad;
+    transition: background-color 0.4s ease;
   }
+
   & :nth-child(2) {
-    width: 180px;
+    width: 170px;
     height: 40px;
     border: none;
-    border-radius: 8px;
-    background-color: #7f7f7f;
+    border-radius: 15px;
+    background-color: gray;
     color: white;
     cursor: pointer;
     font-weight: 600;

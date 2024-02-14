@@ -159,6 +159,11 @@ const ConfirmButton = styled.button`
   width: 120px;
   height: 35px;
   cursor: pointer;
+
+  &:hover {
+    background-color: #0b65ad;
+    transition: background-color 0.4s ease;
+  }
 `;
 
 const CancelButton = styled.button`

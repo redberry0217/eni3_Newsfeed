@@ -73,6 +73,7 @@ const TitleArea = styled.section`
   & h1 {
     font-size: 2rem;
     font-weight: bold;
-    color: #1380b6;
+    color: #2f89d1;
   }
+  margin-bottom: 15px;
 `;
