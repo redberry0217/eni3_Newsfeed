@@ -6,7 +6,7 @@ import CommentForm from 'components/detail/CommentForm';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { modArticle } from 'store/modules/article';
-import { updateArticle } from 'util/getDocs';
+import { updateArticle } from 'shared/database';
 import CodeKataForm from 'components/CodeKataForm';
 
 function Detail() {

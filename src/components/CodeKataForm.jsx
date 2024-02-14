@@ -9,7 +9,7 @@ function CodeKataForm({
 }) {
   const navigate = useNavigate();
 
-  const [codeText, setCodeText] = useState();
+  const [codeText, setCodeText] = useState(value.code);
   const titleRef = useRef('');
 
   useEffect(() => {
@@ -48,68 +48,87 @@ function CodeKataForm({
   };
 
   return (
-    <FormArea onSubmit={onSubmitHandler}>
-      <InputArea>
-        <label>제목</label>
-        <input
-          type="text"
-          name="title"
-          placeholder="해결한 문제 제목을 입력해주세요. 최소 5자 이상, 최대 100자까지 작성 가능합니다."
-          defaultValue={value.title}
-          ref={titleRef}
-          maxLength="100"
-          minLength="5"
-        />
-      </InputArea>
-      <InputArea>
-        <label>한마디</label>
-        <input
-          type="text"
-          name="content"
-          placeholder="해결한 문제에 대한 평을 입력해주세요. 최소 30자 이상, 최대 150자까지 작성 가능합니다."
-          defaultValue={value.content}
-          maxLength="150"
-          minLength="30"
-        />
-      </InputArea>
-      <InputArea>
-        <label>주소</label>
-        <input type="text" name="link" placeholder="해결한 문제의 주소를 입력해주세요." defaultValue={value.link} />
-      </InputArea>
-      <InputArea>
-        <label>체감 난이도</label>
-        <select name="difficulty" defaultValue={value.difficulty}>
-          <option value="" disabled hidden>
-            선택해주세요.
-          </option>
-          <option value="🌶️">🌶️</option>
-          <option value="🌶️🌶️">🌶️🌶️</option>
-          <option value="🌶️🌶️🌶️">🌶️🌶️🌶️</option>
-          <option value="🌶️🌶️🌶️🌶️">🌶️🌶️🌶️🌶️</option>
-          <option value="🌶️🌶️🌶️🌶️🌶️">🌶️🌶️🌶️🌶️🌶️</option>
-        </select>
-      </InputArea>
-      <InputArea>
-        <label>코드</label>
-        <textarea
-          name="code"
-          placeholder="해결한 문제의 코드를 입력해주세요."
-          value={codeText}
-          onChange={onChangeCodeTextHandler}
-          onKeyDown={codeTextTabHandler}
-        ></textarea>
-      </InputArea>
-      <ButtonArea>
-        <button type="submit">{editMode ? '수정하기' : '등록하기'}</button>
-        <button type="button" onClick={confirmCancelBtnHandler}>
-          취소하기
-        </button>
-      </ButtonArea>
-    </FormArea>
+    <>
+      <TitleArea>
+        <h1>{editMode ? '수정하기' : '코드카타'}</h1>
+        <p>반복되는 연습이라는 뜻을 가진 'Kata'를 통해 매일 코딩을 훈련해봅시다.</p>
+      </TitleArea>
+      <FormArea onSubmit={onSubmitHandler}>
+        <InputArea>
+          <label>제목</label>
+          <input
+            type="text"
+            name="title"
+            placeholder="해결한 문제 제목을 입력해주세요. 최소 5자 이상, 최대 100자까지 작성 가능합니다."
+            defaultValue={value.title}
+            ref={titleRef}
+            maxLength="100"
+            minLength="5"
+          />
+        </InputArea>
+        <InputArea>
+          <label>한마디</label>
+          <input
+            type="text"
+            name="content"
+            placeholder="해결한 문제에 대한 평을 입력해주세요. 최소 30자 이상, 최대 150자까지 작성 가능합니다."
+            defaultValue={value.content}
+            maxLength="150"
+            minLength="30"
+          />
+        </InputArea>
+        <InputArea>
+          <label>주소</label>
+          <input type="text" name="link" placeholder="해결한 문제의 주소를 입력해주세요." defaultValue={value.link} />
+        </InputArea>
+        <InputArea>
+          <label>체감 난이도</label>
+          <select name="difficulty" defaultValue={value.difficulty}>
+            <option value="" disabled hidden>
+              선택해주세요.
+            </option>
+            <option value="🌶️">🌶️</option>
+            <option value="🌶️🌶️">🌶️🌶️</option>
+            <option value="🌶️🌶️🌶️">🌶️🌶️🌶️</option>
+            <option value="🌶️🌶️🌶️🌶️">🌶️🌶️🌶️🌶️</option>
+            <option value="🌶️🌶️🌶️🌶️🌶️">🌶️🌶️🌶️🌶️🌶️</option>
+          </select>
+        </InputArea>
+        <InputArea>
+          <label>코드</label>
+          <textarea
+            name="code"
+            placeholder="해결한 문제의 코드를 입력해주세요."
+            value={codeText}
+            onChange={onChangeCodeTextHandler}
+            onKeyDown={codeTextTabHandler}
+          ></textarea>
+        </InputArea>
+        <ButtonArea>
+          <button type="submit">{editMode ? '수정하기' : '등록하기'}</button>
+          <button type="button" onClick={confirmCancelBtnHandler}>
+            취소하기
+          </button>
+        </ButtonArea>
+      </FormArea>
+    </>
   );
 }
 
 export default CodeKataForm;
+
+const TitleArea = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  & h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2f89d1;
+  }
+  margin-bottom: 15px;
+`;
 
 const FormArea = styled.form`
   background-color: #f2f2f2;

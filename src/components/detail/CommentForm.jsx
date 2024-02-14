@@ -2,11 +2,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addComment } from 'store/modules/comment';
 import styled from 'styled-components';
-import { createComment } from 'util/getDocs';
+import { createComment } from 'shared/database';
 
 function CommentForm({ articleId }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const currentUser = useSelector((state) => state.users.currentUser);
 
   const onSubmitHandler = async (e) => {
