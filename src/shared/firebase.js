@@ -46,9 +46,18 @@ export const setGithubLogin = async () => {
 
     const userDocRef = doc(db, 'users', user.uid);
     const signUpDate = new Date().toISOString();
+
+    const generateRandomNickname = () => {
+      const randomNumber = Math.floor(Math.random() * 10000);
+      const formattedNumber = randomNumber.toString().padStart(4, '0');
+      return `익명유저${formattedNumber}`;
+    };
+
+    const nickname = user.displayName || generateRandomNickname();
+
     const newUser = {
       fullEmail: user.email,
-      nickname: user.displayName,
+      nickname,
       status: '',
       avatar: 'cat',
       token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
@@ -71,9 +80,18 @@ export const setGooGleLogin = async (dispatch) => {
 
     const userDocRef = doc(db, 'users', user.uid);
     const signUpDate = new Date().toISOString();
+
+    const generateRandomNickname = () => {
+      const randomNumber = Math.floor(Math.random() * 10000);
+      const formattedNumber = randomNumber.toString().padStart(4, '0');
+      return `익명유저${formattedNumber}`;
+    };
+
+    const nickname = user.displayName || generateRandomNickname();
+
     const newUser = {
       fullEmail: user.email,
-      nickname: user.displayName,
+      nickname,
       status: '',
       avatar: 'cat',
       token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
