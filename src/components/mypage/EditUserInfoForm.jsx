@@ -76,7 +76,9 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
       </EditItem>
       <EditBtns>
         <ConfirmButton type="submit">수정완료</ConfirmButton>
-        <CancelButton onClick={cancelHandler}>취소하기</CancelButton>
+        <CancelButton type="button" onClick={cancelHandler}>
+          취소하기
+        </CancelButton>
       </EditBtns>
     </EditUserInfoFormBox>
   );
