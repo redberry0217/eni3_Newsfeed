@@ -30,7 +30,10 @@ function Header() {
 
   const clickUserIconHandler = () => {
     toggleDropdown();
-    if (!currentUser) navigate('/auth');
+    if (!currentUser) {
+      setDropdown(false);
+      navigate('/auth');
+    }
   };
 
   useEffect(() => {
