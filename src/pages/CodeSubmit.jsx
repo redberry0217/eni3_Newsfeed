@@ -75,5 +75,5 @@ const TitleArea = styled.section`
     font-weight: bold;
     color: #2f89d1;
   }
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 `;

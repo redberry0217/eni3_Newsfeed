@@ -122,7 +122,6 @@ const InputArea = styled.div`
     height: 35px;
     border-radius: 15px;
     border: 1px solid gray;
-    margin-bottom: 15px;
     padding-left: 15px;
   }
   & select {
@@ -141,7 +140,7 @@ const ButtonArea = styled.div`
   align-items: center;
   gap: 1.5rem;
   & :nth-child(1) {
-    width: 180px;
+    width: 170px;
     height: 40px;
     border: none;
     border-radius: 15px;
@@ -158,7 +157,7 @@ const ButtonArea = styled.div`
   }
 
   & :nth-child(2) {
-    width: 180px;
+    width: 170px;
     height: 40px;
     border: none;
     border-radius: 15px;
