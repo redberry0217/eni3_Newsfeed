@@ -20,7 +20,7 @@ function ArticleDetail({ article, editBtnHandler }) {
   const currentUser = useSelector((state) => state.users.currentUser);
 
   const { id, userId, title, createdAt, content, code, liked, link, difficulty } = article;
-  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
+  const { nickname, avatar, token, status } = userList.find((user) => user.id === userId);
 
   const likeBtnHandler = () => {
     if (!currentUser) {
@@ -52,7 +52,7 @@ function ArticleDetail({ article, editBtnHandler }) {
         <Title>{title}</Title>
         <Author>
           <Avatar src={getAnimalIconUrl(avatar, token)} alt={nickname} />
-          <NickName>{nickname}</NickName>
+          <Nickname title={status}>{nickname}</Nickname>
           <time>
             <FaCalendarAlt />
             {dateFormat(createdAt)}
@@ -117,7 +117,9 @@ const Avatar = styled.img`
   border-radius: 50%;
 `;
 
-const NickName = styled.span``;
+const Nickname = styled.span`
+  cursor: help;
+`;
 
 const ContentWrap = styled.div`
   display: flex;

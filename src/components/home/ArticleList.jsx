@@ -13,7 +13,7 @@ function ArticleItem({ article }) {
   const commnentList = useSelector((state) => state.comment);
 
   const { id, userId, title, createdAt, content, liked } = article;
-  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
+  const { nickname, avatar, token, status } = userList.find((user) => user.id === userId);
 
   const onClickHandler = () => {
     navigate(`/detail/${id}`);
@@ -25,7 +25,7 @@ function ArticleItem({ article }) {
     <Article onClick={onClickHandler}>
       <Author>
         <Avatar src={getAnimalIconUrl(avatar, token)} alt={nickname} />
-        <NickName>{nickname}</NickName>
+        <NickName title={status}>{nickname}</NickName>
       </Author>
       <ContentWrap>
         <Title>{title}</Title>
@@ -101,6 +101,7 @@ const NickName = styled.span`
   text-overflow: ellipsis;
   word-break: break-all;
   text-align: center;
+  cursor: help;
 `;
 
 const ContentWrap = styled.div`

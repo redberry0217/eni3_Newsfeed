@@ -15,7 +15,7 @@ function Comment({ comment }) {
   const [editComment, setEditComment] = useState({ content: content, mode: false });
   const userList = useSelector((state) => state.users.users);
 
-  const { nickname, avatar, token } = userList.find((user) => user.id === userId);
+  const { nickname, avatar, token, status } = userList.find((user) => user.id === userId);
 
   const onChangeHandler = (e) => {
     setEditComment({ content: e.target.value, mode: true });
@@ -38,7 +38,7 @@ function Comment({ comment }) {
     <CommentWrap>
       <CommentHead>
         <Avatar src={getAnimalIconUrl(avatar, token)} alt={nickname} />
-        <span>{nickname}</span>
+        <Nickname title={status}>{nickname}</Nickname>
         <time>
           <FaCalendarAlt />
           {dateFormat(createdAt)}
@@ -123,6 +123,10 @@ const Avatar = styled.img`
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
+`;
+
+const Nickname = styled.span`
+  cursor: help;
 `;
 
 const Button = styled.button`
