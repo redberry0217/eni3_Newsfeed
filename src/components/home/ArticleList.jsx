@@ -63,7 +63,7 @@ const Section = styled.section`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin: 1rem;
+  margin: 1rem 0;
 `;
 
 const Article = styled.article`

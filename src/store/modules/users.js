@@ -31,7 +31,12 @@ const users = (state = initialState, action) => {
     case SET_USERS:
       return { ...state, users: action.payload };
     case ADD_USER:
-      return { ...state, users: [...state.users, action.payload] };
+      const isUserExist = state.users.some((user) => user.id === action.payload.id);
+      if (!isUserExist) {
+        return { ...state, users: [...state.users, action.payload] };
+      } else {
+        return state;
+      }
     case MOD_USER:
       return { ...state, users: state.users.map((user) => (user.id === action.payload.id ? action.payload : user)) };
     default:

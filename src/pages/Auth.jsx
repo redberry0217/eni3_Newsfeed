@@ -8,8 +8,11 @@ import { BsBoxArrowInRight } from 'react-icons/bs';
 import styled from 'styled-components';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../shared/firebase';
+import { useDispatch } from 'react-redux';
+import { addUser } from 'store/modules/users';
 
 function Auth() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -69,7 +72,8 @@ function Auth() {
 
   const googleLoginHandler = async () => {
     try {
-      await setGooGleLogin();
+      const newUser = await setGooGleLogin();
+      dispatch(addUser(newUser));
       navigate('/');
     } catch (error) {
       console.error(error);
@@ -78,7 +82,8 @@ function Auth() {
 
   const githubLoginHandler = async () => {
     try {
-      await setGithubLogin();
+      const newUser = await setGithubLogin();
+      dispatch(addUser(newUser));
       navigate('/');
     } catch (error) {
       console.error(error);

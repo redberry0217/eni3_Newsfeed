@@ -46,22 +46,24 @@ export const setGithubLogin = async () => {
 
     const userDocRef = doc(db, 'users', user.uid);
     const signUpDate = new Date().toISOString();
-    await setDoc(userDocRef, {
+    const newUser = {
       fullEmail: user.email,
       nickname: user.displayName,
       status: '',
       avatar: 'cat',
       token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
       signUpDate
-    });
+    };
+    await setDoc(userDocRef, newUser);
     await getUserInfo(user.uid);
     alert(`안녕하세요, ${nickname}님!`);
+    return { ...newUser, id: user.uid };
   } catch (error) {
     console.error(error);
   }
 };
 
-export const setGooGleLogin = async () => {
+export const setGooGleLogin = async (dispatch) => {
   const googleProvider = new GoogleAuthProvider();
   try {
     const result = await signInWithPopup(auth, googleProvider);
@@ -69,16 +71,18 @@ export const setGooGleLogin = async () => {
 
     const userDocRef = doc(db, 'users', user.uid);
     const signUpDate = new Date().toISOString();
-    await setDoc(userDocRef, {
+    const newUser = {
       fullEmail: user.email,
       nickname: user.displayName,
       status: '',
       avatar: 'cat',
       token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
       signUpDate
-    });
+    };
+    await setDoc(userDocRef, newUser);
     await getUserInfo(user.uid);
     alert(`안녕하세요, ${nickname}님!`);
+    return { ...newUser, id: user.uid };
   } catch (error) {
     console.error(error);
   }
