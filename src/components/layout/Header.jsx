@@ -97,7 +97,7 @@ function Header() {
 const Background = styled.header`
   background-color: #ddecf8;
   border-bottom: solid 2px #c7c7c7;
-  padding: 0 2rem;
+  padding: 0 4rem;
   position: sticky;
   top: 0%;
   left: 0;
@@ -179,8 +179,8 @@ const StyledFaUserCircle = styled(FaUserCircle)`
 `;
 
 const DropdownContent = styled.div`
-  top: 40px;
-  right: 25px;
+  top: 50px;
+  right: -55px;
   border-radius: 15px;
   display: ${(props) => (props.$visible ? 'block' : 'none')};
   position: absolute;

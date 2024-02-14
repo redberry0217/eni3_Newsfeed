@@ -21,6 +21,7 @@ function SignUp() {
   const [status, setStatus] = useState('');
   const [fullEmail, setFullEmail] = useState('');
   const [avatar, setAvatar] = useState('cat');
+  const [confirmEmailButtonClick, setConfirmEmailButtonClick] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -76,7 +77,8 @@ function SignUp() {
 
   const auth = getAuth();
 
-  const ClickConfirmEmail = async () => {
+  const ClickConfirmEmail = async (event) => {
+    event.preventDefault();
     try {
       if (!emailId || !selectedDomain) {
         alert('이메일을 입력하세요.');
@@ -97,6 +99,7 @@ function SignUp() {
     } catch (error) {
       console.error('error', error);
     }
+    setConfirmEmailButtonClick(true);
   };
 
   const signUp = async (event) => {
@@ -112,34 +115,38 @@ function SignUp() {
       return;
     }
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, fullEmail, password);
-      const userDocRef = doc(db, 'users', userCredential.user.uid);
-      const signUpDate = new Date().toISOString();
+    if (confirmEmailButtonClick) {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, fullEmail, password);
+        const userDocRef = doc(db, 'users', userCredential.user.uid);
+        const signUpDate = new Date().toISOString();
 
-      const newUser = {
-        fullEmail,
-        nickname,
-        status,
-        avatar,
-        token,
-        signUpDate
-      };
+        const newUser = {
+          fullEmail,
+          nickname,
+          status,
+          avatar,
+          token,
+          signUpDate
+        };
 
-      await setDoc(userDocRef, newUser);
-      dispatch(addUser({ ...newUser, id: userCredential.user.uid }));
-      alert('회원가입이 완료되었습니다.');
-      navigate('/');
-    } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
-        alert('이미 가입된 이메일입니다.');
-      } else if (error.code === 'auth/weak-password') {
-        alert('비밀번호는 최소 6글자가 필요합니다.');
-      } else if (error.code === 'auth/invalid-email') {
-        alert('올바른 이메일 형식이 아닙니다.');
-      } else {
-        console.error(error);
+        await setDoc(userDocRef, newUser);
+        dispatch(addUser({ ...newUser, id: userCredential.user.uid }));
+        alert('회원가입이 완료되었습니다.');
+        navigate('/');
+      } catch (error) {
+        if (error.code === 'auth/email-already-in-use') {
+          alert('이미 가입된 이메일입니다.');
+        } else if (error.code === 'auth/weak-password') {
+          alert('비밀번호는 최소 6글자가 필요합니다.');
+        } else if (error.code === 'auth/invalid-email') {
+          alert('올바른 이메일 형식이 아닙니다.');
+        } else {
+          console.error(error);
+        }
       }
+    } else {
+      alert('이메일 중복 확인을 해주세요.');
     }
   };
 
@@ -167,7 +174,7 @@ function SignUp() {
         <SignUpInputBox>
           <SignUpInputsTitle>회원가입</SignUpInputsTitle>
           <SignUpInputs>
-            <div>
+            <form>
               <InputEmailTitle>이메일(아이디)*</InputEmailTitle>
               <InputEmailBox>
                 <InputEmailId type="emailId" name="emailId" value={emailId} onChange={onChange} required></InputEmailId>
@@ -191,9 +198,9 @@ function SignUp() {
                 </StyledSelectDomain>
                 <CheckDuplicateEmailBtn onClick={ClickConfirmEmail}>중복 확인</CheckDuplicateEmailBtn>
               </InputEmailBox>
-            </div>
+            </form>
             <InputPasswordBox>
-              <div>
+              <form>
                 <InputPasswordTitle>비밀번호*</InputPasswordTitle>
                 <InputPassword
                   type="password"
@@ -201,8 +208,8 @@ function SignUp() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 ></InputPassword>
-              </div>
-              <div>
+              </form>
+              <form>
                 <InputConfirmPasswordTitle>비밀번호 확인*</InputConfirmPasswordTitle>
                 <InputConfirmPassword
                   type="password"
@@ -211,10 +218,10 @@ function SignUp() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 ></InputConfirmPassword>
-              </div>
+              </form>
             </InputPasswordBox>
             <NickNameAndIconSection>
-              <div>
+              <form>
                 <NickNameTitle>닉네임*</NickNameTitle>
                 <InputNickName
                   type="text"
@@ -224,7 +231,7 @@ function SignUp() {
                   placeholder="10자 이내로 작성할 수 있습니다."
                   required
                 ></InputNickName>
-              </div>
+              </form>
               <div>
                 <IconTitle>아이콘*</IconTitle>
                 <StyledSelectIcon name="icon" value={avatar} onChange={ChangeIconHandler} required>
@@ -269,8 +276,12 @@ function SignUp() {
             <StyledImGithub onClick={githubLoginHandler}></StyledImGithub>
           </SocialSignUpBtns>
           <SignUpOptionBtns>
-            <ConfirmSignUpBtn onClick={signUp}>가입하기</ConfirmSignUpBtn>
-            <CancelSignUpBtn onClick={CancelSignUpHandler}>취소하기</CancelSignUpBtn>
+            <ConfirmSignUpBtn type="button" onClick={signUp}>
+              가입하기
+            </ConfirmSignUpBtn>
+            <CancelSignUpBtn type="button" onClick={CancelSignUpHandler}>
+              취소하기
+            </CancelSignUpBtn>
           </SignUpOptionBtns>
         </SignUpBtns>
       </SignUpBox>
