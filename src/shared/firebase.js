@@ -46,27 +46,40 @@ export const setGithubLogin = async () => {
 
     const userDocRef = doc(db, 'users', user.uid);
     const signUpDate = new Date().toISOString();
-
     const generateRandomNickname = () => {
       const randomNumber = Math.floor(Math.random() * 10000);
       const formattedNumber = randomNumber.toString().padStart(4, '0');
       return `익명유저${formattedNumber}`;
     };
 
-    const nickname = user.displayName || generateRandomNickname();
+    const userDocSnapshot = await getDoc(userDocRef);
+    let nickname;
 
-    const newUser = {
+    if (userDocSnapshot.exists()) {
+      nickname = userDocSnapshot.data().nickname;
+      alert(`안녕하세요, ${nickname}님!`);
+    } else {
+      nickname = user.displayName || generateRandomNickname();
+      await setDoc(userDocRef, {
+        fullEmail: user.email,
+        nickname,
+        status: '',
+        avatar: 'cat',
+        token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
+        signUpDate
+      });
+      await getUserInfo(user.uid);
+      alert(`안녕하세요, ${nickname}님!`);
+    }
+    return {
       fullEmail: user.email,
       nickname,
       status: '',
       avatar: 'cat',
       token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
-      signUpDate
+      signUpDate,
+      id: user.uid
     };
-    await setDoc(userDocRef, newUser);
-    await getUserInfo(user.uid);
-    alert(`안녕하세요, ${nickname}님!`);
-    return { ...newUser, id: user.uid };
   } catch (error) {
     console.error(error);
   }
@@ -80,27 +93,40 @@ export const setGooGleLogin = async (dispatch) => {
 
     const userDocRef = doc(db, 'users', user.uid);
     const signUpDate = new Date().toISOString();
-
     const generateRandomNickname = () => {
       const randomNumber = Math.floor(Math.random() * 10000);
       const formattedNumber = randomNumber.toString().padStart(4, '0');
       return `익명유저${formattedNumber}`;
     };
 
-    const nickname = user.displayName || generateRandomNickname();
+    const userDocSnapshot = await getDoc(userDocRef);
+    let nickname;
 
-    const newUser = {
+    if (userDocSnapshot.exists()) {
+      nickname = userDocSnapshot.data().nickname;
+      alert(`안녕하세요, ${nickname}님!`);
+    } else {
+      nickname = user.displayName || generateRandomNickname();
+      await setDoc(userDocRef, {
+        fullEmail: user.email,
+        nickname,
+        status: '',
+        avatar: 'cat',
+        token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
+        signUpDate
+      });
+      await getUserInfo(user.uid);
+      alert(`안녕하세요, ${nickname}님!`);
+    }
+    return {
       fullEmail: user.email,
       nickname,
       status: '',
       avatar: 'cat',
       token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
-      signUpDate
+      signUpDate,
+      id: user.uid
     };
-    await setDoc(userDocRef, newUser);
-    await getUserInfo(user.uid);
-    alert(`안녕하세요, ${nickname}님!`);
-    return { ...newUser, id: user.uid };
   } catch (error) {
     console.error(error);
   }
