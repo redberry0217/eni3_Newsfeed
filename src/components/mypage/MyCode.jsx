@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { delArticle } from 'store/modules/article';
 import { useDispatch } from 'react-redux';
-import { deleteArticle } from 'util/getDocs';
+import { deleteArticle } from 'shared/database';
 import { mypageDate } from 'util/date';
 
 function MyCode({ filteredArticles }) {

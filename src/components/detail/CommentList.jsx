@@ -4,7 +4,7 @@ import { auth } from 'shared/firebase';
 import { delComment, modComment } from 'store/modules/comment';
 import styled from 'styled-components';
 import { dateFormat } from 'util/date';
-import { deleteComment, updateComment } from 'util/getDocs';
+import { deleteComment, updateComment } from 'shared/database';
 import { getAnimalIconUrl } from 'util/avatar';
 import { FaCalendarAlt } from 'react-icons/fa';
 

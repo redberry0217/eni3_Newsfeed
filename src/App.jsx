@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setCurrentUser, setUsers } from 'store/modules/users';
 import { setArticle } from 'store/modules/article';
 import { setComment } from 'store/modules/comment';
-import { getArticles, getComments, getUsers } from 'util/getDocs';
+import { getArticles, getComments, getUsers } from 'shared/database';
 import { setLoading } from 'store/modules/loading';
 
 function App() {
