@@ -302,6 +302,7 @@ const SignUpPage = styled.div`
 const SignUpInputsTitle = styled.div`
   display: flex;
   font-size: 35px;
+  font-weight: 600;
   color: #2f89d1;
   padding: 15px;
   border-bottom: solid 2px #c7c7c7;
@@ -479,6 +480,7 @@ const StyledSelectMyStatus = styled.select`
   border-radius: 20px;
   padding: 10px 20px;
   font-size: 15pt;
+  margin-bottom: 20px;
 `;
 
 const SocialSignUpBtns = styled.div`
@@ -525,8 +527,9 @@ const ConfirmSignUpBtn = styled.button`
   margin-left: 10px;
   border-radius: 20px;
   color: white;
-  background-color: black;
+  background-color: #2f89d1;
   font-size: 18pt;
+  font-weight: 600;
   border: none;
   cursor: pointer;
   &:hover {
@@ -543,12 +546,9 @@ const CancelSignUpBtn = styled.button`
   color: white;
   background-color: #929292;
   font-size: 18pt;
+  font-weight: 600;
   border: none;
   cursor: pointer;
-  &:hover {
-    background-color: #0b65ad;
-    transition: background-color 0.4s ease;
-  }
 `;
 
 export default SignUp;
