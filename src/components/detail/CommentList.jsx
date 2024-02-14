@@ -77,7 +77,7 @@ function CommentList({ comments }) {
 
 const CommentsWrap = styled.ul`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 1rem;
 `;
 

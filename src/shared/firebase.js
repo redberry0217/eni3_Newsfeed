@@ -1,26 +1,9 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-// import { getAnalytics } from 'firebase/analytics';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { signInWithPopup, GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-let nickname;
-
-const getUserInfo = async (uid) => {
-  const userDocRef = doc(db, 'users', uid);
-  const userDocSnap = await getDoc(userDocRef);
-
-  if (userDocSnap.exists()) {
-    const userData = userDocSnap.data();
-    nickname = userData.nickname;
-  } else {
-    nickname = null;
-  }
-};
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FB_API_KEY,
@@ -68,7 +51,6 @@ export const setGithubLogin = async () => {
         token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
         signUpDate
       });
-      await getUserInfo(user.uid);
       alert(`안녕하세요, ${nickname}님!`);
     }
     return {
@@ -115,7 +97,6 @@ export const setGooGleLogin = async () => {
         token: '470bf4b0-975d-4d2b-a924-a78554a2b97c',
         signUpDate
       });
-      await getUserInfo(user.uid);
       alert(`안녕하세요, ${nickname}님!`);
     }
     return {
