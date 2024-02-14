@@ -85,7 +85,7 @@ export const setGithubLogin = async () => {
   }
 };
 
-export const setGooGleLogin = async (dispatch) => {
+export const setGooGleLogin = async () => {
   const googleProvider = new GoogleAuthProvider();
   try {
     const result = await signInWithPopup(auth, googleProvider);
