@@ -1,3 +1,4 @@
+import Loading from 'components/Loading';
 import ArticleList from 'components/home/ArticleList';
 import SortMenu from 'components/home/SortMenu';
 import { useState } from 'react';
@@ -23,6 +24,8 @@ function Home() {
   const changeSort = (method) => {
     setSortMethod(method);
   };
+
+  if (Array.isArray(articles) && articles.length === 0) return <Loading />;
 
   return (
     <Container>
