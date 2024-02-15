@@ -6,8 +6,9 @@ import CommentForm from 'components/detail/CommentForm';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { modArticle } from 'store/modules/article';
-import { updateArticle } from 'util/getDocs';
+import { updateArticle } from 'shared/database';
 import CodeKataForm from 'components/CodeKataForm';
+import Loading from 'components/Loading';
 
 function Detail() {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ function Detail() {
     setEditArticle(false);
   };
 
-  if (!article) return null;
+  if (!article) return <Loading />;
 
   return (
     <Container>

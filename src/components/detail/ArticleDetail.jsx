@@ -6,7 +6,7 @@ import { dateFormat } from 'util/date';
 import Prism from 'prismjs';
 import 'prism.css';
 import { auth } from 'shared/firebase';
-import { deleteArticle, updateArticle } from 'util/getDocs';
+import { deleteArticle, updateArticle } from 'shared/database';
 import { useNavigate } from 'react-router-dom';
 import { getAnimalIconUrl } from 'util/avatar';
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';

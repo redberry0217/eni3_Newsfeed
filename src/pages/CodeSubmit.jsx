@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from 'shared/firebase';
 import { addArticle } from 'store/modules/article';
 import styled from 'styled-components';
-import { createArticle } from 'util/getDocs';
+import { createArticle } from 'shared/database';
 
 function CodeSubmit() {
   const dispatch = useDispatch();
