@@ -5,7 +5,7 @@ import { STATE_OPTIONS } from 'constant/stateOptions';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from 'shared/firebase';
 import { modUser } from 'store/modules/users';
-import { STATE_ICONS } from 'constant/stateIcons';
+import { STATE_ICONS } from 'constant/iconOptions';
 
 function EditUserInfoForm({ setEditMode, filteredUser }) {
   const dispatch = useDispatch();

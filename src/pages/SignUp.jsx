@@ -10,7 +10,7 @@ import { db } from 'shared/firebase';
 import { query, where } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
 import { addUser } from 'store/modules/users';
-import { STATE_ICONS } from 'constant/stateIcons';
+import { STATE_ICONS } from 'constant/iconOptions';
 
 function SignUp() {
   const [emailId, setEmailId] = useState('');
