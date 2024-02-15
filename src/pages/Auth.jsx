@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, setGithubLogin, setGooGleLogin } from '../shared/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from 'firebase/auth';
 import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
 import { BsBoxArrowInRight } from 'react-icons/bs';
@@ -57,6 +57,7 @@ function Auth() {
     }
 
     try {
+      await setPersistence(auth, browserSessionPersistence);
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       await getUserInfo(userCredential.user.uid);
       alert(`안녕하세요, ${nickname}님!`);
@@ -74,6 +75,7 @@ function Auth() {
 
   const googleLoginHandler = async () => {
     try {
+      await setPersistence(auth, browserSessionPersistence);
       const newUser = await setGooGleLogin();
       dispatch(addUser(newUser));
       navigate('/');
@@ -84,6 +86,7 @@ function Auth() {
 
   const githubLoginHandler = async () => {
     try {
+      await setPersistence(auth, browserSessionPersistence);
       const newUser = await setGithubLogin();
       dispatch(addUser(newUser));
       navigate('/');

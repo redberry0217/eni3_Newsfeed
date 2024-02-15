@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { browserSessionPersistence, createUserWithEmailAndPassword, getAuth, setPersistence } from 'firebase/auth';
 import { setGithubLogin, setGooGleLogin } from 'shared/firebase';
 import { FcGoogle } from 'react-icons/fc';
 import { ImGithub } from 'react-icons/im';
@@ -118,6 +118,7 @@ function SignUp() {
 
     if (confirmEmailButtonClick) {
       try {
+        await setPersistence(auth, browserSessionPersistence);
         const userCredential = await createUserWithEmailAndPassword(auth, fullEmail, password);
         const userDocRef = doc(db, 'users', userCredential.user.uid);
         const signUpDate = new Date().toISOString();
