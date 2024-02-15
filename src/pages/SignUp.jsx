@@ -8,8 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from 'shared/firebase';
 import { query, where } from 'firebase/firestore';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addUser } from 'store/modules/users';
+import { STATE_ICONS } from 'constant/stateIcons';
 
 function SignUp() {
   const [emailId, setEmailId] = useState('');
@@ -26,7 +27,7 @@ function SignUp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const iconOptions = useSelector((state) => state.iconOptions.iconOptions) || [];
+  const iconOptions = STATE_ICONS.iconOptions;
 
   const CancelSignUpHandler = () => {
     const cancelConfirm = window.confirm('가입을 취소하시겠습니까?');
@@ -245,13 +246,13 @@ function SignUp() {
                 </StyledSelectIcon>
               </div>
               <div>
-                {iconOptions.map((iconOption) => (
+                {STATE_ICONS.iconOptions.map((option) => (
                   <StyledIconAnimal
-                    key={iconOption.value}
-                    src={iconOption.iconsrc}
+                    key={option.value}
+                    src={option.iconsrc}
                     alt="Animal Icon"
                     $avatar={avatar}
-                    $value={iconOption.value}
+                    $value={option.value}
                   />
                 ))}
               </div>

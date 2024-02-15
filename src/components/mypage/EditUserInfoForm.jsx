@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { STATE_OPTIONS } from 'constant/stateOptions';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from 'shared/firebase';
 import { modUser } from 'store/modules/users';
+import { STATE_ICONS } from 'constant/stateIcons';
 
 function EditUserInfoForm({ setEditMode, filteredUser }) {
   const dispatch = useDispatch();
-  const iconOptions = useSelector((state) => state.iconOptions.iconOptions);
-
   const myId = filteredUser.id;
 
   const onSubmitHandler = async (e) => {
@@ -53,8 +52,9 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
     setSelectedIcon(e.target.value);
   };
 
-  const getIconImageSrc = (selectedIcon, iconOptions) => {
+  const getIconImageSrc = (selectedIcon, STATE_ICONS) => {
     // 선택한 아이콘의 값과 일치하는 아이콘 옵션을 찾습니다.
+    const iconOptions = STATE_ICONS.iconOptions;
     const selectedOption = iconOptions.find((option) => option.value === selectedIcon);
 
     // 선택한 아이콘에 해당하는 아이콘 옵션이 있다면 해당 아이콘의 이미지 주소를 반환합니다.
@@ -62,7 +62,7 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
     return selectedOption ? selectedOption.iconsrc : null;
   };
 
-  const iconImageSrc = getIconImageSrc(selectedIcon, iconOptions);
+  const iconImageSrc = getIconImageSrc(selectedIcon, STATE_ICONS);
 
   return (
     <EditUserInfoFormBox onSubmit={onSubmitHandler}>
@@ -79,7 +79,7 @@ function EditUserInfoForm({ setEditMode, filteredUser }) {
       <EditItem>
         아이콘
         <StyledSelect name="icon" defaultValue={filteredUser.avatar} onChange={iconSelectHandler}>
-          {iconOptions.map((option) => (
+          {STATE_ICONS.iconOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>

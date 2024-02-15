@@ -99,7 +99,7 @@ function Auth() {
         <LoginComment>
           E&I3에서 개발자의 꿈에 <br />한 걸음 더 다가가세요!
         </LoginComment>
-        <form>
+        <div>
           <InputAreas>
             <InputEmail
               type="email"
@@ -119,7 +119,7 @@ function Auth() {
             ></InputPassword>
           </InputAreas>
           <LoginBtn onClick={signIn}>로그인</LoginBtn>
-        </form>
+        </div>
       </LoginBox>
       <BottomOfLoginPage>
         <SocialLoginBtns>
